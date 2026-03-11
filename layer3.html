@@ -39,12 +39,78 @@
 }
 
 .layer3-page .hero p{font-size:1.06rem;line-height:1.88;color:#8B7355}
-.layer3-page .steps{gap:10px;margin-top:16px}
-.layer3-page .step-btn{min-height:44px;padding:10px 18px;border-radius:999px;border-color:#D9C5B0;background:#FFF9F1;color:#8B7355}
-.layer3-page .step-btn.on{background:linear-gradient(180deg,#F4A868,#F2995E);border-color:#F2995E;color:#fff;box-shadow:0 10px 16px rgba(242,153,94,.28)}
-.layer3-page .step-btn.done{background:linear-gradient(180deg,#F5BC81,#F2A96C);border-color:#EFA164;color:#804724}
-.layer3-page .step-track{height:12px;border-color:#D9C5B0;background:#FFF9F1}
-.layer3-page .step-fill{background:radial-gradient(circle at 8px 6px,rgba(255,255,255,.34) 0 2.5px,transparent 2.5px),linear-gradient(90deg,#F4A868,#F2995E);background-size:20px 12px,auto}
+.layer3-page .steps{gap:20px;margin-top:16px}
+.layer3-page .step-btn{
+  min-height:44px;
+  height:44px;
+  padding:0 24px;
+  border-radius:20px;
+  border:1px solid #D9C5B0;
+  background:#FFFBF5;
+  color:#8B7355;
+  font-size:16px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  transition:transform .2s ease-in-out,background .2s ease-in-out,color .2s ease-in-out,border-color .2s ease-in-out,box-shadow .2s ease-in-out;
+}
+.layer3-page .step-btn.on{
+  background:linear-gradient(180deg,#F4A868,#F2995E);
+  border-color:#F2995E;
+  color:#fff;
+  box-shadow:0 10px 16px rgba(242,153,94,.28);
+  font-weight:800;
+}
+.layer3-page .step-btn.done{
+  background:#FFFBF5;
+  border-color:#D9C5B0;
+  color:#8B7355;
+}
+.layer3-page .step-btn.done:before{
+  content:"✅";
+  margin-right:4px;
+  font-size:.95em;
+}
+.layer3-page .step-btn.on:hover,
+.layer3-page .step-btn.done:hover{
+  transform:scale(1.02);
+}
+.layer3-page .step-btn.on:active,
+.layer3-page .step-btn.done:active{
+  transform:scale(.98);
+}
+.layer3-page .step-btn.done:hover{
+  background:#F9EED8;
+}
+.layer3-page .step-btn.locked,.layer3-page .step-btn:disabled{
+  border-color:#D8D8D8;
+  background:transparent;
+  color:#B8B8B8;
+  opacity:1;
+  cursor:not-allowed;
+  position:relative;
+}
+.layer3-page .step-btn.locked:hover::after{
+  content:"🐱 先完成上一步哦～";
+  position:absolute;
+  top:calc(100% + 8px);
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  padding:5px 10px;
+  border-radius:999px;
+  border:1px solid #E7D6C7;
+  background:#FFF8F0;
+  color:#8B7355;
+  font-size:12px;
+  font-weight:600;
+  box-shadow:0 6px 12px rgba(139,115,85,.14);
+  z-index:5;
+}
+.layer3-page .step-track{height:8px;border:0;border-radius:8px;background:#D9C5B0}
+.layer3-page .step-fill{border-radius:8px;background:linear-gradient(90deg,#F4A868,#F2995E)}
 
 .layer3-page .card{
   border-radius:20px;
@@ -299,6 +365,14 @@
 }
 
 @media (max-width:760px){
+  .layer3-page .steps{gap:10px}
+  .layer3-page .step-btn{
+    min-height:42px;
+    height:42px;
+    padding:0 16px;
+    font-size:14px;
+    flex:1 1 calc(50% - 10px);
+  }
   .options-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .opt-btn{min-height:78px}
   .category-tab{font-size:1rem}
@@ -321,9 +395,9 @@
     <h1>暖暖猫咪幸运站</h1>
     <p id="heroSub">第三层：生成名字小诗，给猫咪换装，导出暖色海报。🐱</p>
     <div class="steps">
-      <button class="step-btn done" type="button" onclick="location.href='layer1.html'" aria-label="返回第一层">第 1 层 信息</button>
-      <button class="step-btn done" type="button" onclick="location.href='layer2.html'" aria-label="返回第二层">第 2 层 幸运签</button>
-      <button class="step-btn on" type="button" aria-label="当前在第三层">第 3 层 小诗+换装</button>
+      <button class="step-btn done" type="button" onclick="location.href='layer1.html'" aria-label="返回第一层"><span class="step-emoji" aria-hidden="true">🐾</span><span>猫咪小档案</span></button>
+      <button class="step-btn done" type="button" onclick="location.href='layer2.html'" aria-label="返回第二层"><span class="step-emoji" aria-hidden="true">✨</span><span>喵系幸运签</span></button>
+      <button class="step-btn on" type="button" aria-label="当前在第三层"><span class="step-emoji" aria-hidden="true">🎀</span><span>换装小诗馆</span></button>
     </div>
     <div class="step-track" aria-hidden="true"><span class="step-fill p3"></span></div>
     <div class="row" style="justify-content:center">

@@ -38,7 +38,7 @@ if ([string]::IsNullOrWhiteSpace($name)) {
 git add .
 $hasChanges = git diff --cached --name-only
 if (-not [string]::IsNullOrWhiteSpace($hasChanges)) {
-  git commit -m "init love page"
+  git commit -m "init warm cat site"
 }
 
 $repoExists = & $gh repo view $RepoName 2>$null

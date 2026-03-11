@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>给你的小告白</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;600;700&display=swap");
+
+      :root {
+        --bg-1: #ffdce8;
+        --bg-2: #ffc1d6;
+        --bg-3: #ff9fbe;
+        --primary: #ff3f81;
+        --primary-deep: #e01963;
+        --soft: #fff0f6;
+        --card: rgba(255, 255, 255, 0.72);
+        --text-main: #7d2146;
+        --text-sub: #9f3f68;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow: hidden;
+        color: var(--text-main);
+        font-family: "Noto Sans SC", sans-serif;
+        background:
+          radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.45) 0%, transparent 36%),
+          radial-gradient(circle at 85% 80%, rgba(255, 255, 255, 0.42) 0%, transparent 36%),
+          linear-gradient(130deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+      }
+
+      .bg-blobs::before,
+      .bg-blobs::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(6px);
+        z-index: -1;
+        animation: floatBlob 8s ease-in-out infinite;
+      }
+
+      .bg-blobs::before {
+        width: 260px;
+        height: 260px;
+        background: rgba(255, 255, 255, 0.35);
+        left: -70px;
+        top: -40px;
+      }
+
+      .bg-blobs::after {
+        width: 320px;
+        height: 320px;
+        background: rgba(255, 93, 156, 0.22);
+        right: -80px;
+        bottom: -90px;
+        animation-delay: -3s;
+      }
+
+      .container {
+        position: relative;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .card {
+        position: relative;
+        width: min(92vw, 560px);
+        padding: 34px 28px 30px;
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: 24px;
+        box-shadow:
+          0 18px 45px rgba(168, 28, 80, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        text-align: center;
+      }
+
+      .title {
+        margin: 0;
+        font-family: "Ma Shan Zheng", cursive;
+        font-size: clamp(2.1rem, 6vw, 3.1rem);
+        letter-spacing: 1px;
+        color: var(--primary-deep);
+        animation: fadeDown 0.8s ease both;
+      }
+
+      .subtitle {
+        margin: 14px auto 22px;
+        max-width: 420px;
+        line-height: 1.75;
+        color: var(--text-sub);
+        animation: fadeUp 0.85s ease both;
+      }
+
+      .question {
+        margin: 8px 0 16px;
+        font-size: clamp(1.18rem, 3.5vw, 1.6rem);
+        font-weight: 700;
+      }
+
+      .pet-panel {
+        margin: 2px auto 16px;
+        padding: 12px 10px;
+        border-radius: 16px;
+        background: rgba(255, 245, 250, 0.76);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+      }
+
+      .pet-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #a03665;
+      }
+
+      #petCount {
+        color: var(--primary-deep);
+        font-size: 1rem;
+      }
+
+      .dog-zone {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      button {
+        border: none;
+        border-radius: 999px;
+        padding: 13px 28px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .dog {
+        width: 56px;
+        height: 56px;
+        padding: 0;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        font-size: 1.8rem;
+        line-height: 1;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, #ffffff, #ffe6f1);
+        box-shadow: 0 8px 16px rgba(188, 63, 116, 0.2);
+        animation: dogFloat 2.2s ease-in-out infinite;
+      }
+
+      .dog:nth-child(2) {
+        animation-delay: -0.35s;
+      }
+
+      .dog:nth-child(3) {
+        animation-delay: -0.7s;
+      }
+
+      .dog:nth-child(4) {
+        animation-delay: -1.05s;
+      }
+
+      .dog:nth-child(5) {
+        animation-delay: -1.4s;
+      }
+
+      .dog:hover {
+        transform: translateY(-4px) rotate(-7deg);
+      }
+
+      .dog:active {
+        transform: scale(0.92);
+      }
+
+      .dog-bubble {
+        min-height: 24px;
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: #a8416d;
+      }
+
+      .btns {
+        position: relative;
+        min-height: 86px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 14px;
+      }
+
+      #yesBtn {
+        background: linear-gradient(180deg, #ff5a9a, #f02f79);
+        color: #fff;
+        box-shadow: 0 10px 18px rgba(240, 47, 121, 0.35);
+      }
+
+      #yesBtn:hover {
+        transform: translateY(-2px) scale(1.03);
+      }
+
+      #yesBtn.yes-pulse {
+        animation: yesGlow 1s ease-in-out infinite;
+      }
+
+      #noBtn {
+        background: #fff;
+        color: #c73974;
+        box-shadow: 0 8px 14px rgba(188, 63, 116, 0.2);
+        position: relative;
+      }
+
+      #message {
+        margin-top: 14px;
+        min-height: 34px;
+        font-weight: 700;
+        color: var(--primary-deep);
+      }
+
+      .letter {
+        margin-top: 10px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.55s ease, opacity 0.4s ease;
+      }
+
+      .letter.show {
+        max-height: 180px;
+        opacity: 1;
+      }
+
+      .letter p {
+        margin: 0;
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: var(--soft);
+        line-height: 1.8;
+        color: #8a2e54;
+      }
+
+      .tips {
+        margin-top: 12px;
+        font-size: 0.88rem;
+        color: #b74b77;
+        opacity: 0.9;
+      }
+
+      .heart-rain,
+      .paw-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .heart {
+        position: absolute;
+        font-size: 18px;
+        animation: rise linear forwards;
+        opacity: 0.9;
+        will-change: transform, opacity;
+      }
+
+      .paw {
+        position: absolute;
+        font-size: 1rem;
+        animation: pawPop 1.2s ease-out forwards;
+      }
+
+      .burst {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 1;
+        animation: pop 900ms ease-out forwards;
+      }
+
+      @keyframes rise {
+        0% {
+          transform: translateY(0) scale(0.9) rotate(0deg);
+          opacity: 0;
+        }
+        15% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-115vh) scale(1.35) rotate(18deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes pawPop {
+        0% {
+          transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+          opacity: 0;
+        }
+        25% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -105px) scale(1.2) rotate(11deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes pop {
+        100% {
+          transform: translate(var(--x), var(--y)) scale(0.3);
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes floatBlob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes dogFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @keyframes yesGlow {
+        0%,
+        100% {
+          box-shadow: 0 10px 18px rgba(240, 47, 121, 0.35);
+        }
+        50% {
+          box-shadow:
+            0 0 0 10px rgba(255, 90, 154, 0),
+            0 12px 26px rgba(240, 47, 121, 0.48);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .card {
+          padding: 26px 16px 20px;
+          border-radius: 20px;
+        }
+
+        button {
+          padding: 11px 20px;
+        }
+
+        .dog {
+          width: 50px;
+          height: 50px;
+          font-size: 1.55rem;
+        }
+
+        .btns {
+          min-height: 118px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container bg-blobs">
+      <div class="card" id="loveCard">
+        <h1 class="title">有句话想认真告诉你</h1>
+        <p class="subtitle">
+          和你在一起的每一天都很特别。今天想把心里最甜的那句话，郑重地说给你听。
+        </p>
+        <p class="question">你愿意成为我的恋人吗？</p>
+
+        <div class="pet-panel">
+          <div class="pet-title">小狗助攻进度：<span id="petCount">0</span>/6</div>
+          <div class="dog-zone" id="dogZone">
+            <button class="dog" data-name="奶油">🐶</button>
+            <button class="dog" data-name="桃桃">🐕</button>
+            <button class="dog" data-name="团子">🐩</button>
+            <button class="dog" data-name="布丁">🦮</button>
+            <button class="dog" data-name="泡芙">🐕‍🦺</button>
+          </div>
+          <div class="dog-bubble" id="dogBubble">摸摸小狗，它们会帮你告白。</div>
+        </div>
+
+        <div class="btns" id="btnZone">
+          <button id="yesBtn">我愿意</button>
+          <button id="noBtn">再想想</button>
+        </div>
+
+        <div id="message"></div>
+
+        <div class="letter" id="letter">
+          <p>
+            谢谢你点开这个页面。<br />
+            不管答案是什么，我都很珍惜认识你的每一刻。<br />
+            如果你愿意，我们就从今天开始，一起把平凡的日子过成浪漫。
+          </p>
+        </div>
+
+        <div class="tips">提示：先摸摸小狗，再点“我愿意”会触发音乐和彩蛋</div>
+      </div>
+    </div>
+
+    <div class="heart-rain" id="heartRain"></div>
+    <div class="paw-layer" id="pawLayer"></div>
+
+    <audio id="bgm" preload="auto" loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const message = document.getElementById("message");
+      const letter = document.getElementById("letter");
+      const btnZone = document.getElementById("btnZone");
+      const heartRain = document.getElementById("heartRain");
+      const pawLayer = document.getElementById("pawLayer");
+      const loveCard = document.getElementById("loveCard");
+      const dogBubble = document.getElementById("dogBubble");
+      const petCountEl = document.getElementById("petCount");
+      const dogs = Array.from(document.querySelectorAll(".dog"));
+      const bgm = document.getElementById("bgm");
+
+      const noTexts = ["再想想", "你确定吗", "真的不嘛", "给个机会吧", "再考虑一下"];
+      const dogReplies = [
+        "汪！她这么可爱，快答应呀。",
+        "汪呜~ 我投你们在一起一票！",
+        "今天空气里都是恋爱的味道。",
+        "摸头成功，甜度+1。",
+        "它偷偷告诉我：你们很配。",
+      ];
+
+      let noCount = 0;
+      let petCount = 0;
+      let accepted = false;
+      let musicStarted = false;
+
+      function randomItem(list) {
+        return list[Math.floor(Math.random() * list.length)];
+      }
+
+      function createHeart() {
+        const el = document.createElement("span");
+        el.className = "heart";
+        el.textContent = ["❤", "💗", "💖", "💘"][Math.floor(Math.random() * 4)];
+        el.style.left = `${Math.random() * 100}vw`;
+        el.style.bottom = "-30px";
+        el.style.fontSize = `${14 + Math.random() * 22}px`;
+        el.style.animationDuration = `${4 + Math.random() * 4}s`;
+        el.style.filter = `hue-rotate(${Math.random() * 16 - 8}deg)`;
+        heartRain.appendChild(el);
+        setTimeout(() => el.remove(), 8500);
+      }
+
+      function createPaw(x, y) {
+        const paw = document.createElement("span");
+        paw.className = "paw";
+        paw.textContent = "🐾";
+        paw.style.left = `${x}px`;
+        paw.style.top = `${y}px`;
+        paw.style.fontSize = `${14 + Math.random() * 9}px`;
+        pawLayer.appendChild(paw);
+        setTimeout(() => paw.remove(), 1300);
+      }
+
+      function burst(x, y) {
+        const colors = ["#ff4d94", "#ff7dad", "#ffd6e7", "#ff2f79", "#ffa7c8"];
+        for (let i = 0; i < 24; i += 1) {
+          const b = document.createElement("span");
+          b.className = "burst";
+          b.style.left = `${x}px`;
+          b.style.top = `${y}px`;
+          b.style.background = colors[Math.floor(Math.random() * colors.length)];
+          const angle = (Math.PI * 2 * i) / 24;
+          const distance = 40 + Math.random() * 90;
+          const tx = Math.cos(angle) * distance;
+          const ty = Math.sin(angle) * distance;
+          b.style.setProperty("--x", `${tx}px`);
+          b.style.setProperty("--y", `${ty}px`);
+          document.body.appendChild(b);
+          setTimeout(() => b.remove(), 920);
+        }
+      }
+
+      function moveNoBtn() {
+        if (accepted) return;
+        const zoneRect = btnZone.getBoundingClientRect();
+        const btnRect = noBtn.getBoundingClientRect();
+        const maxX = zoneRect.width - btnRect.width;
+        const maxY = zoneRect.height - btnRect.height;
+        const x = Math.max(0, Math.random() * maxX);
+        const y = Math.max(0, Math.random() * maxY);
+        noBtn.style.position = "absolute";
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+      }
+
+      function playMelodyFallback() {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+
+        const ctx = new AudioContextClass();
+        const notes = [523.25, 659.25, 783.99, 659.25, 698.46, 880, 783.99, 659.25];
+        let t = ctx.currentTime;
+
+        notes.forEach((freq) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0, t);
+          gain.gain.linearRampToValueAtTime(0.11, t + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.4);
+          t += 0.22;
+        });
+      }
+
+      async function playLoveMusic() {
+        if (musicStarted) return;
+        bgm.volume = 0.35;
+        try {
+          await bgm.play();
+          musicStarted = true;
+        } catch (err) {
+          playMelodyFallback();
+          musicStarted = true;
+        }
+      }
+
+      dogs.forEach((dog) => {
+        dog.addEventListener("click", (e) => {
+          createPaw(e.clientX, e.clientY);
+          dogBubble.textContent = `${dog.dataset.name}：${randomItem(dogReplies)}`;
+          petCount += 1;
+          petCountEl.textContent = String(petCount);
+          burst(e.clientX, e.clientY);
+
+          if (petCount >= 6 && !accepted) {
+            yesBtn.classList.add("yes-pulse");
+            message.textContent = "小狗们都同意啦，就差你点“我愿意”了。";
+          }
+        });
+      });
+
+      noBtn.addEventListener("mouseenter", moveNoBtn);
+      noBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        moveNoBtn();
+        noCount += 1;
+        noBtn.textContent = noTexts[noCount % noTexts.length];
+        yesBtn.style.transform = `scale(${1 + Math.min(noCount * 0.07, 0.42)})`;
+        message.textContent = "给我一个照顾你的机会，好吗？";
+      });
+
+      yesBtn.addEventListener("click", async () => {
+        if (accepted) return;
+        accepted = true;
+        const rect = yesBtn.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        burst(x, y);
+        message.textContent = "太好了！从现在起，爱你这件事我会一直认真。";
+        letter.classList.add("show");
+        noBtn.style.opacity = "0.35";
+        noBtn.style.pointerEvents = "none";
+        yesBtn.textContent = "已收到你的心意";
+        yesBtn.classList.remove("yes-pulse");
+        await playLoveMusic();
+
+        for (let i = 0; i < 40; i += 1) {
+          setTimeout(createHeart, i * 70);
+        }
+      });
+
+      loveCard.addEventListener("click", (e) => {
+        if (e.target.closest("button")) return;
+        createPaw(e.clientX, e.clientY);
+        if (accepted) {
+          burst(e.clientX, e.clientY);
+        }
+      });
+
+      for (let i = 0; i < 14; i += 1) {
+        setTimeout(createHeart, i * 350);
+      }
+      setInterval(createHeart, 900);
+    </script>
+  </body>
+</html>

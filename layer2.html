@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
@@ -6,112 +7,434 @@
 <title>暖暖猫咪幸运站 - 第二层</title>
 <link rel="stylesheet" href="style.css" />
 <style>
-.fortune-poster{margin-top:12px;background:#fffaf0;border:12px solid #ae1d2e;border-radius:16px;padding:14px;position:relative;overflow:hidden;transform:scale(.96);opacity:.94;transition:.35s ease}
-.fortune-poster.reveal{transform:scale(1);opacity:1;box-shadow:0 14px 24px rgba(100,35,20,.24)}
-.fortune-poster:before,.fortune-poster:after{content:"";position:absolute;width:42px;height:42px;border:4px solid #d99f47;border-radius:10px;opacity:.9}
-.fortune-poster:before{left:10px;top:10px;border-right:0;border-bottom:0}
-.fortune-poster:after{right:10px;bottom:10px;border-left:0;border-top:0}
-.poster-top{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 8px}
-.poster-seal{background:#c62828;color:#ffe8af;border-radius:999px;padding:4px 10px;font-size:.82rem;font-weight:700}
-.poster-year{font-size:.86rem;color:#9c5a2c}
-.poster-layout{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
-.poster-char{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-height:220px;background:#fff;border:1px dashed #efbe8f;border-radius:12px;padding:10px}
-.han-col{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:2.5rem;font-weight:900;line-height:1;color:#111;text-shadow:.5px 1px 0 #00000025}
-.han-col span{display:block}
-.poster-orn{background:linear-gradient(160deg,#fff8ea,#ffe8c9);border:1px solid #efc088;border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:space-between}
-.orn-row{display:flex;justify-content:space-between;gap:8px;font-size:1.2rem}
-.orn-msg{font-size:.95rem;color:#9a5a2c;line-height:1.7}
-.poster-bottom{margin-top:10px;border-top:1px dashed #efc088;padding-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.poster-note{background:#fff;border:1px solid #efc088;border-radius:10px;padding:8px;color:#8a4f29;font-size:.9rem}
-.poster-extra{margin-top:8px;border-radius:10px;padding:8px 10px;background:linear-gradient(145deg,#fff5e6,#ffe7c6);border:1px dashed #efc48f;color:#8f552d;font-size:.9rem;line-height:1.6}
-.modal-mask{position:fixed;inset:0;background:rgba(30,18,8,.46);display:none;align-items:center;justify-content:center;z-index:20;padding:18px}
-.modal-mask.show{display:flex;animation:fadeIn .25s ease}
-.modal-panel{width:min(92vw,720px);max-height:92vh;overflow:auto;animation:popIn .28s ease}
-.modal-close{margin-top:10px;width:100%}
-.history-list{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px}
-.history-item{font-size:.88rem;color:#8f542e;background:#fff8ee;border:1px solid #efc59f;border-radius:10px;padding:6px 10px}
-@keyframes popIn{0%{opacity:.25;transform:scale(.95) translateY(8px)}100%{opacity:1;transform:scale(1) translateY(0)}}
-@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
-@media (max-width:680px){.poster-layout,.poster-bottom{grid-template-columns:1fr}.han-col{font-size:2rem}}
+.layer2-page{
+  background:
+    radial-gradient(circle at 18px 14px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 33px 14px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 25px 25px,rgba(139,115,85,.07) 0 6px,transparent 6px),
+    radial-gradient(circle at 18px 36px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 33px 36px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 25px 46px,rgba(139,115,85,.07) 0 8px,transparent 8px),
+    radial-gradient(circle at 77% 20%,rgba(255,214,224,.08) 0 26px,transparent 26px),
+    linear-gradient(180deg,#FAF7F2 0%,#F9EED8 100%);
+  background-size:118px 118px,118px 118px,118px 118px,118px 118px,118px 118px,118px 118px,220px 220px,auto;
+  color:#8B7355;
+}
+
+.layer2-page h1{
+  font-family:"STKaiti","KaiTi","YouYuan","Comic Sans MS",cursive;
+  color:#8B6549;
+  text-shadow:1px 1px 0 #EAD9C6;
+}
+
+.layer2-page .hero p{
+  font-size:1.08rem;
+  line-height:1.9;
+  color:#8B7355;
+}
+
+.layer2-page .steps{gap:10px;margin-top:16px}
+.layer2-page .step-btn{
+  min-height:44px;
+  padding:10px 18px;
+  border-radius:999px;
+  border-color:#D9C5B0;
+  background:#FFF9F1;
+  color:#8B7355;
+}
+.layer2-page .step-btn.on{
+  background:linear-gradient(180deg,#F4A868,#F2995E);
+  border-color:#F2995E;
+  color:#fff;
+  box-shadow:0 10px 16px rgba(242,153,94,.28);
+}
+.layer2-page .step-btn.done{
+  background:linear-gradient(180deg,#F5BC81,#F2A96C);
+  border-color:#EFA164;
+  color:#804724;
+}
+.layer2-page .step-btn.locked,.layer2-page .step-btn:disabled{
+  border-color:#D9C5B0;
+  background:rgba(255,250,242,.9);
+  opacity:.58;
+}
+.layer2-page .step-track{
+  height:12px;
+  border-color:#D9C5B0;
+  background:#FFF9F1;
+}
+.layer2-page .step-fill{
+  background:
+    radial-gradient(circle at 8px 6px,rgba(255,255,255,.34) 0 2.5px,transparent 2.5px),
+    linear-gradient(90deg,#F4A868,#F2995E);
+  background-size:20px 12px,auto;
+}
+
+.layer2-page .music-wrap{gap:12px}
+.layer2-page #musicToggle{
+  position:relative;
+  border-radius:20px;
+  padding:10px 18px 10px 20px;
+  border:1px solid #D9C5B0;
+  background:linear-gradient(180deg,#FFF4E8,#FFE8D6);
+  color:#8B7355;
+}
+.layer2-page #musicToggle:before{content:"🐾 "}
+.layer2-page #musicVolume{accent-color:#F4A868}
+.layer2-page #musicVolume::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:1px solid #D9C5B0;
+  background:
+    radial-gradient(circle at 50% 46%,#F4A868 0 5px,transparent 5px),
+    radial-gradient(circle at 5px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 13px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 9px 3px,#F2995E 0 2px,transparent 2px),
+    #FFF8EE;
+}
+.layer2-page #musicVolume::-moz-range-thumb{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:1px solid #D9C5B0;
+  background:
+    radial-gradient(circle at 50% 46%,#F4A868 0 5px,transparent 5px),
+    radial-gradient(circle at 5px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 13px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 9px 3px,#F2995E 0 2px,transparent 2px),
+    #FFF8EE;
+}
+.layer2-page .music-meta{
+  margin-top:8px;
+  font-size:.86rem;
+  color:#9B5C35;
+  min-height:20px;
+}
+
+.layer2-page .card{
+  border-radius:20px;
+  border:1px solid rgba(217,197,176,.82);
+  box-shadow:0 10px 24px rgba(205,171,138,.22);
+  background:rgba(255,252,247,.94);
+  padding:18px;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.layer2-page .card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 26px rgba(205,171,138,.28);
+}
+
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.meta-pill{
+  padding:6px 11px;
+  border-radius:999px;
+  border:1px solid #E8CDB6;
+  background:#FFF7EE;
+  font-size:.86rem;
+  color:#95603B;
+}
+
+.layer2-page .row{margin-top:14px;gap:12px}
+.paw-btn{
+  position:relative;
+  min-height:44px;
+  padding:11px 18px 11px 34px;
+  border-radius:16px;
+}
+.paw-btn:before{
+  content:"🐾";
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:.84rem;
+  opacity:.95;
+}
+
+.layer2-page .pri,.layer2-page .next{
+  border-radius:16px;
+  border:1px solid rgba(255,247,235,.9);
+  background:linear-gradient(180deg,#F4A868,#F2995E);
+  color:#fff;
+  text-shadow:0 1px 0 rgba(255,255,255,.35);
+  box-shadow:inset 0 1px 0 rgba(255,249,241,.92),0 10px 16px rgba(242,153,94,.25);
+}
+.layer2-page .sec{
+  border-radius:16px;
+  border:1px solid #D9C5B0;
+  background:transparent;
+  color:#8B7355;
+}
+.layer2-page .sec:hover{background:#F9EED8}
+.layer2-page button:hover{transform:scale(1.02)}
+.layer2-page button:active{transform:scale(.98)}
+.layer2-page button,.layer2-page .step-btn{touch-action:manipulation}
+
+.locked-btn{opacity:.55;filter:grayscale(.14);pointer-events:none}
+.draw-note{margin-top:10px;font-size:.9rem;line-height:1.75;color:#9C6542}
+.draw-note b{color:#A15227}
+.status-line{min-height:22px;margin-top:8px;color:var(--ok);font-size:.92rem}
+
+.result-card{display:grid;grid-template-columns:1fr 270px;gap:14px}
+.fortune-board{
+  position:relative;
+  border:1px solid #EBC8A7;
+  border-radius:16px;
+  padding:12px 12px 10px;
+  background:
+    radial-gradient(circle at 14px 10px,rgba(232,205,182,.2) 0 2px,transparent 2px),
+    radial-gradient(circle at 22px 10px,rgba(232,205,182,.2) 0 2px,transparent 2px),
+    radial-gradient(circle at 18px 17px,rgba(232,205,182,.22) 0 3px,transparent 3px),
+    linear-gradient(160deg,#FFF9F1,#FFEFD8);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 8px 16px rgba(189,125,78,.14);
+}
+.fortune-board:after{content:"🐾";position:absolute;right:12px;bottom:10px;font-size:32px;opacity:.12}
+.board-top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.sign-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 11px;
+  border-radius:999px;
+  border:1px solid #E9C6A2;
+  background:#FFF5E9;
+  color:#9E572F;
+  font-size:.85rem;
+  font-weight:700;
+}
+.sign-time{font-size:.82rem;color:#9E6A44}
+.sign-title{margin:10px 0 6px;font-size:1.2rem;color:#A55025}
+.sign-title .name-focus,.sign-title .kw-focus{font-weight:800;color:#8F3F18}
+.sign-lines{display:grid;gap:8px}
+.sign-line{border:1px dashed #E9C6A2;border-radius:12px;padding:8px 10px;background:rgba(255,252,245,.88)}
+.sign-line b{color:#A15227;margin-right:6px}
+.sign-line p{margin:4px 0 0;line-height:1.72;color:#8D5A37}
+
+.cat-side{
+  border:1px solid #E8D1BC;
+  border-radius:16px;
+  background:linear-gradient(160deg,rgba(255,251,244,.94),rgba(255,239,221,.93));
+  box-shadow:0 8px 20px rgba(209,171,137,.22);
+  padding:12px;
+}
+.cat-side .cat-trio{gap:10px}
+.cat-side .mini-cat{width:92px;height:90px}
+.cat-side .mini-cat .head{width:66px;height:58px;top:13px;border-width:3px}
+.cat-side .mini-cat .ear{width:22px;height:17px;border-width:3px;top:2px}
+.cat-side .mini-cat .eye{top:34px;width:8px;height:8px}
+.cat-side .mini-cat .eye.l{left:31px}
+.cat-side .mini-cat .eye.r{right:31px}
+.cat-side .mini-cat .nose{top:43px;width:9px;height:6px}
+.cat-side .mini-cat .mouth{top:49px;font-size:14px}
+.cat-side .mini-cat .whisk{top:43px;width:18px}
+.cat-side .mini-cat .whisk.l1,.cat-side .mini-cat .whisk.l2{left:12px}
+.cat-side .mini-cat .whisk.r1,.cat-side .mini-cat .whisk.r2{right:12px}
+.cat-side .mini-cat:after{right:6px;bottom:12px;width:18px;height:12px;border-width:3px}
+.cat-side .mini-cat.orange .head,.cat-side .mini-cat.orange .ear{background:linear-gradient(180deg,#FCD391,#F9C870)}
+.cat-side .mini-cat.white .head,.cat-side .mini-cat.white .ear{background:linear-gradient(180deg,#F8F8F8,#F0F0F0)}
+.cat-side .mini-cat.gray .head,.cat-side .mini-cat.gray .ear{background:linear-gradient(180deg,#D8D8D8,#C7C7C7)}
+.cat-side .mini-cat .eye:after{content:"";position:absolute;right:1px;top:1px;width:2px;height:2px;border-radius:50%;background:#fff}
+.cat-side .mini-cat .head:before,.cat-side .mini-cat .head:after{content:"";position:absolute;top:25px;width:11px;height:8px;border-radius:999px;background:rgba(255,214,224,.65)}
+.cat-side .mini-cat .head:before{left:12px}
+.cat-side .mini-cat .head:after{right:12px}
+.cat-side .mini-cat.orange .head{transform:translateX(-50%) rotate(-5deg)}
+.cat-side .mini-cat.white .ear.l{transform:rotate(-20deg) translateY(2px)}
+.cat-side .mini-cat.white .ear.r{transform:rotate(20deg) translateY(2px)}
+.cat-side .mini-cat.gray .eye{height:6px;top:35px;border-radius:999px}
+.cat-side .mini-cat:hover .head:before,.cat-side .mini-cat:hover .head:after{background:rgba(255,214,224,.82)}
+.cat-note{margin-top:8px;color:#F4A868;font-family:"STXingkai","KaiTi","Segoe Script",cursive;font-size:.95rem}
+.cat-note:before{content:"🐾 "}
+
+.cat-hit{outline:3px solid rgba(243,153,89,.42);border-radius:16px;filter:drop-shadow(0 8px 10px rgba(230,133,65,.26));animation:catHit 1.6s ease}
+@keyframes catHit{0%{transform:translateY(0)}35%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+
+.history-head{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.history-list{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.history-item{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;padding:9px 10px;border:1px solid #EBC8A7;border-radius:12px;background:linear-gradient(145deg,#FFFAF2,#FFEFDE);color:#90532D}
+.history-item b{color:#9F4F23}
+.history-ico{font-size:1.15rem;line-height:1.2;filter:drop-shadow(0 2px 3px rgba(170,98,50,.14))}
+.history-mini{font-size:.82rem;color:#99633F;line-height:1.55}
+
+.modal-mask{position:fixed;inset:0;background:rgba(48,30,17,.48);display:none;align-items:center;justify-content:center;z-index:32;padding:16px}
+.modal-mask.show{display:flex;animation:fadeIn .26s ease}
+.modal-panel{width:min(94vw,920px);max-height:94vh;overflow:auto;border-radius:20px;background:rgba(255,249,242,.97);border:1px solid #EFC8A5;box-shadow:0 20px 40px rgba(112,60,29,.24);padding:14px}
+.guard-panel{width:min(92vw,440px);text-align:center}
+.guard-panel p{margin:10px 0 0;color:#9A613B;line-height:1.75}
+
+.ritual-wrap{position:relative;min-height:620px;padding:18px 12px 12px;text-align:center;overflow:hidden}
+.ritual-overlay{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 20% 18%,rgba(255,255,255,.5),transparent 42%),radial-gradient(circle at 78% 84%,rgba(255,232,209,.45),transparent 40%)}
+.ritual-title{margin:0;color:#9D5126}
+.ritual-sub{margin:6px 0 0;color:#98623E;font-size:.92rem}
+.tube-box{position:relative;width:180px;height:260px;margin:12px auto 0}
+.fortune-tube{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:132px;height:186px;border-radius:56px 56px 30px 30px;background:linear-gradient(180deg,#F3B86C,#E28A49 62%,#CA6E34);border:3px solid #C56730;box-shadow:inset 0 12px 0 rgba(255,229,188,.42),inset 0 -8px 0 rgba(149,74,33,.24)}
+.fortune-tube:before{content:"";position:absolute;left:50%;top:-16px;transform:translateX(-50%);width:128px;height:34px;border-radius:999px;background:linear-gradient(180deg,#F7CE9B,#E9A262);border:3px solid #C56730}
+.fortune-tube:after{content:"🐾";position:absolute;left:50%;top:58px;transform:translateX(-50%);font-size:32px;opacity:.78}
+.fortune-tube.shake{animation:tubeShake .2s ease-in-out infinite}
+@keyframes tubeShake{0%,100%{transform:translateX(-50%) rotate(0)}25%{transform:translateX(-53%) rotate(-3deg)}75%{transform:translateX(-47%) rotate(3deg)}}
+.stick{position:absolute;left:50%;bottom:34px;width:12px;height:100px;background:linear-gradient(180deg,#E9D3BA,#CDA985);border-radius:999px;border:1px solid #BD9570;transform-origin:bottom center;opacity:0}
+.stick.show{opacity:1;animation:stickDance .45s ease-in-out 3}
+@keyframes stickDance{0%,100%{transform:translateX(-50%) rotate(0)}50%{transform:translateX(-50%) rotate(13deg)}}
+.fortune-sheet{position:absolute;left:50%;top:42px;transform:translateX(-50%) perspective(1200px) rotateY(180deg) rotateX(6deg) scale(.88);width:min(92%,760px);opacity:0;pointer-events:none;transition:transform .55s ease,opacity .45s ease}
+.fortune-sheet.show{opacity:1;transform:translateX(-50%) perspective(1200px) rotateY(0) rotateX(0) scale(1)}
+.fortune-sheet.retract{transform:translateX(-50%) translateY(24px) scale(.98);opacity:0}
+.sheet-card{text-align:left;border-radius:18px;padding:14px;border:1px solid #EBC8A7;background:radial-gradient(circle at 17px 12px,rgba(235,200,167,.22) 0 2px,transparent 2px),radial-gradient(circle at 25px 12px,rgba(235,200,167,.22) 0 2px,transparent 2px),radial-gradient(circle at 21px 18px,rgba(235,200,167,.24) 0 3px,transparent 3px),linear-gradient(160deg,#FFF9F1,#FEEFD8);box-shadow:0 18px 28px rgba(153,91,47,.2)}
+.sheet-head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.sheet-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #E7C49E;border-radius:999px;padding:4px 10px;background:#FFF5E8;font-size:.84rem;color:#9A572F;font-weight:700}
+.sheet-date{font-size:.8rem;color:#9A6741}
+.line-item{border:1px dashed #E8C6A5;border-radius:11px;padding:7px 9px;margin:7px 0 0;background:rgba(255,252,247,.9);color:#8D5836;line-height:1.7}
+.line-item b{color:#A04E24;margin-right:6px}
+.line-item.hidden{opacity:0;transform:translateY(8px)}
+.line-item.reveal{opacity:1;transform:translateY(0);transition:opacity .35s ease,transform .35s ease}
+.ritual-actions{margin-top:12px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media (max-width:980px){.result-card{grid-template-columns:1fr}}
+@media (max-width:760px){.layer2-page .row{gap:10px}.history-item{padding:8px}.sheet-card{padding:12px}.ritual-wrap{min-height:580px}}
 </style>
 </head>
-<body>
+<body class="paw-bg layer2-page">
 <div class="bg-cute" id="bgCute"></div>
-<div class="petal-cloud" id="petalCloud"></div>
 <main>
   <section class="hero">
     <h1>暖暖猫咪幸运站</h1>
-    <p id="heroSub">第二层：抽取今日幸运签。风格参考国风海报卡面。</p>
-    <div class="steps">
-      <button class="step-btn done" type="button" onclick="location.href='layer1.html'" aria-label="返回第一层">第 1 层 信息</button>
-      <button class="step-btn on" type="button" aria-label="当前在第二层">第 2 层 幸运签</button>
-      <button class="step-btn" type="button" disabled aria-label="第三层未解锁">第 3 层 小诗+换装</button>
+    <p id="heroSub">第二层幸运签：软萌治愈、慢节奏陪伴，慢慢来也能走很远。🐱</p>
+
+    <div class="steps" aria-label="流程步骤">
+      <button id="step1" class="step-btn done" type="button" aria-label="返回第一层">第 1 层 信息</button>
+      <button id="step2" class="step-btn on" type="button" aria-label="当前在第二层">第 2 层 幸运签</button>
+      <button id="step3" class="step-btn locked" type="button" disabled aria-label="第三层未解锁">第 3 层 小诗+换装</button>
     </div>
-    <div class="step-track" aria-hidden="true"><span class="step-fill p2"></span></div>
-    <div class="row" style="justify-content:center">
-      <button id="musicToggle" class="sec" type="button" aria-label="播放或暂停舒缓音乐">播放舒缓音乐</button>
-      <input id="musicVolume" type="range" min="0" max="100" value="40" style="width:140px" aria-label="音乐音量" />
+    <div class="step-track" aria-hidden="true"><span id="stepFill" class="step-fill p2"></span></div>
+
+    <div class="row music-row">
+      <div class="music-wrap">
+        <button id="musicToggle" class="sec" type="button" aria-label="播放或暂停舒缓音乐">播放舒缓音乐</button>
+        <label class="volume-wrap" for="musicVolume">
+          音量
+          <input id="musicVolume" type="range" min="0" max="100" value="40" aria-label="音乐音量" />
+          <span id="musicVolumeText" class="volume-text">40%</span>
+        </label>
+      </div>
     </div>
+    <div id="musicMeta" class="music-meta" aria-live="polite">舒缓音乐已暂停</div>
   </section>
 
   <section class="grid">
     <article class="card">
       <span class="tag">当前用户</span>
       <h2 id="profileName">--</h2>
-      <div class="banner">
-        <span class="profile-pill" id="profileText"></span>
+      <div class="meta-row">
+        <span class="meta-pill" id="profileText">--</span>
+        <span class="meta-pill" id="dayText">--</span>
       </div>
-      <div class="status" id="entryLink"></div>
+      <div class="status-line" id="entryLink" aria-live="polite"></div>
     </article>
 
     <article class="card">
       <span class="tag">第二层</span>
-      <h2>抽取当日幸运签</h2>
-      <small>同一天同名字默认稳定。点“重新抽签”可以换一个版本。</small>
+      <h2>抽取喵系幸运签</h2>
+      <small>主签每天 1 次，重新抽签每天最多 3 次。先仪式抽签，再解锁下一层。</small>
       <div class="row">
-        <button id="drawFortune" class="pri" type="button" aria-label="抽今日幸运签">抽今日幸运签</button>
-        <button id="refreshFortune" class="sec" type="button" aria-label="重新抽签">重新抽签</button>
-        <button id="shareFortune" class="sec" type="button" aria-label="分享签文">分享签文</button>
-        <button id="toLayer3" class="next" type="button" aria-label="完成第二层进入第三层">完成第二层，进入第三层</button>
+        <button id="drawFortune" class="pri paw-btn" type="button" aria-label="抽今日喵系幸运签">抽今日喵系幸运签</button>
+        <button id="refreshFortune" class="sec paw-btn locked-btn" type="button" aria-label="重新抽签">重新抽签（剩余 3 次）</button>
+        <button id="shareFortune" class="sec paw-btn locked-btn" type="button" aria-label="分享签文">分享签文</button>
+        <button id="toLayer3" class="next paw-btn locked-btn" type="button" aria-label="完成第二层进入第三层">完成第二层，进入第三层</button>
       </div>
-      <div class="status" id="fortuneStatus" aria-live="polite"></div>
-      <div class="tip">点击“抽今日幸运签”后会直接弹出签卡，签文会结合你在第一层填写的信息。</div>
+      <div id="fortuneStatus" class="status-line" aria-live="polite"></div>
+      <div class="draw-note">今日流程：<b>摇签筒 → 签卡翻转 → 逐行显现</b>。动画结束后才会解锁后续操作。</div>
+    </article>
+
+    <article class="card result-card">
+      <div class="fortune-board">
+        <div class="board-top">
+          <span class="sign-tag" id="signTag">🧧 等待抽签</span>
+          <span class="sign-time" id="signTime">—</span>
+        </div>
+        <h3 class="sign-title" id="signTitle">今天的好运正在路上</h3>
+        <div class="sign-lines">
+          <div class="sign-line"><b>签文主题</b><p id="lineTheme">完成抽签后展示</p></div>
+          <div class="sign-line"><b>专属运势解读</b><p id="lineReading">完成抽签后展示</p></div>
+          <div class="sign-line"><b>今日小建议</b><p id="lineAdvice">完成抽签后展示</p></div>
+          <div class="sign-line"><b>猫咪暖心寄语</b><p id="lineMessage">完成抽签后展示</p></div>
+        </div>
+      </div>
+
+      <aside class="cat-side">
+        <div class="cat-trio">
+          <button id="catA" data-cat="catA" class="mini-cat orange" type="button" aria-label="元气黄猫">
+            <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
+            <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
+            <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
+          </button>
+          <button id="catB" data-cat="catB" class="mini-cat white" type="button" aria-label="治愈白猫">
+            <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
+            <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
+            <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
+          </button>
+          <button id="catC" data-cat="catC" class="mini-cat gray" type="button" aria-label="佛系灰猫">
+            <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
+            <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
+            <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
+          </button>
+        </div>
+        <div class="cat-note">点击小猫可触发喵叫与治愈文案，抽中对应签型会自动点亮同款猫咪。</div>
+      </aside>
     </article>
 
     <article class="card">
-      <span class="tag">往日记录</span>
-      <h2>最近幸运签</h2>
-      <small>展示最近 5 条抽签记录</small>
+      <div class="history-head">
+        <div>
+          <span class="tag">历史签文</span>
+          <h2 style="margin:8px 0 0">最近幸运记录</h2>
+          <small>默认显示最近 5 条，可展开查看 30 天内完整记录。</small>
+        </div>
+        <button id="toggleHistory" class="sec paw-btn" type="button" aria-label="展开更多历史">展开查看 30 天</button>
+      </div>
       <ul id="historyList" class="history-list"></ul>
     </article>
   </section>
 </main>
 
-<div class="modal-mask" id="fortuneModal" aria-hidden="true">
-  <div class="modal-panel">
-    <div class="fortune-poster" id="fortunePoster">
-      <div class="poster-top">
-        <span class="poster-seal" id="posterTitle">今日好运签</span>
-        <span class="poster-year" id="posterDate"></span>
-      </div>
-      <div class="poster-layout">
-        <div class="poster-char">
-          <p class="han-col" id="hanCol1"></p>
-          <p class="han-col" id="hanCol2"></p>
-        </div>
-        <div class="poster-orn">
-          <div class="orn-row"><span>🧧</span><span>✨</span><span>💮</span></div>
-          <div class="orn-msg" id="fortuneText"></div>
-          <div class="orn-row"><span>🌊</span><span>💰</span><span>🌸</span></div>
-        </div>
-      </div>
-      <div class="poster-bottom">
-        <div class="poster-note" id="fortuneItem"></div>
-        <div class="poster-note" id="fortuneTime"></div>
-      </div>
-      <div class="poster-extra" id="fortuneExtra"></div>
+<div class="modal-mask" id="guardModal" aria-hidden="true">
+  <div class="modal-panel guard-panel">
+    <h2>先回第一层完成信息吧 🐱</h2>
+    <p>要先填写名字和年龄，幸运签才能生成专属内容。<br/>点下面按钮就能回到第一层继续。</p>
+    <div class="row" style="justify-content:center">
+      <button id="goLayer1" class="pri paw-btn" type="button" aria-label="返回第一层">回第一层填写信息</button>
     </div>
-    <button id="closeModal" class="sec modal-close" type="button" aria-label="关闭签卡">关闭签卡</button>
+  </div>
+</div>
+
+<div class="modal-mask" id="ritualModal" aria-hidden="true">
+  <div class="modal-panel">
+    <div class="ritual-wrap">
+      <div class="ritual-overlay"></div>
+      <h3 class="ritual-title">今日喵系幸运签仪式</h3>
+      <p class="ritual-sub">慢慢摇签，温柔展开。动画结束后会自动解锁后续按钮。</p>
+
+      <div class="tube-box">
+        <div id="ritualTube" class="fortune-tube"></div>
+        <div id="ritualStick" class="stick"></div>
+      </div>
+
+      <div id="fortuneSheet" class="fortune-sheet">
+        <div class="sheet-card">
+          <div class="sheet-head">
+            <span id="ritualBadge" class="sheet-badge">🐾 今日签</span>
+            <span id="ritualDate" class="sheet-date">--</span>
+          </div>
+          <div id="ritualTheme" class="line-item hidden"></div>
+          <div id="ritualReading" class="line-item hidden"></div>
+          <div id="ritualAdvice" class="line-item hidden"></div>
+          <div id="ritualMessage" class="line-item hidden"></div>
+        </div>
+      </div>
+    </div>
+    <div class="ritual-actions">
+      <button id="closeRitual" class="sec paw-btn" type="button" aria-label="关闭签卡">收起签卡</button>
+    </div>
   </div>
 </div>
 
@@ -121,232 +444,745 @@
 
 <script src="common.js"></script>
 <script>
-const FORT=[
-{id:1,title:"招财招福",motto:"招财招福",text:"贵人相助，心愿易成，今天宜主动出击。",item:"幸运物：红色流苏",time:"幸运时段：09:00-11:00",keyword:"财运",hint:{neck:"ribbon",aura:"spark"}},
-{id:2,title:"顺风顺水",motto:"顺风顺水",text:"沟通顺畅，计划推进快，今天宜处理要事。",item:"幸运物：金色书签",time:"幸运时段：13:00-15:00",keyword:"行动",hint:{head:"star",aura:"sun"}},
-{id:3,title:"有花有酒",motto:"有花有酒",text:"情绪柔和，适合庆祝，今天宜见好友。",item:"幸运物：花朵贴纸",time:"幸运时段：18:00-20:00",keyword:"庆祝",hint:{head:"flower",neck:"flower"}},
-{id:4,title:"自得其乐",motto:"自得其乐",text:"创意旺盛，灵感涌现，今天宜做新尝试。",item:"幸运物：猫咪挂件",time:"幸运时段：11:00-13:00",keyword:"灵感",hint:{hand:"wand",aura:"bubble"}},
-{id:5,title:"见山见海",motto:"见山见海",text:"心境开阔，状态平衡，今天宜学习沉淀。",item:"幸运物：蓝色便签",time:"幸运时段：15:00-17:00",keyword:"山海",hint:{head:"straw",neck:"scarf"}},
-{id:6,title:"上签上签",motto:"上签上签",text:"整体运势偏强，行动越快收获越多。",item:"幸运物：福字红包",time:"幸运时段：07:30-09:30",keyword:"高能",hint:{head:"crown",aura:"heart"}}
+const DRAW_SLOGAN="午后好，慢慢来也能走很远。";
+const DAILY_LIMIT_KEY="warm_cat_fortune_daily_limit_v2";
+const SOUND_SRC={
+  short:"assets/audio/cat_meow_short.wav",
+  long:"assets/audio/cat_meow_long.wav",
+  soft:"assets/audio/cat_kitten_soft.wav",
+  purr:"assets/audio/cat_purr_loop.wav"
+};
+
+const LEGACY_MAP={
+  1:{keyword:"财运",hint:{neck:"ribbon",aura:"spark"}},
+  2:{keyword:"行动",hint:{head:"star",aura:"sun"}},
+  3:{keyword:"庆祝",hint:{head:"flower",neck:"flower"}},
+  4:{keyword:"灵感",hint:{hand:"wand",aura:"bubble"}},
+  5:{keyword:"山海",hint:{head:"straw",neck:"scarf"}},
+  6:{keyword:"高能",hint:{head:"crown",aura:"heart"}}
+};
+
+const SIGN_TYPES=[
+  {
+    key:"energetic",label:"元气喵签",catId:"catA",icon:"😺",ids:[1,2],
+    themes:["晨光开运","小目标冲刺","热力出发","欢喜加速","好运上扬"],
+    keywords:["活力","行动","开运","发光","突破"],
+    readings:[
+      "{name}在{city}的节奏感很稳，{hobby}会带来额外灵感，{wish}正朝你靠近。",
+      "{name}{ageTone}今天能量感很满，身边的人会更愿意支持你完成{wish}。",
+      "你对生活的认真会被看见，{hobby}相关的小机会今天更容易出现。"
+    ],
+    advices:[
+      "把今天目标拆成两步先完成第一步，随后奖励自己 10 分钟放松。",
+      "优先处理最重要的一件事，完成后再去做你喜欢的 {hobby}。",
+      "如果在{city}出门，记得放慢呼吸，稳稳行动就会更顺。"
+    ],
+    messages:[
+      "小黄猫说：{name}冲呀，我会在旁边给你打气。",
+      "今天也请相信自己，慢慢走也能走得很远。",
+      "把肩膀放松一点，你已经在正确方向上了。"
+    ]
+  },
+  {
+    key:"healing",label:"治愈喵签",catId:"catB",icon:"🤍",ids:[3,4],
+    themes:["柔光治愈","安静丰盈","心愿回暖","温柔靠岸","舒心顺流"],
+    keywords:["治愈","陪伴","柔和","安心","温暖"],
+    readings:[
+      "{name}今天适合在{city}慢慢生活，{hobby}会让你状态更稳定，{wish}也会被温柔推进。",
+      "你不需要急着证明自己，稳住节奏就能把{wish}一点点实现。",
+      "{ageTone}今天更容易遇到善意回应，尤其在与人沟通时会更顺。"
+    ],
+    advices:[
+      "给自己留一小段安静时间，再做决定会更清晰。",
+      "先完成一件轻松的小事，心情会被慢慢点亮。",
+      "把今天想做的事写成清单，每做完一项就给自己一个小夸奖。"
+    ],
+    messages:[
+      "小白猫说：{name}，我会一直安静陪着你。",
+      "今天不用和任何人比较，照顾好自己就很好。",
+      "愿你被生活温柔回应，也被自己温柔对待。"
+    ]
+  },
+  {
+    key:"zen",label:"佛系喵签",catId:"catC",icon:"🐾",ids:[5,6],
+    themes:["松弛有序","山海同频","稳步向前","自在收获","淡定开花"],
+    keywords:["松弛","平衡","稳定","沉淀","顺流"],
+    readings:[
+      "{name}今天适合稳步推进，{city}的日常节奏与你很同频，{wish}会在合适时机落地。",
+      "你越从容，越能看见机会；{hobby}会给你带来新的答案。",
+      "{ageTone}今天适合沉淀和整理，按自己的节奏走就会更顺。"
+    ],
+    advices:[
+      "先把最焦虑的一件事拆小，然后只做第一小步。",
+      "把手机放下 15 分钟，专注当下会带来清晰感。",
+      "晚上记得早点休息，明天会有更轻盈的状态。"
+    ],
+    messages:[
+      "小灰猫说：{name}，不用赶路，路会在你脚下出现。",
+      "今天先把内耗放下，稳住自己就是好运的开始。",
+      "慢一点没关系，你的每一步都在变好。"
+    ]
+  }
 ];
+
+const CAT_TEXT={
+  catA:["元气小黄猫：今天也要给自己一个赞。","喵呜，先迈一步，好事就会跟上。","别担心，我和你一起冲。"],
+  catB:["温柔小白猫：慢慢来，我在这儿陪你。","你值得被温柔对待，先照顾好自己。","今天也请轻轻抱一抱自己。"],
+  catC:["佛系小灰猫：先放松，再前进。","喝口水，舒一口气，再继续。","不必着急，稳一点就很好。"]
+};
+
+const CAT_IDS=["catA","catB","catC"];
+const CAT_SOUND={
+  catA:{name:"short",ratio:.5,rate:1.15,cutMs:300},
+  catB:{name:"long",ratio:.5,rate:1.0,cutMs:500},
+  catC:{name:"purr",ratio:.4,rate:.82,cutMs:420}
+};
 
 const E={
   bgCute:document.getElementById("bgCute"),
-  petalCloud:document.getElementById("petalCloud"),
   heroSub:document.getElementById("heroSub"),
+  step1:document.getElementById("step1"),
+  step3:document.getElementById("step3"),
+  stepFill:document.getElementById("stepFill"),
+  musicToggle:document.getElementById("musicToggle"),
+  musicVolume:document.getElementById("musicVolume"),
+  musicVolumeText:document.getElementById("musicVolumeText"),
+  musicMeta:document.getElementById("musicMeta"),
+  bgMusic:document.getElementById("bgMusic"),
   profileName:document.getElementById("profileName"),
   profileText:document.getElementById("profileText"),
+  dayText:document.getElementById("dayText"),
   entryLink:document.getElementById("entryLink"),
   drawFortune:document.getElementById("drawFortune"),
   refreshFortune:document.getElementById("refreshFortune"),
   shareFortune:document.getElementById("shareFortune"),
   toLayer3:document.getElementById("toLayer3"),
   fortuneStatus:document.getElementById("fortuneStatus"),
+  signTag:document.getElementById("signTag"),
+  signTime:document.getElementById("signTime"),
+  signTitle:document.getElementById("signTitle"),
+  lineTheme:document.getElementById("lineTheme"),
+  lineReading:document.getElementById("lineReading"),
+  lineAdvice:document.getElementById("lineAdvice"),
+  lineMessage:document.getElementById("lineMessage"),
   historyList:document.getElementById("historyList"),
-  fortuneModal:document.getElementById("fortuneModal"),
-  closeModal:document.getElementById("closeModal"),
-  fortunePoster:document.getElementById("fortunePoster"),
-  posterTitle:document.getElementById("posterTitle"),
-  posterDate:document.getElementById("posterDate"),
-  hanCol1:document.getElementById("hanCol1"),
-  hanCol2:document.getElementById("hanCol2"),
-  fortuneText:document.getElementById("fortuneText"),
-  fortuneItem:document.getElementById("fortuneItem"),
-  fortuneTime:document.getElementById("fortuneTime"),
-  fortuneExtra:document.getElementById("fortuneExtra"),
-  musicToggle:document.getElementById("musicToggle"),
-  musicVolume:document.getElementById("musicVolume"),
-  bgMusic:document.getElementById("bgMusic")
+  toggleHistory:document.getElementById("toggleHistory"),
+  guardModal:document.getElementById("guardModal"),
+  goLayer1:document.getElementById("goLayer1"),
+  ritualModal:document.getElementById("ritualModal"),
+  ritualTube:document.getElementById("ritualTube"),
+  ritualStick:document.getElementById("ritualStick"),
+  fortuneSheet:document.getElementById("fortuneSheet"),
+  ritualBadge:document.getElementById("ritualBadge"),
+  ritualDate:document.getElementById("ritualDate"),
+  ritualTheme:document.getElementById("ritualTheme"),
+  ritualReading:document.getElementById("ritualReading"),
+  ritualAdvice:document.getElementById("ritualAdvice"),
+  ritualMessage:document.getElementById("ritualMessage"),
+  closeRitual:document.getElementById("closeRitual"),
+  catA:document.getElementById("catA"),
+  catB:document.getElementById("catB"),
+  catC:document.getElementById("catC")
 };
 
-const profile=WarmCat.readJSON(WarmCat.KEYS.profile);
-if(!profile){
-  alert("请先完成第一层信息填写。");
-  location.href="layer1.html";
-  throw new Error("redirect:layer1");
+const state={
+  profile:null,
+  currentFortune:null,
+  daily:null,
+  showFullHistory:false,
+  musicCtrl:{scaledSfx:()=>0,duck:()=>{},onVolumeChange:()=>{},onPlayChange:()=>{}},
+  sfxBank:{},
+  ritualBusy:false,
+  catLocks:{catA:0,catB:0,catC:0}
+};
+
+function wait(ms){return new Promise((resolve)=>setTimeout(resolve,ms));}
+function escapeHTML(str){
+  return String(str||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+}
+function pickSeed(seed,list){return list[Math.abs(seed)%list.length];}
+
+function isValidProfile(profile){
+  if(!profile)return false;
+  const name=String(profile.name||"").trim();
+  const age=Number(profile.age);
+  return Boolean(name)&&Number.isInteger(age)&&age>=1&&age<=120;
 }
 
-let currentFortune=null;
-let meowCtx=null;
-
-function tinyBell(){
-  const AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC)return;
-  if(!meowCtx)meowCtx=new AC();
-  const ctx=meowCtx;
-  const t=ctx.currentTime;
-  const o=ctx.createOscillator();
-  const g=ctx.createGain();
-  o.type="sine";
-  o.frequency.setValueAtTime(820,t);
-  o.frequency.exponentialRampToValueAtTime(620,t+0.16);
-  g.gain.setValueAtTime(0.001,t);
-  g.gain.exponentialRampToValueAtTime(0.16,t+0.03);
-  g.gain.exponentialRampToValueAtTime(0.002,t+0.24);
-  o.connect(g);
-  g.connect(ctx.destination);
-  o.start(t);
-  o.stop(t+0.24);
+function safeProfile(raw){
+  if(!isValidProfile(raw))return null;
+  return {
+    name:String(raw.name||"").trim(),
+    age:Number(raw.age),
+    city:String(raw.city||"").trim(),
+    hobby:String(raw.hobby||"").trim(),
+    wish:String(raw.wish||"").trim()
+  };
 }
 
-function splitMotto(text){
-  const chars=Array.from(text||"");
-  const half=Math.ceil(chars.length/2);
-  return [chars.slice(0,half),chars.slice(half)];
+function dayKey(name,date=WarmCat.day()){return `${date}::${name}`;}
+
+function readDailyBucket(){
+  const raw=WarmCat.readJSON(DAILY_LIMIT_KEY)||{};
+  const now=Date.now();
+  const kept={};
+  Object.keys(raw).forEach((key)=>{
+    const item=raw[key];
+    if(!item||!item.date)return;
+    const t=new Date(`${item.date}T00:00:00+08:00`).getTime();
+    if(Number.isNaN(t))return;
+    if(now-t<=40*24*3600*1000)kept[key]=item;
+  });
+  return kept;
+}
+function writeDailyBucket(bucket){WarmCat.writeJSON(DAILY_LIMIT_KEY,bucket);}
+
+function getDailyState(profile){
+  const bucket=readDailyBucket();
+  const key=dayKey(profile.name);
+  const cur=bucket[key]||{};
+  const daily={
+    date:WarmCat.day(),
+    name:profile.name,
+    mainDrawn:Boolean(cur.mainDrawn),
+    refreshUsed:Math.max(0,Math.min(3,Number(cur.refreshUsed)||0)),
+    celebrated:Boolean(cur.celebrated),
+    variantIndex:Number(cur.variantIndex)||0
+  };
+  bucket[key]=daily;
+  writeDailyBucket(bucket);
+  return daily;
+}
+
+function saveDailyState(){
+  if(!state.profile||!state.daily)return;
+  const bucket=readDailyBucket();
+  bucket[dayKey(state.profile.name)]=state.daily;
+  writeDailyBucket(bucket);
+}
+
+function diffDays(dateStr){
+  const t=new Date(`${dateStr}T00:00:00+08:00`).getTime();
+  const now=new Date(`${WarmCat.day()}T00:00:00+08:00`).getTime();
+  if(Number.isNaN(t)||Number.isNaN(now))return 9999;
+  return Math.floor((now-t)/(24*3600*1000));
+}
+
+function readHistory(){
+  const list=WarmCat.readJSON(WarmCat.KEYS.fortuneHistory);
+  return Array.isArray(list)?list:[];
+}
+function writeHistory(list){WarmCat.writeJSON(WarmCat.KEYS.fortuneHistory,list);}
+function normalizeHistory(list){return list.filter((x)=>x&&x.date&&x.name&&x.typeKey&&x.title).slice(0,260);}
+
+function pushHistory(record){
+  const list=normalizeHistory(readHistory());
+  const item={
+    date:record.date,name:record.name,city:record.city,typeKey:record.typeKey,typeLabel:record.typeLabel,
+    icon:record.icon,id:record.id,title:record.title,keyword:record.keyword,theme:record.theme,
+    reading:record.reading,advice:record.advice,message:record.message,createdAt:Date.now()
+  };
+  const filtered=list.filter((x)=>!(x.date===item.date&&x.name===item.name));
+  writeHistory([item,...filtered].slice(0,260));
+}
+
+function historyForCurrent(){
+  if(!state.profile)return [];
+  return normalizeHistory(readHistory())
+    .filter((x)=>x.name===state.profile.name&&diffDays(x.date)>=0&&diffDays(x.date)<30)
+    .sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
+}
+
+function renderHistory(){
+  const all=historyForCurrent();
+  const count=state.showFullHistory?30:5;
+  const visible=all.slice(0,count);
+  if(!visible.length){
+    E.historyList.innerHTML='<li class="history-item"><span class="history-ico">🐱</span><div><b>还没有历史签文</b><div class="history-mini">先抽一次今日喵系幸运签吧。</div></div></li>';
+  }else{
+    E.historyList.innerHTML=visible.map((x)=>`<li class="history-item"><span class="history-ico">${escapeHTML(x.icon||"🐾")}</span><div><b>${escapeHTML(x.date)} · ${escapeHTML(x.typeLabel||"喵签")} · ${escapeHTML(x.title)}</b><div class="history-mini">关键词：${escapeHTML(x.keyword||"-")}｜${escapeHTML(x.theme||"-")}</div></div></li>`).join("");
+  }
+  E.toggleHistory.style.display=all.length>5?"inline-block":"none";
+  E.toggleHistory.textContent=state.showFullHistory?"收起到最近 5 条":"展开查看 30 天";
+}
+
+function ageTone(age){
+  if(age<=14)return "小朋友";
+  if(age<=22)return "青春状态";
+  if(age<=35)return "稳稳进阶";
+  return "从容成熟";
+}
+
+function applyTpl(template,ctx){
+  return template
+    .replaceAll("{name}",ctx.name)
+    .replaceAll("{ageTone}",ctx.ageTone)
+    .replaceAll("{city}",ctx.city||"你所在的城市")
+    .replaceAll("{hobby}",ctx.hobby||"喜欢的事")
+    .replaceAll("{wish}",ctx.wish||"今日小愿望");
+}
+
+function buildFortune(variantIndex){
+  const profile=state.profile;
+  const seed=WarmCat.hash(`${profile.name}-${WarmCat.day()}-${variantIndex}`);
+  const type=SIGN_TYPES[seed%SIGN_TYPES.length];
+  const localSeed=seed+variantIndex*13;
+  const id=type.ids[localSeed%type.ids.length];
+  const keyword=pickSeed(localSeed+3,type.keywords);
+  const theme=pickSeed(localSeed+5,type.themes);
+  const ctx={name:profile.name,ageTone:ageTone(profile.age),city:profile.city,hobby:profile.hobby,wish:profile.wish};
+
+  const reading=applyTpl(pickSeed(localSeed+7,type.readings),ctx);
+  const advice=applyTpl(pickSeed(localSeed+9,type.advices),ctx);
+  const message=applyTpl(pickSeed(localSeed+11,type.messages),ctx);
+  const legacy=LEGACY_MAP[id]||LEGACY_MAP[1];
+
+  return {
+    id,date:WarmCat.day(),name:profile.name,age:profile.age,city:profile.city,hobby:profile.hobby,wish:profile.wish,
+    typeKey:type.key,typeLabel:type.label,catId:type.catId,icon:type.icon,keyword:keyword||legacy.keyword,hint:legacy.hint,
+    title:`${type.label} · ${theme}`,theme,reading,advice,message,variantIndex
+  };
+}
+
+function normalizeFortune(saved){
+  if(!saved||saved.date!==WarmCat.day()||saved.name!==state.profile.name)return null;
+  const base=buildFortune(Number(saved.variantIndex)||0);
+  return {
+    ...base,
+    id:Number(saved.id)||base.id,
+    keyword:String(saved.keyword||base.keyword),
+    hint:saved.hint||base.hint,
+    typeKey:String(saved.typeKey||base.typeKey),
+    typeLabel:String(saved.typeLabel||base.typeLabel),
+    catId:String(saved.catId||base.catId),
+    icon:String(saved.icon||base.icon),
+    title:String(saved.title||base.title),
+    theme:String(saved.theme||base.theme),
+    reading:String(saved.reading||base.reading),
+    advice:String(saved.advice||base.advice),
+    message:String(saved.message||base.message),
+    variantIndex:Number(saved.variantIndex)||0
+  };
+}
+
+function persistFortune(record){
+  state.currentFortune=record;
+  WarmCat.writeJSON(WarmCat.KEYS.fortune,{
+    date:record.date,name:record.name,id:record.id,keyword:record.keyword,hint:record.hint,
+    typeKey:record.typeKey,typeLabel:record.typeLabel,catId:record.catId,icon:record.icon,
+    title:record.title,theme:record.theme,reading:record.reading,advice:record.advice,message:record.message,
+    variantIndex:record.variantIndex,city:record.city,hobby:record.hobby,wish:record.wish,age:record.age
+  });
+  pushHistory(record);
+}
+
+function setStatus(msg,bad=false){WarmCat.status(E.fortuneStatus,msg,bad);}
+
+function renderResult(record){
+  if(!record){
+    E.signTag.textContent="🧧 等待抽签";
+    E.signTime.textContent="—";
+    E.signTitle.textContent="今天的好运正在路上";
+    E.lineTheme.textContent="完成抽签后展示";
+    E.lineReading.textContent="完成抽签后展示";
+    E.lineAdvice.textContent="完成抽签后展示";
+    E.lineMessage.textContent="完成抽签后展示";
+    return;
+  }
+  E.signTag.textContent=`${record.icon} ${record.typeLabel}`;
+  E.signTime.textContent=`${record.date} · 关键词 ${record.keyword}`;
+  E.signTitle.innerHTML=`<span class="name-focus">${escapeHTML(record.name)}</span> 的 <span class="kw-focus">${escapeHTML(record.theme)}</span>`;
+  E.lineTheme.innerHTML=`<b>主题：</b>${escapeHTML(record.theme)}（${escapeHTML(record.keyword)}）`;
+  E.lineReading.textContent=record.reading;
+  E.lineAdvice.textContent=record.advice;
+  E.lineMessage.textContent=record.message;
+}
+
+function markCat(catId,msg){
+  CAT_IDS.forEach((id)=>{
+    const el=E[id];
+    if(!el)return;
+    el.classList.toggle("cat-hit",id===catId);
+  });
+  if(catId&&E[catId]){
+    showCatBubble(E[catId],msg||"喵~好运到啦");
+    setTimeout(()=>E[catId].classList.remove("cat-hit"),1400);
+  }
+}
+
+function updateProgress(){
+  const done=Boolean(state.currentFortune);
+  E.step3.disabled=!done;
+  E.step3.classList.toggle("locked",!done);
+  E.step3.classList.toggle("done",done);
+  E.stepFill.style.width=done?"100%":"68%";
+}
+
+function updateButtons(){
+  const drawn=Boolean(state.daily&&state.daily.mainDrawn);
+  const busy=state.ritualBusy;
+  const hasFortune=Boolean(state.currentFortune);
+  const left=Math.max(0,3-(state.daily?.refreshUsed||0));
+
+  E.drawFortune.textContent=drawn?"今日已抽取":"抽今日喵系幸运签";
+  E.drawFortune.disabled=drawn||busy||state.profile===null;
+  E.drawFortune.classList.toggle("locked-btn",E.drawFortune.disabled);
+
+  E.refreshFortune.textContent=`重新抽签（剩余 ${left} 次）`;
+  E.refreshFortune.disabled=!drawn||left<=0||busy;
+  E.refreshFortune.classList.toggle("locked-btn",E.refreshFortune.disabled);
+
+  E.shareFortune.disabled=!hasFortune||busy;
+  E.shareFortune.classList.toggle("locked-btn",E.shareFortune.disabled);
+
+  E.toLayer3.disabled=!hasFortune||busy;
+  E.toLayer3.classList.toggle("locked-btn",E.toLayer3.disabled);
+
+  updateProgress();
+}
+
+function preloadSfx(){
+  Object.keys(SOUND_SRC).forEach((key)=>{
+    state.sfxBank[key]={index:0,pool:[]};
+    for(let i=0;i<3;i+=1){
+      const audio=new Audio(SOUND_SRC[key]);
+      audio.preload="auto";
+      audio.load();
+      state.sfxBank[key].pool.push(audio);
+    }
+  });
+}
+
+function playSfx(name,opt={}){
+  const entry=state.sfxBank[name];
+  if(!entry)return null;
+  if(state.musicCtrl.scaledSfx(1)<=0.001)return null;
+  const audio=entry.pool[entry.index%entry.pool.length];
+  entry.index+=1;
+  audio.pause();audio.currentTime=0;
+  audio.loop=Boolean(opt.loop);
+  audio.playbackRate=Number(opt.rate)||1;
+  audio.volume=Math.min(1,state.musicCtrl.scaledSfx(opt.ratio||0.4));
+  if(audio.volume<=0.001)return null;
+  if(opt.duck!==false)state.musicCtrl.duck(0.84,opt.loop?340:220);
+  const p=audio.play();if(p&&p.catch)p.catch(()=>{});
+  if(opt.cutMs&&!audio.loop){
+    setTimeout(()=>{if(!audio.paused){audio.pause();audio.currentTime=0;}},opt.cutMs);
+  }
+  return audio;
+}
+
+function showCatBubble(node,text,duration=2800){
+  const old=node.querySelector(".cat-talk");
+  if(old)old.remove();
+  const bubble=document.createElement("div");
+  bubble.className="cat-talk";
+  bubble.textContent=text;
+  node.appendChild(bubble);
+  setTimeout(()=>bubble.classList.add("fade"),Math.max(1200,duration-420));
+  setTimeout(()=>bubble.remove(),duration);
+}
+
+function spawnVfx(node,icon){
+  const v=document.createElement("span");
+  v.className="cat-vfx";
+  v.textContent=icon;
+  v.style.left=`${40+Math.random()*28}%`;
+  v.style.top=`${26+Math.random()*34}%`;
+  v.style.fontSize=`${16+Math.random()*8}px`;
+  node.appendChild(v);
+  setTimeout(()=>v.remove(),760);
+}
+
+function bindCats(){
+  CAT_IDS.forEach((id)=>{
+    const node=E[id];
+    if(!node)return;
+    node.addEventListener("pointerenter",(ev)=>{
+      if(ev.pointerType!=="mouse")return;
+      if(Date.now()<state.catLocks[id])return;
+      const cls=id==="catA"?"hover-orange":id==="catB"?"hover-white":"hover-gray";
+      node.classList.add(cls);
+      setTimeout(()=>node.classList.remove(cls),300);
+      const cfg=CAT_SOUND[id];
+      playSfx(cfg.name,{ratio:0.26,rate:cfg.rate,cutMs:120});
+    });
+    node.addEventListener("click",(ev)=>{
+      ev.preventDefault();
+      if(Date.now()<state.catLocks[id])return;
+      state.catLocks[id]=Date.now()+460;
+      node.classList.remove("cat-click");
+      void node.offsetWidth;
+      node.classList.add("cat-click");
+      setTimeout(()=>node.classList.remove("cat-click"),320);
+
+      const cfg=CAT_SOUND[id];
+      playSfx(cfg.name,cfg);
+      spawnVfx(node,id==="catA"?"✨":id==="catB"?"💗":"🌙");
+      spawnVfx(node,id==="catA"?"🐾":id==="catB"?"💞":"💤");
+
+      let msg=pickSeed(Date.now(),CAT_TEXT[id]);
+      if(state.currentFortune&&state.currentFortune.catId===id)msg=state.currentFortune.message;
+      showCatBubble(node,msg,3200);
+    });
+  });
 }
 
 function decorateEntry(){
   const from=WarmCat.popSessionJSON(WarmCat.SESSION_KEYS.l1ToL2);
   if(!from)return;
-  E.entryLink.textContent=`${from.blessing} 正在为你抽取定制幸运签。`;
-  E.heroSub.textContent=`第二层：抽取今日幸运签。${WarmCat.timeGreeting()}`;
-  const icons=["💗","💮","🌸","✨","🐾"];
-  for(let i=0;i<18;i+=1){
-    const node=document.createElement("span");
-    node.className="petal";
-    node.textContent=icons[Math.floor(Math.random()*icons.length)];
-    node.style.setProperty("--x",`${-360+Math.random()*720}px`);
-    node.style.setProperty("--y",`${-220+Math.random()*90}px`);
-    node.style.setProperty("--r",`${-140+Math.random()*280}deg`);
-    node.style.animationDelay=`${(i*0.03).toFixed(2)}s`;
-    E.petalCloud.appendChild(node);
-    setTimeout(()=>node.remove(),1600);
+  E.entryLink.textContent=`${from.blessing} 正在为你准备今日专属喵签。`;
+}
+
+function setRitualContent(record){
+  E.ritualBadge.textContent=`${record.icon} ${record.typeLabel} · ${record.keyword}`;
+  E.ritualDate.textContent=`${record.date} · ${record.name}`;
+  E.ritualTheme.innerHTML=`<b>签文主题</b>${escapeHTML(record.theme)}（${escapeHTML(record.keyword)}）`;
+  E.ritualReading.innerHTML=`<b>专属运势解读</b>${escapeHTML(record.reading)}`;
+  E.ritualAdvice.innerHTML=`<b>今日小建议</b>${escapeHTML(record.advice)}`;
+  E.ritualMessage.innerHTML=`<b>猫咪暖心寄语</b>${escapeHTML(record.message)}`;
+}
+
+function resetRitualLines(){
+  [E.ritualTheme,E.ritualReading,E.ritualAdvice,E.ritualMessage].forEach((el)=>{
+    el.classList.remove("reveal");
+    el.classList.add("hidden");
+  });
+}
+
+async function revealRitualLines(){
+  const nodes=[E.ritualTheme,E.ritualReading,E.ritualAdvice,E.ritualMessage];
+  for(let i=0;i<nodes.length;i+=1){
+    await wait(210);
+    nodes[i].classList.remove("hidden");
+    nodes[i].classList.add("reveal");
   }
+  await wait(180);
 }
 
-function personalizedExtra(f){
-  const s=[];
-  if(profile.hobby)s.push(`宜：把「${profile.hobby}」排进今天的清单`);
-  if(profile.wish)s.push(`愿望助推：${profile.wish} 运势 +1`);
-  const period=WarmCat.timePeriod();
-  if(period==="morning")s.push("晨间提示：先做一件最重要的小事");
-  if(period==="afternoon")s.push("午后提示：安排 15 分钟放空再冲刺");
-  if(period==="evening")s.push("晚间提示：适合收尾和复盘");
-  if(period==="night")s.push("夜间提示：早点休息，好运会更稳");
-  return s.slice(0,2).join("；");
-}
+async function runRitual(record,isRedraw){
+  state.ritualBusy=true;
+  updateButtons();
+  E.ritualModal.classList.add("show");
+  E.fortuneSheet.classList.remove("show");
+  setRitualContent(record);
+  resetRitualLines();
 
-function renderFortune(f,extra,openModal=true){
-  currentFortune={...f,extra};
-  const [col1,col2]=splitMotto(f.motto);
-  E.posterTitle.textContent=f.title;
-  E.posterDate.textContent=`${WarmCat.day()} · 今日签`;
-  E.hanCol1.innerHTML=col1.map((ch)=>`<span>${ch}</span>`).join("");
-  E.hanCol2.innerHTML=col2.map((ch)=>`<span>${ch}</span>`).join("");
-  E.fortuneText.textContent=f.text;
-  E.fortuneItem.textContent=f.item;
-  E.fortuneTime.textContent=f.time;
-  E.fortuneExtra.textContent=extra||"愿你今天一切顺顺利利。";
-  if(openModal){
-    E.fortuneModal.classList.add("show");
-    E.fortunePoster.classList.remove("reveal");
-    requestAnimationFrame(()=>E.fortunePoster.classList.add("reveal"));
-    tinyBell();
+  if(isRedraw){
+    E.fortuneSheet.classList.add("retract");
+    playSfx("soft",{ratio:0.25,rate:0.85,cutMs:220});
+    await wait(360);
+    E.fortuneSheet.classList.remove("retract");
   }
+
+  E.ritualTube.classList.add("shake");
+  E.ritualStick.classList.add("show");
+  let shakeTick=0;
+  const shakeTimer=setInterval(()=>{
+    shakeTick+=1;
+    playSfx("soft",{ratio:0.24,rate:0.92,cutMs:180,duck:false});
+    if(shakeTick>6)clearInterval(shakeTimer);
+  },320);
+
+  await wait(2000);
+  clearInterval(shakeTimer);
+  E.ritualTube.classList.remove("shake");
+  E.ritualStick.classList.remove("show");
+  playSfx("long",{ratio:0.3,rate:1.0,cutMs:500});
+
+  E.fortuneSheet.classList.add("show");
+  await revealRitualLines();
+  state.ritualBusy=false;
+  updateButtons();
 }
 
-function pushHistory(f){
-  const list=WarmCat.readJSON(WarmCat.KEYS.fortuneHistory)||[];
-  const item={
-    date:WarmCat.day(),
-    name:profile.name,
-    title:f.title,
-    id:f.id
-  };
-  const next=[item,...list.filter((x)=>!(x.date===item.date&&x.name===item.name))].slice(0,20);
-  WarmCat.writeJSON(WarmCat.KEYS.fortuneHistory,next);
+function runDailyCelebrate(){
+  CAT_IDS.forEach((id,idx)=>{
+    const node=E[id];
+    if(!node)return;
+    setTimeout(()=>{
+      node.classList.add("daily-greet");
+      for(let i=0;i<6;i+=1){
+        setTimeout(()=>spawnVfx(node,["💗","💖","✨","🐾"][Math.floor(Math.random()*4)]),i*45);
+      }
+      setTimeout(()=>node.classList.remove("daily-greet"),800);
+    },idx*100);
+  });
+  playSfx("soft",{ratio:0.35,rate:1.02,cutMs:260});
+  setStatus("三只小猫一起送上今日祝福啦 ✨");
 }
 
-function renderHistory(){
-  const list=(WarmCat.readJSON(WarmCat.KEYS.fortuneHistory)||[]).filter((x)=>x.name===profile.name).slice(0,5);
-  if(!list.length){
-    E.historyList.innerHTML='<li class="history-item">还没有历史签文，先抽一次今天的好运吧。</li>';
-    return;
-  }
-  E.historyList.innerHTML=list.map((x)=>`<li class="history-item">${x.date} · ${x.title}</li>`).join("");
-}
-
-function persistFortune(f,salt,extra){
-  WarmCat.writeJSON(WarmCat.KEYS.fortune,{date:WarmCat.day(),name:profile.name,id:f.id,salt,extra,keyword:f.keyword});
-  pushHistory(f);
+async function completeDraw(record,isRedraw){
+  persistFortune(record);
+  await runRitual(record,isRedraw);
+  renderResult(record);
+  markCat(record.catId,record.message);
   renderHistory();
 }
 
-function setDrawnState(drawn){
-  E.drawFortune.disabled=drawn;
-  E.drawFortune.textContent=drawn?"今日已抽取":"抽今日幸运签";
+async function drawMain(){
+  if(!state.profile||state.daily.mainDrawn||state.ritualBusy)return;
+  setStatus("正在摇签中，请慢慢等待签卡展开...");
+  state.daily.mainDrawn=true;
+  state.daily.variantIndex=0;
+  saveDailyState();
+  updateButtons();
+
+  const record=buildFortune(0);
+  await completeDraw(record,false);
+  if(!state.daily.celebrated){
+    state.daily.celebrated=true;
+    saveDailyState();
+    runDailyCelebrate();
+  }else{
+    setStatus(`已完成抽签：${record.typeLabel} · ${record.theme}`);
+  }
 }
 
-function drawFortune(salt=0){
-  E.drawFortune.disabled=true;
-  WarmCat.status(E.fortuneStatus,"摇签中，请稍候...");
-  setTimeout(()=>{
-    const idx=WarmCat.hash(`${profile.name}-${WarmCat.day()}-${salt}`)%FORT.length;
-    const f=FORT[idx];
-    const extra=personalizedExtra(f);
-    persistFortune(f,salt,extra);
-    renderFortune(f,extra,true);
-    setDrawnState(true);
-    WarmCat.status(E.fortuneStatus,`已抽取：${f.title}`);
-  },560);
-}
-
-function loadFortune(){
-  const data=WarmCat.readJSON(WarmCat.KEYS.fortune);
-  if(!data||data.date!==WarmCat.day()||data.name!==profile.name)return false;
-  const f=FORT.find((x)=>x.id===data.id);
-  if(!f)return false;
-  renderFortune(f,data.extra||"",false);
-  setDrawnState(true);
-  WarmCat.status(E.fortuneStatus,`已读取今日签：${f.title}`);
-  return true;
-}
-
-function shareFortune(){
-  if(!currentFortune){
-    WarmCat.status(E.fortuneStatus,"请先抽取幸运签再分享。",true);
+async function redraw(){
+  if(!state.profile||!state.daily.mainDrawn||state.ritualBusy)return;
+  if(state.daily.refreshUsed>=3){
+    setStatus("今天的重新抽签次数已用完啦，明天再来继续。",true);
     return;
   }
-  const text=`${profile.name} 的今日幸运签【${currentFortune.title}】\n${currentFortune.text}\n${currentFortune.extra||""}`;
+  state.daily.refreshUsed+=1;
+  state.daily.variantIndex=state.daily.refreshUsed;
+  saveDailyState();
+  updateButtons();
+  setStatus("重新摇签中，新的喵签马上出现...");
+
+  const record=buildFortune(state.daily.variantIndex);
+  await completeDraw(record,true);
+  setStatus(`已更新签文：${record.typeLabel} · ${record.theme}`);
+}
+
+function shareText(record){
+  return [
+    `${record.name} 的${record.typeLabel}`,
+    `签文主题：${record.theme}（${record.keyword}）`,
+    `专属运势解读：${record.reading}`,
+    `今日小建议：${record.advice}`,
+    `猫咪暖心寄语：${record.message}`,
+    DRAW_SLOGAN
+  ].join("\n");
+}
+
+function copyFortuneText(){
+  const record=state.currentFortune;
+  if(!record){
+    setStatus("请先抽签，再分享签文。",true);
+    return;
+  }
+  const txt=shareText(record);
   if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(()=>WarmCat.status(E.fortuneStatus,"签文已复制，可直接分享✨"));
+    navigator.clipboard.writeText(txt).then(()=>setStatus("签文文本已复制，可以直接分享了。"))
+      .catch(()=>setStatus("复制失败，请稍后再试。",true));
     return;
   }
-  WarmCat.status(E.fortuneStatus,"当前浏览器不支持剪贴板复制。",true);
+  setStatus("当前浏览器不支持剪贴板复制。",true);
 }
 
 function goLayer3(){
-  const data=WarmCat.readJSON(WarmCat.KEYS.fortune);
-  if(!data||data.date!==WarmCat.day()||data.name!==profile.name){
-    WarmCat.status(E.fortuneStatus,"请先抽取幸运签后再进入第三层。",true);
+  const record=state.currentFortune;
+  if(!record){
+    setStatus("完成抽签后才可进入第三层。",true);
     return;
   }
-  const f=FORT.find((x)=>x.id===data.id)||FORT[0];
-  WarmCat.writeSessionJSON(WarmCat.SESSION_KEYS.l2ToL3,{
-    at:Date.now(),
-    id:f.id,
-    title:f.title,
-    keyword:f.keyword,
-    hint:f.hint
-  });
+  WarmCat.writeSessionJSON(WarmCat.SESSION_KEYS.l2ToL3,{at:Date.now(),id:record.id,title:record.title,keyword:record.keyword,hint:record.hint});
   location.href="layer3.html";
 }
 
-E.profileName.textContent=`${profile.name} 的今日运势`;
-E.profileText.textContent=WarmCat.profileText(profile);
+function showGuard(){
+  E.guardModal.classList.add("show");
+  E.drawFortune.disabled=true;
+  E.refreshFortune.disabled=true;
+  E.shareFortune.disabled=true;
+  E.toLayer3.disabled=true;
+  E.toggleHistory.disabled=true;
+  E.step3.disabled=true;
+  setStatus("请先回第一层完成必填信息。",true);
+}
 
-E.drawFortune.onclick=()=>drawFortune(0);
-E.refreshFortune.onclick=()=>drawFortune(Math.floor(Math.random()*10000)+1);
-E.shareFortune.onclick=shareFortune;
-E.toLayer3.onclick=goLayer3;
-E.closeModal.onclick=()=>E.fortuneModal.classList.remove("show");
-E.fortuneModal.addEventListener("click",(ev)=>{if(ev.target===E.fortuneModal)E.fortuneModal.classList.remove("show");});
+function initMusic(){
+  state.musicCtrl=WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.musicMeta);
+  state.musicCtrl.onVolumeChange((_,percent)=>{E.musicVolumeText.textContent=`${percent}%`;});
+  state.musicCtrl.onPlayChange((playing)=>{E.musicMeta.textContent=playing?"正在播放舒缓音乐 🎵":"舒缓音乐已暂停";});
+}
 
-WarmCat.initCuteBg(E.bgCute);
-WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.fortuneStatus);
-decorateEntry();
-renderHistory();
-loadFortune();
+function restoreFromStorage(){
+  const saved=WarmCat.readJSON(WarmCat.KEYS.fortune);
+  const record=normalizeFortune(saved);
+  if(!record){
+    if(state.daily&&state.daily.mainDrawn){
+      state.daily.mainDrawn=false;
+      state.daily.refreshUsed=0;
+      state.daily.variantIndex=0;
+      saveDailyState();
+    }
+    return;
+  }
+  state.currentFortune=record;
+  state.daily.mainDrawn=true;
+  state.daily.variantIndex=Number(record.variantIndex)||0;
+  saveDailyState();
+  renderResult(record);
+  markCat(record.catId,"欢迎回来，今天的喵签已为你准备好。");
+}
+
+function initProfileBlock(){
+  const profile=safeProfile(WarmCat.readJSON(WarmCat.KEYS.profile));
+  if(!profile){
+    E.profileName.textContent="未读取到完整资料";
+    E.profileText.textContent="请先填写名字与年龄";
+    E.dayText.textContent=`${WarmCat.day()} · 待完成`;
+    showGuard();
+    return false;
+  }
+  state.profile=profile;
+  state.daily=getDailyState(profile);
+  E.profileName.textContent=`${profile.name} 的今日运势`;
+  E.profileText.textContent=WarmCat.profileText(profile);
+  E.dayText.textContent=`${WarmCat.day()} · 第 2 层`;
+  E.heroSub.textContent=`第二层幸运签：${WarmCat.timeGreeting()} ${DRAW_SLOGAN}`;
+  decorateEntry();
+  return true;
+}
+
+function bindEvents(){
+  E.step1.addEventListener("click",()=>{location.href="layer1.html";});
+  E.step3.addEventListener("click",()=>{if(!E.step3.disabled)goLayer3();});
+  E.drawFortune.addEventListener("click",drawMain);
+  E.refreshFortune.addEventListener("click",redraw);
+  E.shareFortune.addEventListener("click",copyFortuneText);
+  E.toLayer3.addEventListener("click",goLayer3);
+  E.toggleHistory.addEventListener("click",()=>{state.showFullHistory=!state.showFullHistory;renderHistory();});
+  E.goLayer1.addEventListener("click",()=>{location.href="layer1.html";});
+
+  E.closeRitual.addEventListener("click",()=>{if(!state.ritualBusy)E.ritualModal.classList.remove("show");});
+  E.ritualModal.addEventListener("click",(ev)=>{if(ev.target===E.ritualModal&&!state.ritualBusy)E.ritualModal.classList.remove("show");});
+}
+
+function bootstrap(){
+  preloadSfx();
+  bindCats();
+  initMusic();
+  bindEvents();
+  WarmCat.initCuteBg(E.bgCute);
+
+  if(!initProfileBlock())return;
+  restoreFromStorage();
+  renderResult(state.currentFortune);
+  renderHistory();
+  updateButtons();
+
+  if(state.currentFortune){
+    setStatus(`已读取今日签：${state.currentFortune.typeLabel} · ${state.currentFortune.theme}`);
+  }else{
+    setStatus("今天还没抽签，点击“抽今日喵系幸运签”开始吧。");
+  }
+}
+
+bootstrap();
 </script>
 </body>
 </html>

@@ -4,7 +4,12 @@
     fortune:"warm_cat_fortune_v1",
     poem:"warm_cat_poem_v1",
     outfit:"warm_cat_outfit_v1",
-    score:"warm_cat_score_v1"
+    score:"warm_cat_score_v1",
+    fortuneHistory:"warm_cat_fortune_history_v1"
+  };
+  const SESSION_KEYS={
+    l1ToL2:"warm_cat_transition_l1_l2_v1",
+    l2ToL3:"warm_cat_transition_l2_l3_v1"
   };
 
   function readJSON(key){
@@ -14,6 +19,21 @@
 
   function writeJSON(key,val){
     localStorage.setItem(key,JSON.stringify(val));
+  }
+
+  function readSessionJSON(key){
+    try{return JSON.parse(sessionStorage.getItem(key)||"null");}
+    catch{return null;}
+  }
+
+  function writeSessionJSON(key,val){
+    sessionStorage.setItem(key,JSON.stringify(val));
+  }
+
+  function popSessionJSON(key){
+    const val=readSessionJSON(key);
+    sessionStorage.removeItem(key);
+    return val;
   }
 
   function day(){
@@ -28,6 +48,29 @@
       h|=0;
     }
     return Math.abs(h);
+  }
+
+  function timePeriod(){
+    const h=new Date().getHours();
+    if(h>=6&&h<12)return "morning";
+    if(h>=12&&h<18)return "afternoon";
+    if(h>=18&&h<24)return "evening";
+    return "night";
+  }
+
+  function timeGreeting(){
+    const p=timePeriod();
+    if(p==="morning")return "早安，今天会是亮晶晶的一天。";
+    if(p==="afternoon")return "午后好，慢慢来也能走很远。";
+    if(p==="evening")return "晚上好，愿你被温柔晚风抱住。";
+    return "夜深了，也别忘记给自己一点柔软。";
+  }
+
+  function wishBlessing(name,wish){
+    const n=(name||"你").trim()||"你";
+    const w=(wish||"").trim();
+    if(!w)return `愿 ${n} 被温柔与好运包围。`;
+    return `愿 ${n} 的「${w}」稳稳靠近你。`;
   }
 
   function status(node,msg,bad=false){
@@ -96,12 +139,19 @@
 
   window.WarmCat={
     KEYS,
+    SESSION_KEYS,
     readJSON,
     writeJSON,
+    readSessionJSON,
+    writeSessionJSON,
+    popSessionJSON,
     day,
     hash,
     status,
     profileText,
+    timePeriod,
+    timeGreeting,
+    wishBlessing,
     initCuteBg,
     initMusic
   };

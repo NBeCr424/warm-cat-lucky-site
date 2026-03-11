@@ -12,6 +12,12 @@
 .head{background:linear-gradient(160deg,#ffe9cc,#ffd7ab 60%,#ffc78f)}
 .body{background:linear-gradient(165deg,#ffe8cc,#ffd8b4 62%,#ffc996)}
 .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{transition:transform .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 16px 26px rgba(169,93,41,.2)}
+.poster-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.poster-badge{margin-top:8px;padding:6px 10px;border-radius:999px;background:#fff4e5;border:1px solid #efc7a2;color:#9f5f35;font-size:.85rem;display:inline-block}
+.bless-box{margin-top:8px;padding:8px 10px;border-radius:10px;background:linear-gradient(130deg,#fff5eb,#ffe8d1);border:1px dashed #efbd95;color:#8f552f;font-size:.9rem}
+.poem-style{margin-top:6px;font-size:.86rem;color:#975a34}
 @media (max-width:900px){.summary-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -20,14 +26,15 @@
 <main>
   <section class="hero">
     <h1>暖暖猫咪幸运站</h1>
-    <p>第三层：生成名字小诗，给猫咪换装，导出暖色海报。</p>
+    <p id="heroSub">第三层：生成名字小诗，给猫咪换装，导出暖色海报。</p>
     <div class="steps">
-      <button class="step-btn" type="button" onclick="location.href='index.html'">第 1 层 信息</button>
-      <button class="step-btn" type="button" onclick="location.href='layer2.html'">第 2 层 幸运签</button>
-      <button class="step-btn on" type="button">第 3 层 小诗+换装</button>
+      <button class="step-btn done" type="button" onclick="location.href='index.html'" aria-label="返回第一层">第 1 层 信息</button>
+      <button class="step-btn done" type="button" onclick="location.href='layer2.html'" aria-label="返回第二层">第 2 层 幸运签</button>
+      <button class="step-btn on" type="button" aria-label="当前在第三层">第 3 层 小诗+换装</button>
     </div>
+    <div class="step-track" aria-hidden="true"><span class="step-fill p3"></span></div>
     <div class="row" style="justify-content:center">
-      <button id="musicToggle" class="sec" type="button">播放舒缓音乐</button>
+      <button id="musicToggle" class="sec" type="button" aria-label="播放或暂停舒缓音乐">播放舒缓音乐</button>
       <input id="musicVolume" type="range" min="0" max="100" value="40" style="width:140px" aria-label="音乐音量" />
     </div>
   </section>
@@ -44,14 +51,18 @@
     <article class="card layer3">
       <span class="tag">第三层</span>
       <h2>名字小诗 + 小猫咪换装</h2>
-      <small>点击猫咪会掉爱心分数，换装会同步到海报里</small>
-      <div class="row"><button id="makePoem" class="pri" type="button">生成名字小诗</button><button id="remakePoem" class="sec" type="button">换一首风格</button></div>
-      <div class="status" id="poemStatus"></div>
+      <small>点击猫咪会掉爱心分。换装选项会飞到猫咪身上并实时同步海报。</small>
+      <div class="row">
+        <button id="makePoem" class="pri" type="button" aria-label="生成名字小诗">生成名字小诗</button>
+        <button id="remakePoem" class="sec" type="button" aria-label="换一首风格">换一首风格</button>
+      </div>
+      <div class="poem-style" id="poemStyleText"></div>
+      <div class="status" id="poemStatus" aria-live="polite"></div>
       <div id="poemBox" class="box poem hide"></div>
 
       <div class="dress">
         <div>
-          <div class="stage" id="stage" title="点击猫咪收集爱心">
+          <div class="stage" id="stage" title="点击猫咪收集爱心" aria-label="猫咪互动区域">
             <div class="stage-light"></div>
             <div class="shadow"></div>
             <div class="cat">
@@ -61,13 +72,14 @@
                 <div class="face">
                   <div class="eyes"><i></i><i></i></div>
                   <div class="cheek l"></div><div class="cheek r"></div>
-                  <div class="nose"></div><div class="mouth">ω</div>
+                  <div class="nose"></div><div class="mouth" id="catMouth">ω</div>
                   <div class="whisker l"><span></span><span></span></div>
                   <div class="whisker r"><span></span><span></span></div>
                 </div>
               </div>
               <div class="body"><div class="belly">♥</div><div class="paw l"></div><div class="paw r"></div></div>
             </div>
+            <div class="cat-bubble" id="catBubble"></div>
             <div id="slotHead" class="slot"></div>
             <div id="slotFace" class="slot"></div>
             <div id="slotNeck" class="slot"></div>
@@ -75,24 +87,35 @@
             <div id="slotAura" class="slot"></div>
           </div>
           <div class="score">当前爱心分：<b id="score">0</b></div>
-          <div class="row"><button id="randomOutfit" class="pri" type="button">随机换装</button><button id="clearOutfit" class="sec" type="button">清空装饰</button></div>
+          <div class="row">
+            <button id="randomOutfit" class="pri" type="button" aria-label="随机换装">随机换装</button>
+            <button id="clearOutfit" class="sec" type="button" aria-label="清空装饰">清空装饰</button>
+          </div>
         </div>
-        <div id="controls" class="controls"></div>
+        <div id="controls" class="controls" aria-label="换装选择区"></div>
       </div>
     </article>
 
     <aside class="card preview">
       <h2>导出海报</h2>
-      <small>背景为暖黄油画笔触风，含猫咪、幸运签、小诗</small>
+      <small>国风暖色纪念图，含用户信息、幸运签、小诗和猫咪装扮。</small>
       <div class="summary">
         <h3 id="sumTitle">尚未生成内容</h3>
         <p id="sumProfile">请先生成内容。</p>
         <p id="sumFortune">请先生成内容。</p>
         <p id="sumPoem">请先生成内容。</p>
       </div>
-      <div class="row"><button id="makePoster" class="pri" type="button">生成海报</button><a id="download" class="btn sec hide" download="warm-cat-poster.png">下载图片</a></div>
+      <span class="poster-badge" id="posterBadge">生成时间：未生成</span>
+      <div class="bless-box" id="blessBox">愿你今天被温柔与好运包围。</div>
+      <div class="poster-actions">
+        <button id="previewPoster" class="pri" type="button" aria-label="预览海报">预览海报</button>
+        <button id="savePoster" class="sec" type="button" aria-label="保存为图片">保存为图片</button>
+        <button id="sharePoster" class="sec" type="button" aria-label="分享海报文本">分享</button>
+        <button id="regenPoster" class="next" type="button" aria-label="重新生成海报">重新生成</button>
+      </div>
+      <a id="download" class="btn sec hide" download="warm-cat-poster.png" aria-label="下载海报">下载图片</a>
       <img id="previewImg" alt="海报预览" />
-      <canvas id="poster" class="hide" width="1080" height="1440"></canvas>
+      <canvas id="poster" class="hide" width="1080" height="1520"></canvas>
     </aside>
   </section>
 </main>
@@ -104,12 +127,12 @@
 <script src="common.js"></script>
 <script>
 const FORT_MAP={
-  1:{title:"招财招福",text:"贵人相助，心愿易成，今天宜主动出击。",item:"幸运物：红色流苏",time:"幸运时段：09:00-11:00"},
-  2:{title:"顺风顺水",text:"沟通顺畅，计划推进快，今天宜处理要事。",item:"幸运物：金色书签",time:"幸运时段：13:00-15:00"},
-  3:{title:"有花有酒",text:"情绪柔和，适合庆祝，今天宜见好友。",item:"幸运物：花朵贴纸",time:"幸运时段：18:00-20:00"},
-  4:{title:"自得其乐",text:"创意旺盛，灵感涌现，今天宜做新尝试。",item:"幸运物：猫咪挂件",time:"幸运时段：11:00-13:00"},
-  5:{title:"见山见海",text:"心境开阔，状态平衡，今天宜学习沉淀。",item:"幸运物：蓝色便签",time:"幸运时段：15:00-17:00"},
-  6:{title:"上签上签",text:"整体运势偏强，行动越快收获越多。",item:"幸运物：福字红包",time:"幸运时段：07:30-09:30"}
+  1:{title:"招财招福",text:"贵人相助，心愿易成，今天宜主动出击。",item:"幸运物：红色流苏",time:"幸运时段：09:00-11:00",keyword:"财运"},
+  2:{title:"顺风顺水",text:"沟通顺畅，计划推进快，今天宜处理要事。",item:"幸运物：金色书签",time:"幸运时段：13:00-15:00",keyword:"行动"},
+  3:{title:"有花有酒",text:"情绪柔和，适合庆祝，今天宜见好友。",item:"幸运物：花朵贴纸",time:"幸运时段：18:00-20:00",keyword:"庆祝"},
+  4:{title:"自得其乐",text:"创意旺盛，灵感涌现，今天宜做新尝试。",item:"幸运物：猫咪挂件",time:"幸运时段：11:00-13:00",keyword:"灵感"},
+  5:{title:"见山见海",text:"心境开阔，状态平衡，今天宜学习沉淀。",item:"幸运物：蓝色便签",time:"幸运时段：15:00-17:00",keyword:"山海"},
+  6:{title:"上签上签",text:"整体运势偏强，行动越快收获越多。",item:"幸运物：福字红包",time:"幸运时段：07:30-09:30",keyword:"高能"}
 };
 
 const OUTFIT={
@@ -120,20 +143,51 @@ const OUTFIT={
   aura:[["none","无",""],["spark","星光","✨"],["bubble","泡泡","🫧"],["heart","爱心雨","💗"],["moon","小月亮","🌙"],["sun","小太阳","☀️"],["leaf","树叶","🍃"]]
 };
 
-const MOOD=["晨光在窗台揉开一团橘色云，","晚风把糖渍星光轻轻吹进衣袖，","奶茶香从街角飘来像一首慢歌，","微暖日光刚好，世界变得软软的，","云朵像棉花一样托住心情，","落日把天边染成琥珀色，"];
-const END=["愿你抬头遇见好事，低头捡到温柔。","愿你每一步都踩在好运节拍里。","愿你和喜欢的事都有圆满回应。","愿你的笑意被世界认真收藏。","愿你被温暖包围，也把温暖递出去。","愿今天的幸运，明天继续。"];
+const POEM_STYLES=["治愈","俏皮","古风"];
+const MOOD={
+  morning:["晨光在窗台揉开一团橘色云，","清晨风很轻，像给你的一封温柔短笺，","阳光正好，今天的好运刚刚上线，","早起的猫咪先把好运叼到你门口，","晨光落在指尖，心情被轻轻点亮，","一杯热饮一缕日光，今日开始发亮，","早安时分，世界把温暖先递给你，","清晨像新开的花，愿你顺顺展开，","今天从一声喵开始，元气满满，","风把晨色吹软，也把好运吹近，","轻轻伸个懒腰，好事正在靠近，","太阳刚升起，你的好消息也在路上。"],
+  afternoon:["奶茶香从街角飘来像一首慢歌，","午后的云朵软软的，适合慢慢发光，","这段时光不急不缓，刚好盛放心愿，","风把热闹收进树影，留给你一点从容，","午后暖阳照在肩上，像温柔拍拍你，","今天的进度条，正在悄悄向前，","你在认真生活，幸运也在认真靠近，","阳光停在窗边，像在等你说愿望，","下午的节奏刚刚好，继续发光吧，","把小目标拆成小步子，也会很厉害，","云影轻晃，心情也变得轻盈，","每一次专注，都是好运的伏笔。"],
+  evening:["晚风把糖渍星光轻轻吹进衣袖，","落日把天边染成琥珀色，","夜色还没全落下，你的好运先亮灯了，","黄昏像一首慢拍情歌，轻轻托住你，","灯光亮起时，愿望也在慢慢靠岸，","傍晚的云像棉花糖，甜到心口，","忙碌一天后，愿你被柔软接住，","晚霞把疲惫染淡，好运继续加温，","暮色温柔，适合许一个小愿望，","夜前的风很轻，刚好适合放松，","天色渐暗，温暖却在你身边发亮，","让今天在安稳里收尾，在期待里续篇。"],
+  night:["夜色安静，像把你轻轻放进柔软毯子里，","星星一颗颗点亮，像给你的晚安签，","月光很轻，把烦恼都叠好收起，","深夜的风不吵，正适合听见自己，","今天辛苦啦，接下来只负责被温柔抱住，","夜晚是慢下来的时刻，也有慢慢到来的好运，","窗外微光闪烁，替你守着小愿望，","把心事交给月亮，明天会更亮，","这会儿只要放松，幸运会悄悄补给，","夜深了，温柔仍在，安心睡吧，","星河铺开，愿你做一个甜甜的梦，","让夜晚把你包好，明天继续闪闪发光。"]
+};
+const ENDING=[
+  "愿你抬头遇见好事，低头捡到温柔。",
+  "愿你每一步都踩在好运节拍里。",
+  "愿你和喜欢的事都有圆满回应。",
+  "愿你的笑意被世界认真收藏。",
+  "愿你被温暖包围，也把温暖递出去。",
+  "愿今天的幸运，明天继续。",
+  "愿你心里有光，脚下有路。",
+  "愿小愿望稳稳成真，日子甜甜发亮。",
+  "愿你被偏爱，也被自己温柔对待。",
+  "愿你在平凡日子里，收集不平凡的小确幸。",
+  "愿你走到哪里，哪里就有好心情。",
+  "愿你始终有勇气，也始终有拥抱。"
+];
+const CAT_WORDS=[
+  "别戳啦～再戳我就撒娇咯😜",
+  "你今天也太可爱了吧。",
+  "喵呜，给你一颗好运心心。",
+  "摸摸头，烦恼溜走。",
+  "继续加油，我给你打气！",
+  "今天也要吃好睡好呀。"
+];
 
 const E={
   bgCute:document.getElementById("bgCute"),
+  heroSub:document.getElementById("heroSub"),
   profileName:document.getElementById("profileName"),
   profileText:document.getElementById("profileText"),
   fortuneTitle:document.getElementById("fortuneTitle"),
   fortuneText:document.getElementById("fortuneText"),
   makePoem:document.getElementById("makePoem"),
   remakePoem:document.getElementById("remakePoem"),
+  poemStyleText:document.getElementById("poemStyleText"),
   poemStatus:document.getElementById("poemStatus"),
   poemBox:document.getElementById("poemBox"),
   stage:document.getElementById("stage"),
+  catBubble:document.getElementById("catBubble"),
+  catMouth:document.getElementById("catMouth"),
   score:document.getElementById("score"),
   randomOutfit:document.getElementById("randomOutfit"),
   clearOutfit:document.getElementById("clearOutfit"),
@@ -147,7 +201,12 @@ const E={
   sumProfile:document.getElementById("sumProfile"),
   sumFortune:document.getElementById("sumFortune"),
   sumPoem:document.getElementById("sumPoem"),
-  makePoster:document.getElementById("makePoster"),
+  posterBadge:document.getElementById("posterBadge"),
+  blessBox:document.getElementById("blessBox"),
+  previewPoster:document.getElementById("previewPoster"),
+  savePoster:document.getElementById("savePoster"),
+  sharePoster:document.getElementById("sharePoster"),
+  regenPoster:document.getElementById("regenPoster"),
   previewImg:document.getElementById("previewImg"),
   poster:document.getElementById("poster"),
   download:document.getElementById("download"),
@@ -165,11 +224,16 @@ if(!fortuneSaved||fortuneSaved.date!==WarmCat.day()||fortuneSaved.name!==profile
   throw new Error("redirect:layer2");
 }
 const fortune=FORT_MAP[fortuneSaved.id]||FORT_MAP[1];
+const trans=WarmCat.popSessionJSON(WarmCat.SESSION_KEYS.l2ToL3);
 
+const defaultOutfit={head:"none",face:"none",neck:"none",hand:"none",aura:"none"};
 const state={
   poem:"",
-  outfit:WarmCat.readJSON(WarmCat.KEYS.outfit)||{head:"none",face:"none",neck:"none",hand:"none",aura:"none"},
-  score:Number(WarmCat.readJSON(WarmCat.KEYS.score)||0)
+  poemStyle:"治愈",
+  outfit:WarmCat.readJSON(WarmCat.KEYS.outfit)||{...defaultOutfit},
+  score:Number(WarmCat.readJSON(WarmCat.KEYS.score)||0),
+  posterUrl:"",
+  catTap:0
 };
 
 E.profileName.textContent=`${profile.name} 的今日档案`;
@@ -177,33 +241,66 @@ E.profileText.textContent=WarmCat.profileText(profile);
 E.fortuneTitle.textContent=`幸运签：${fortune.title}`;
 E.fortuneText.textContent=fortune.text;
 E.score.textContent=String(state.score);
+E.heroSub.textContent=`第三层：生成名字小诗，给猫咪换装，导出暖色海报。${WarmCat.timeGreeting()}`;
 
 function outfitEmoji(cat,id){
-  const item=OUTFIT[cat].find(x=>x[0]===id);
+  const item=OUTFIT[cat].find((x)=>x[0]===id);
   return item?item[2]:"";
 }
 
-function applyOutfit(){
+function isOutfitEmpty(){
+  return Object.values(state.outfit).every((v)=>v==="none");
+}
+
+function applyOutfit(save=true){
   E.slotHead.textContent=outfitEmoji("head",state.outfit.head);
   E.slotFace.textContent=outfitEmoji("face",state.outfit.face);
   E.slotNeck.textContent=outfitEmoji("neck",state.outfit.neck);
   E.slotHand.textContent=outfitEmoji("hand",state.outfit.hand);
   E.slotAura.textContent=outfitEmoji("aura",state.outfit.aura);
-  document.querySelectorAll(".opt").forEach(btn=>btn.classList.toggle("on",state.outfit[btn.dataset.cat]===btn.dataset.id));
-  WarmCat.writeJSON(WarmCat.KEYS.outfit,state.outfit);
+  document.querySelectorAll(".opt").forEach((btn)=>btn.classList.toggle("on",state.outfit[btn.dataset.cat]===btn.dataset.id));
+  if(save)WarmCat.writeJSON(WarmCat.KEYS.outfit,state.outfit);
+  updateSummary();
+}
+
+function flyToCat(fromNode,icon){
+  if(!icon)return;
+  const start=fromNode.getBoundingClientRect();
+  const end=E.stage.getBoundingClientRect();
+  const f=document.createElement("span");
+  f.className="fly-ornament";
+  f.textContent=icon;
+  f.style.left=`${start.left+start.width/2}px`;
+  f.style.top=`${start.top+start.height/2}px`;
+  f.style.setProperty("--tx",`${end.left+end.width/2-(start.left+start.width/2)}px`);
+  f.style.setProperty("--ty",`${end.top+88-(start.top+start.height/2)}px`);
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),560);
 }
 
 function buildControls(){
   const labels={head:"头饰",face:"表情",neck:"颈饰",hand:"手持",aura:"氛围"};
-  Object.keys(OUTFIT).forEach(cat=>{
-    const g=document.createElement("div");g.className="grp";
-    const h=document.createElement("h3");h.textContent=labels[cat];g.appendChild(h);
-    const w=document.createElement("div");w.className="opts";
+  Object.keys(OUTFIT).forEach((cat)=>{
+    const g=document.createElement("div");
+    g.className="grp";
+    const h=document.createElement("h3");
+    h.textContent=labels[cat];
+    g.appendChild(h);
+    const w=document.createElement("div");
+    w.className="opts";
     OUTFIT[cat].forEach(([id,label,icon])=>{
       const b=document.createElement("button");
-      b.className="opt";b.type="button";b.dataset.cat=cat;b.dataset.id=id;
+      b.className="opt";
+      b.type="button";
+      b.dataset.cat=cat;
+      b.dataset.id=id;
+      b.setAttribute("aria-label",`${labels[cat]} ${label}`);
       b.textContent=`${icon?icon+" ":""}${label}`;
-      b.onclick=()=>{state.outfit[cat]=id;applyOutfit();};
+      b.onclick=()=>{
+        state.outfit[cat]=id;
+        applyOutfit();
+        flyToCat(b,icon);
+      };
       w.appendChild(b);
     });
     g.appendChild(w);
@@ -213,32 +310,62 @@ function buildControls(){
 }
 
 function randomOutfit(){
-  Object.keys(OUTFIT).forEach(cat=>{
+  Object.keys(OUTFIT).forEach((cat)=>{
     const arr=OUTFIT[cat];
     state.outfit[cat]=arr[Math.floor(Math.random()*arr.length)][0];
   });
   applyOutfit();
 }
+
 function clearOutfit(){
-  state.outfit={head:"none",face:"none",neck:"none",hand:"none",aura:"none"};
+  state.outfit={...defaultOutfit};
   applyOutfit();
 }
 
-function makePoemText(salt=0){
+function applyTransitionHint(){
+  if(!trans||!trans.hint||!isOutfitEmpty())return;
+  state.outfit={...state.outfit,...trans.hint};
+  applyOutfit();
+  WarmCat.status(E.poemStatus,`已根据「${trans.title||fortune.title}」自动搭配一套装饰。`);
+}
+
+function poemLineByStyle(style,c1,c2){
+  if(style==="俏皮")return `${c1}字像猫爪轻拍窗台，${c2}字在空气里翻了个可爱跟头，`;
+  if(style==="古风")return `${c1}字入笺，轻叩山海远意；${c2}字落墨，温煮人间清欢，`;
+  return `${c1}字写在风里，像一颗软糖慢慢发光，${c2}字落在心上，`;
+}
+
+function makePoemText(salt=0,style="治愈"){
   const chars=Array.from(profile.name||"");
   const c1=chars[0]||"你";
   const c2=chars[1]||c1||"呀";
-  const mood=MOOD[WarmCat.hash(`${profile.name}-${fortune.title}-${WarmCat.day()}-${salt}`)%MOOD.length];
-  const end=END[WarmCat.hash(`${fortune.title}-${profile.name}-${salt}`)%END.length];
-  return [mood,`${c1}字写在风里，像一颗软糖慢慢发光，`,`${c2}字落在心上，和「${fortune.title}」并肩同行，`,`愿${profile.name}今天被温柔拥抱，${end}`].join("\n");
+  const period=WarmCat.timePeriod();
+  const moodPool=MOOD[period]||MOOD.morning;
+  const mood=moodPool[WarmCat.hash(`${profile.name}-${fortune.title}-${WarmCat.day()}-${salt}`)%moodPool.length];
+  const ending=ENDING[WarmCat.hash(`${fortune.title}-${profile.name}-${salt}`)%ENDING.length];
+  const hobby=profile.hobby?`把「${profile.hobby}」当作今日幸运动作，`:"";
+  const wish=profile.wish?`愿望「${profile.wish}」正在靠近，`:"";
+  const key=fortuneSaved.keyword||fortune.keyword||fortune.title;
+  return [
+    mood,
+    poemLineByStyle(style,c1,c2),
+    `${hobby}${wish}与「${key}」并肩同行。`,
+    `愿${profile.name}今天被温柔拥抱，${ending}`
+  ].join("\n");
 }
 
-function makePoem(salt=0){
-  state.poem=makePoemText(salt);
+function updatePoemStyleText(){
+  E.poemStyleText.textContent=`当前小诗风格：${state.poemStyle}`;
+}
+
+function makePoem(salt=0,style=state.poemStyle){
+  state.poemStyle=style;
+  state.poem=makePoemText(salt,style);
   E.poemBox.textContent=state.poem;
   E.poemBox.classList.remove("hide");
-  WarmCat.writeJSON(WarmCat.KEYS.poem,{date:WarmCat.day(),name:profile.name,poem:state.poem,salt});
-  WarmCat.status(E.poemStatus,"名字小诗已生成。");
+  WarmCat.writeJSON(WarmCat.KEYS.poem,{date:WarmCat.day(),name:profile.name,poem:state.poem,salt,style});
+  updatePoemStyleText();
+  WarmCat.status(E.poemStatus,`名字小诗已生成（${style}）。`);
   updateSummary();
 }
 
@@ -246,13 +373,30 @@ function loadPoem(){
   const p=WarmCat.readJSON(WarmCat.KEYS.poem);
   if(!p||p.date!==WarmCat.day()||p.name!==profile.name)return;
   state.poem=p.poem;
+  state.poemStyle=p.style||"治愈";
   E.poemBox.textContent=p.poem;
   E.poemBox.classList.remove("hide");
-  WarmCat.status(E.poemStatus,"已读取今日小诗。");
+  updatePoemStyleText();
+  WarmCat.status(E.poemStatus,"已读取今日小诗。",false);
+}
+
+function showCatBubble(text){
+  E.catBubble.textContent=text;
+  E.catBubble.classList.add("on");
+  clearTimeout(showCatBubble.timer);
+  showCatBubble.timer=setTimeout(()=>E.catBubble.classList.remove("on"),1200);
 }
 
 function popHeart(ev){
+  state.catTap+=1;
   state.score+=1;
+  if(state.catTap%10===0){
+    state.score+=3;
+    showCatBubble("连点奖励 +3 ❤");
+  }else{
+    showCatBubble(CAT_WORDS[Math.floor(Math.random()*CAT_WORDS.length)]);
+  }
+  E.catMouth.textContent=["ω","ᴗ","◡","w"][Math.floor(Math.random()*4)];
   E.score.textContent=String(state.score);
   WarmCat.writeJSON(WarmCat.KEYS.score,state.score);
   const rect=E.stage.getBoundingClientRect();
@@ -261,49 +405,88 @@ function popHeart(ev){
   const s=document.createElement("span");
   s.className="float";
   s.textContent=["💖","💗","💞","💘"][Math.floor(Math.random()*4)];
-  s.style.left=`${x}px`;s.style.top=`${y}px`;s.style.fontSize=`${18+Math.random()*16}px`;
+  s.style.left=`${x}px`;
+  s.style.top=`${y}px`;
+  s.style.fontSize=`${18+Math.random()*16}px`;
   E.stage.appendChild(s);
   setTimeout(()=>s.remove(),1000);
+  updateSummary();
 }
 
 function updateSummary(){
   E.sumTitle.textContent=`${profile.name} 的今日暖暖海报`;
   E.sumProfile.textContent=WarmCat.profileText(profile);
-  E.sumFortune.textContent=`幸运签：${fortune.title}。${fortune.text}`;
+  E.sumFortune.textContent=`幸运签：${fortune.title}。${fortune.text} ${fortune.item} ${fortune.time}`;
   E.sumPoem.textContent=state.poem?`小诗：${state.poem.replace(/\n/g," ")}`:"请先生成名字小诗。";
+  E.blessBox.textContent=WarmCat.wishBlessing(profile.name,profile.wish);
 }
 
-function rr(ctx,x,y,w,h,r){const k=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+k,y);ctx.lineTo(x+w-k,y);ctx.quadraticCurveTo(x+w,y,x+w,y+k);ctx.lineTo(x+w,y+h-k);ctx.quadraticCurveTo(x+w,y+h,x+w-k,y+h);ctx.lineTo(x+k,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-k);ctx.lineTo(x,y+k);ctx.quadraticCurveTo(x,y,x+k,y);ctx.closePath();}
-function wrap(ctx,t,m){const c=Array.from(t),o=[];let l="";c.forEach(ch=>{const n=l+ch;if(ctx.measureText(n).width>m&&l){o.push(l);l=ch;}else l=n;});if(l)o.push(l);return o;}
+function rr(ctx,x,y,w,h,r){
+  const k=Math.min(r,w/2,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+k,y);
+  ctx.lineTo(x+w-k,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+k);
+  ctx.lineTo(x+w,y+h-k);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-k,y+h);
+  ctx.lineTo(x+k,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-k);
+  ctx.lineTo(x,y+k);
+  ctx.quadraticCurveTo(x,y,x+k,y);
+  ctx.closePath();
+}
 
-function drawPosterBg(ctx,w,h){
-  ctx.fillStyle="#fff8ea";
+function wrap(ctx,text,max){
+  const chars=Array.from(text||"");
+  const out=[];
+  let line="";
+  chars.forEach((ch)=>{
+    const next=line+ch;
+    if(ctx.measureText(next).width>max&&line){
+      out.push(line);
+      line=ch;
+    }else{
+      line=next;
+    }
+  });
+  if(line)out.push(line);
+  return out;
+}
+
+function drawPosterBg(ctx,w,h,seed=0){
+  const grad=ctx.createLinearGradient(0,0,w,h);
+  grad.addColorStop(0,"#fff5e8");
+  grad.addColorStop(.55,"#ffe2c3");
+  grad.addColorStop(1,"#ffd3a6");
+  ctx.fillStyle=grad;
   ctx.fillRect(0,0,w,h);
-  const colors=["rgba(253,226,92,.55)","rgba(252,212,73,.52)","rgba(250,167,124,.35)","rgba(185,209,231,.28)","rgba(224,196,229,.23)","rgba(255,236,132,.47)"];
-  for(let i=0;i<44;i+=1){
-    ctx.strokeStyle=colors[Math.floor(Math.random()*colors.length)];
-    ctx.lineWidth=34+Math.random()*90;
-    ctx.lineCap="round";
-    const x1=-140+Math.random()*(w*0.8);
-    const y1=-60+Math.random()*(h*0.9);
-    const x2=x1+260+Math.random()*520;
-    const y2=y1-180+Math.random()*320;
-    ctx.beginPath();
-    ctx.moveTo(x1,y1);
-    ctx.lineTo(x2,y2);
-    ctx.stroke();
+
+  ctx.fillStyle="rgba(173,116,76,.08)";
+  for(let i=0;i<62;i+=1){
+    const p=WarmCat.hash(`${i}-${seed}-${profile.name}`);
+    const px=(p%997)/997*w;
+    const py=(p%773)/773*h;
+    const s=6+(p%10);
+    ctx.beginPath();ctx.arc(px-s*1.1,py-s*1.2,s*.42,0,Math.PI*2);ctx.arc(px+s*1.1,py-s*1.2,s*.42,0,Math.PI*2);ctx.arc(px,py,s*.58,0,Math.PI*2);ctx.fill();
   }
-  ctx.fillStyle="rgba(192,142,96,.08)";
-  for(let i=0;i<48;i+=1){
-    const px=Math.random()*w,py=Math.random()*h,s=7+Math.random()*8;
-    ctx.beginPath();ctx.arc(px-s*1.2,py-s*1.3,s*.45,0,Math.PI*2);ctx.arc(px+s*1.2,py-s*1.3,s*.45,0,Math.PI*2);ctx.arc(px,py,s*.62,0,Math.PI*2);ctx.fill();
-  }
+
+  const light=ctx.createRadialGradient(w*.22,h*.14,40,w*.22,h*.14,420);
+  light.addColorStop(0,"rgba(255,255,255,.68)");
+  light.addColorStop(1,"rgba(255,255,255,0)");
+  ctx.fillStyle=light;
+  ctx.fillRect(0,0,w,h);
 }
 
 function drawCat(ctx,x,y){
-  ctx.save();ctx.fillStyle="rgba(70,45,20,.16)";ctx.beginPath();ctx.ellipse(x,y+236,132,26,0,0,Math.PI*2);ctx.fill();
-  const headGrad=ctx.createLinearGradient(x-80,y-10,x+80,y+120);headGrad.addColorStop(0,"#ffe9cc");headGrad.addColorStop(.65,"#ffd6a8");headGrad.addColorStop(1,"#ffc28f");
-  const bodyGrad=ctx.createLinearGradient(x-70,y+80,x+70,y+240);bodyGrad.addColorStop(0,"#ffe7c8");bodyGrad.addColorStop(.7,"#ffd4ab");bodyGrad.addColorStop(1,"#ffbf8b");
+  ctx.save();
+  ctx.fillStyle="rgba(70,45,20,.16)";
+  ctx.beginPath();
+  ctx.ellipse(x,y+236,132,26,0,0,Math.PI*2);
+  ctx.fill();
+  const headGrad=ctx.createLinearGradient(x-80,y-10,x+80,y+120);
+  headGrad.addColorStop(0,"#ffe9cc");headGrad.addColorStop(.65,"#ffd6a8");headGrad.addColorStop(1,"#ffc28f");
+  const bodyGrad=ctx.createLinearGradient(x-70,y+80,x+70,y+240);
+  bodyGrad.addColorStop(0,"#ffe7c8");bodyGrad.addColorStop(.7,"#ffd4ab");bodyGrad.addColorStop(1,"#ffbf8b");
   ctx.fillStyle=headGrad;ctx.strokeStyle="#6f4225";ctx.lineWidth=5;
   const ear=(ox,flip)=>{ctx.save();ctx.translate(x+ox,y-44);if(flip)ctx.scale(-1,1);ctx.beginPath();ctx.moveTo(-24,28);ctx.quadraticCurveTo(-22,-26,22,18);ctx.quadraticCurveTo(8,34,-24,28);ctx.fill();ctx.stroke();ctx.fillStyle="#ffcfa8";ctx.beginPath();ctx.moveTo(-9,22);ctx.quadraticCurveTo(-7,-3,11,17);ctx.quadraticCurveTo(4,25,-9,22);ctx.fill();ctx.restore();ctx.fillStyle=headGrad;};
   ear(-60,false);ear(60,true);
@@ -324,46 +507,142 @@ function drawCat(ctx,x,y){
   ctx.restore();
 }
 
-function makePoster(){
-  if(!state.poem){WarmCat.status(E.poemStatus,"请先生成名字小诗。",true);return;}
-  const c=E.poster,ctx=c.getContext("2d");
-  drawPosterBg(ctx,c.width,c.height);
-  rr(ctx,58,54,964,1330,42);ctx.fillStyle="rgba(255,248,239,.9)";ctx.fill();ctx.strokeStyle="rgba(214,132,62,.35)";ctx.lineWidth=3;ctx.stroke();
-  ctx.fillStyle="#af4f24";ctx.font="bold 62px 'KaiTi','Microsoft YaHei',sans-serif";ctx.textAlign="left";ctx.fillText("暖暖猫咪幸运纪念图",110,140);
-  ctx.fillStyle="#945932";ctx.font="30px 'Microsoft YaHei'";ctx.fillText(`日期：${WarmCat.day()}`,110,190);
+function drawTextBlock(ctx,title,content,x,y,w,h,opt={}){
+  rr(ctx,x,y,w,h,24);
+  ctx.fillStyle=opt.bg||"#fff6eb";
+  ctx.fill();
+  ctx.strokeStyle=opt.line||"#efbf90";
+  ctx.lineWidth=2;
+  ctx.stroke();
 
-  rr(ctx,100,224,880,200,26);ctx.fillStyle="#fff4e4";ctx.fill();ctx.strokeStyle="#f0c08f";ctx.stroke();
-  ctx.fillStyle="#934f2a";ctx.font="36px 'Microsoft YaHei'";ctx.fillText(`名字：${profile.name}`,130,282);ctx.fillText(`年龄：${profile.age} 岁`,130,336);
-  const ex=[];if(profile.city)ex.push(`城市 ${profile.city}`);if(profile.hobby)ex.push(`喜欢 ${profile.hobby}`);if(profile.wish)ex.push(`愿望 ${profile.wish}`);
-  if(ex.length){ctx.font="26px 'Microsoft YaHei'";let y=384;wrap(ctx,ex.join(" | "),820).slice(0,2).forEach(line=>{ctx.fillText(line,130,y);y+=34;});}
+  ctx.fillStyle="#a55024";
+  ctx.font="bold 36px 'KaiTi','Microsoft YaHei',sans-serif";
+  ctx.textAlign="left";
+  ctx.fillText(title,x+22,y+52);
 
-  rr(ctx,100,450,540,270,26);ctx.fillStyle="#fff1de";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();
-  ctx.fillStyle="#a64f22";ctx.font="bold 40px 'KaiTi','Microsoft YaHei'";ctx.fillText(`幸运签：${fortune.title}`,126,508);
-  ctx.font="28px 'Microsoft YaHei'";ctx.fillStyle="#844a29";let fy=556;wrap(ctx,fortune.text,490).slice(0,4).forEach(line=>{ctx.fillText(line,126,fy);fy+=38;});
-  ctx.fillStyle="#975733";ctx.font="25px 'Microsoft YaHei'";ctx.fillText(fortune.item,126,676);ctx.fillText(fortune.time,126,710);
-
-  rr(ctx,100,748,880,300,26);ctx.fillStyle="#fff6eb";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();ctx.fillStyle="#a64f22";ctx.font="bold 40px 'KaiTi','Microsoft YaHei'";ctx.fillText("名字小诗",126,810);
-  ctx.fillStyle="#874a2a";ctx.font="30px 'KaiTi','Microsoft YaHei'";let py=862;state.poem.split("\n").forEach(line=>{wrap(ctx,line,828).forEach(v=>{ctx.fillText(v,126,py);py+=44;});});
-
-  rr(ctx,660,450,320,270,26);ctx.fillStyle="#fff2e2";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();drawCat(ctx,816,500);
-  ctx.fillStyle="#9b5f39";ctx.font="24px 'Microsoft YaHei'";ctx.fillText(`爱心小游戏得分：${state.score}`,674,704);
-  ctx.fillStyle="#9f6a48";ctx.fillText("来自暖暖猫咪幸运站",110,1328);
-
-  const url=c.toDataURL("image/png");
-  E.previewImg.src=url;E.previewImg.style.display="block";E.download.href=url;E.download.classList.remove("hide");
+  ctx.fillStyle="#8a4f2d";
+  ctx.font="27px 'Microsoft YaHei',sans-serif";
+  let py=y+94;
+  const lines=Array.isArray(content)?content:[content];
+  lines.forEach((line)=>{
+    wrap(ctx,line,w-44).forEach((t)=>{if(py<y+h-24){ctx.fillText(t,x+22,py);py+=36;}});
+  });
 }
 
-E.makePoem.onclick=()=>makePoem(0);
-E.remakePoem.onclick=()=>makePoem(Math.floor(Math.random()*10000)+1);
+function makePoster(seed=0){
+  if(!state.poem){WarmCat.status(E.poemStatus,"请先生成名字小诗。",true);return false;}
+  const c=E.poster;
+  const ctx=c.getContext("2d");
+  drawPosterBg(ctx,c.width,c.height,seed);
+
+  rr(ctx,52,48,976,1424,44);
+  ctx.fillStyle="rgba(255,249,241,.94)";
+  ctx.fill();
+  ctx.strokeStyle="rgba(214,132,62,.35)";
+  ctx.lineWidth=3;
+  ctx.stroke();
+
+  ctx.textAlign="center";
+  ctx.fillStyle="#ab4f24";
+  ctx.font="bold 64px 'KaiTi','Microsoft YaHei',sans-serif";
+  ctx.fillText("暖暖猫咪幸运纪念图",540,138);
+  ctx.fillStyle="#8f5732";
+  ctx.font="28px 'Microsoft YaHei',sans-serif";
+  ctx.fillText(`${WarmCat.day()} · ${profile.name} 今日专属`,540,182);
+
+  const infoLine=[`名字 ${profile.name}`,`年龄 ${profile.age}`];
+  if(profile.city)infoLine.push(`城市 ${profile.city}`);
+  if(profile.hobby)infoLine.push(`喜欢 ${profile.hobby}`);
+  if(profile.wish)infoLine.push(`愿望 ${profile.wish}`);
+  drawTextBlock(ctx,"用户信息",infoLine.join("  |  "),88,224,904,152,{bg:"#fff4e5"});
+
+  drawTextBlock(ctx,"幸运签",[`主签：${fortune.title}`,fortune.text,fortune.item,fortune.time],88,402,430,392,{bg:"#fff1de"});
+
+  drawTextBlock(ctx,"名字小诗",state.poem.split("\n"),536,402,456,610,{bg:"#fff6ed"});
+
+  rr(ctx,88,816,430,412,24);
+  ctx.fillStyle="#fff2e2";
+  ctx.fill();
+  ctx.strokeStyle="#efbf90";
+  ctx.lineWidth=2;
+  ctx.stroke();
+  ctx.fillStyle="#a55024";
+  ctx.font="bold 36px 'KaiTi','Microsoft YaHei',sans-serif";
+  ctx.textAlign="left";
+  ctx.fillText("猫咪装扮",110,868);
+  drawCat(ctx,300,930);
+  ctx.fillStyle="#955d39";
+  ctx.font="24px 'Microsoft YaHei',sans-serif";
+  ctx.fillText(`爱心分：${state.score}`,110,1200);
+
+  drawTextBlock(ctx,"专属祝福",WarmCat.wishBlessing(profile.name,profile.wish),536,1032,456,196,{bg:"#fff4e9"});
+
+  ctx.fillStyle="#9a6848";
+  ctx.font="22px 'Microsoft YaHei',sans-serif";
+  ctx.textAlign="left";
+  ctx.fillText(`生成时间：${new Date().toLocaleString()}`,88,1368);
+  ctx.fillText("来自暖暖猫咪幸运站",88,1410);
+
+  const url=c.toDataURL("image/png");
+  state.posterUrl=url;
+  E.previewImg.src=url;
+  E.previewImg.style.display="block";
+  E.download.href=url;
+  E.download.classList.remove("hide");
+  E.posterBadge.textContent=`生成时间：${new Date().toLocaleString()}`;
+  return true;
+}
+
+function previewPoster(){
+  makePoster(0);
+}
+
+function savePoster(){
+  if(!state.posterUrl&&!makePoster(0))return;
+  E.download.click();
+}
+
+function sharePoster(){
+  const text=[
+    `${profile.name} 的暖暖猫咪纪念图`,
+    `幸运签：${fortune.title}`,
+    `小诗：${state.poem?state.poem.replace(/\n/g," "):"（未生成）"}`,
+    WarmCat.wishBlessing(profile.name,profile.wish)
+  ].join("\n");
+  if(navigator.share){
+    navigator.share({title:"暖暖猫咪幸运纪念图",text}).catch(()=>{});
+    return;
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>WarmCat.status(E.poemStatus,"文案已复制，可粘贴分享。"));
+    return;
+  }
+  WarmCat.status(E.poemStatus,"当前浏览器不支持分享。",true);
+}
+
+function regenPoster(){
+  makePoster(Math.floor(Math.random()*100000));
+}
+
+E.makePoem.onclick=()=>makePoem(0,state.poemStyle);
+E.remakePoem.onclick=()=>{
+  const idx=(POEM_STYLES.indexOf(state.poemStyle)+1)%POEM_STYLES.length;
+  makePoem(Math.floor(Math.random()*10000)+1,POEM_STYLES[idx]);
+};
 E.randomOutfit.onclick=randomOutfit;
 E.clearOutfit.onclick=clearOutfit;
 E.stage.addEventListener("click",popHeart);
-E.makePoster.onclick=makePoster;
+E.previewPoster.onclick=previewPoster;
+E.savePoster.onclick=savePoster;
+E.sharePoster.onclick=sharePoster;
+E.regenPoster.onclick=regenPoster;
 
 WarmCat.initCuteBg(E.bgCute);
 WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.poemStatus);
 buildControls();
+applyTransitionHint();
 loadPoem();
+updatePoemStyleText();
 updateSummary();
 </script>
 </body>

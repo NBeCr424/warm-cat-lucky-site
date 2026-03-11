@@ -1249,6 +1249,22 @@ function wrap(ctx,text,max){
   return out;
 }
 
+function fitLine(ctx,text,max){
+  const raw=String(text||"");
+  if(!raw)return "";
+  if(ctx.measureText(raw).width<=max)return raw;
+  const chars=Array.from(raw);
+  let line="";
+  for(let i=0;i<chars.length;i+=1){
+    const next=line+chars[i];
+    if(ctx.measureText(`${next}…`).width>max){
+      return `${line||chars[i]}…`;
+    }
+    line=next;
+  }
+  return line;
+}
+
 function setPosterMode(mode,rerender=false){
   state.posterMode=mode==="landscape"?"landscape":"portrait";
   E.modePortrait.classList.toggle("on",state.posterMode==="portrait");
@@ -1305,6 +1321,32 @@ function drawCard(ctx,x,y,w,h,alpha=.9){
   ctx.strokeStyle="rgba(217,197,176,.88)";
   ctx.lineWidth=2;
   ctx.stroke();
+}
+
+function drawCuteStickers(ctx,w,h,pad){
+  const side=Math.min(w,h);
+  const size=Math.max(28,Math.floor(side*0.016));
+  const stickers=[
+    {icon:"🐾",x:pad*0.45,y:pad*0.58,r:-0.22,a:.45},
+    {icon:"💗",x:w-pad*0.42,y:pad*0.64,r:0.18,a:.46},
+    {icon:"✨",x:w-pad*0.42,y:h-pad*0.66,r:0.16,a:.44},
+    {icon:"🧶",x:pad*0.42,y:h-pad*0.66,r:-0.16,a:.44},
+    {icon:"🐟",x:w*0.5,y:pad*0.54,r:0.1,a:.34},
+    {icon:"🌸",x:w*0.5,y:h-pad*0.58,r:-0.1,a:.34}
+  ];
+  ctx.save();
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.font=`${size}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`;
+  stickers.forEach((item)=>{
+    ctx.save();
+    ctx.globalAlpha=item.a;
+    ctx.translate(item.x,item.y);
+    ctx.rotate(item.r);
+    ctx.fillText(item.icon,0,0);
+    ctx.restore();
+  });
+  ctx.restore();
 }
 
 function drawPlushCat(ctx,cx,cy,scale=1){
@@ -1447,25 +1489,45 @@ function drawPlushCat(ctx,cx,cy,scale=1){
 
 function drawTextBlock(ctx,title,content,x,y,w,h,opt={}){
   drawCard(ctx,x,y,w,h,opt.alpha||.9);
+  const innerPad=28;
+  const maxW=w-innerPad*2;
+  const titleTop=opt.titleTop||32;
+  const textTop=opt.textTop||96;
+  const textBottom=opt.textBottom||28;
+  const lineStep=opt.lineStep||48;
+
+  ctx.save();
+  ctx.beginPath();
+  rr(ctx,x+10,y+10,w-20,h-20,18);
+  ctx.clip();
+
+  ctx.textAlign="left";
+  ctx.textBaseline="top";
   ctx.fillStyle=opt.titleColor||"#A35A30";
   ctx.font=`700 ${opt.titleSize||46}px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif`;
-  ctx.textAlign="left";
-  ctx.fillText(title,x+28,y+(opt.titleTop||68));
+  ctx.fillText(fitLine(ctx,title,maxW),x+innerPad,y+titleTop);
 
   ctx.fillStyle=opt.textColor||"#8B5F3F";
   ctx.font=`${opt.textSize||34}px 'Microsoft YaHei','PingFang SC',sans-serif`;
-  const lines=Array.isArray(content)?content:[content];
-  let py=y+(opt.textTop||116);
-  const maxW=w-56;
-  const lineStep=opt.lineStep||48;
-  lines.forEach((line)=>{
-    wrap(ctx,line,maxW).forEach((t)=>{
-      if(py<=y+h-30){
-        ctx.fillText(t,x+28,py);
-        py+=lineStep;
-      }
-    });
+  const sourceLines=Array.isArray(content)?content:[content];
+  const allLines=[];
+  sourceLines.forEach((line)=>{
+    const rows=wrap(ctx,line,maxW);
+    rows.forEach((row)=>allLines.push(row));
   });
+
+  const maxLines=Math.max(1,Math.floor((h-textTop-textBottom)/lineStep));
+  const drawLines=allLines.slice(0,maxLines);
+  if(allLines.length>maxLines&&drawLines.length){
+    drawLines[drawLines.length-1]=fitLine(ctx,drawLines[drawLines.length-1],maxW-12);
+    if(!drawLines[drawLines.length-1].endsWith("…")){
+      drawLines[drawLines.length-1]=`${drawLines[drawLines.length-1]}…`;
+    }
+  }
+  drawLines.forEach((line,idx)=>{
+    ctx.fillText(line,x+innerPad,y+textTop+idx*lineStep);
+  });
+  ctx.restore();
 }
 
 function drawInfoPills(ctx,x,y,w,h){
@@ -1478,15 +1540,21 @@ function drawInfoPills(ctx,x,y,w,h){
     profile.wish?`愿望 ${profile.wish}`:""
   ].filter(Boolean);
   const cols=state.posterMode==="portrait"?2:3;
+  const rows=Math.max(1,Math.ceil(labels.length/cols));
   const gap=16;
-  const itemW=(w-40-gap*(cols-1))/cols;
-  const itemH=52;
+  const rowGap=10;
+  const padX=20;
+  const padY=14;
+  const itemW=(w-padX*2-gap*(cols-1))/cols;
+  const itemH=Math.max(44,Math.floor((h-padY*2-rowGap*(rows-1))/rows));
+  ctx.textAlign="left";
+  ctx.textBaseline="top";
   ctx.font="28px 'Microsoft YaHei',sans-serif";
   let row=0;
   let col=0;
   labels.forEach((label)=>{
-    const px=x+20+col*(itemW+gap);
-    const py=y+22+row*(itemH+14);
+    const px=x+padX+col*(itemW+gap);
+    const py=y+padY+row*(itemH+rowGap);
     rr(ctx,px,py,itemW,itemH,26);
     ctx.fillStyle="rgba(255,244,232,.95)";
     ctx.fill();
@@ -1494,7 +1562,8 @@ function drawInfoPills(ctx,x,y,w,h){
     ctx.lineWidth=1.8;
     ctx.stroke();
     ctx.fillStyle="#8E5A37";
-    ctx.fillText(label,px+18,py+34);
+    const textY=py+Math.max(8,Math.floor((itemH-28)/2));
+    ctx.fillText(fitLine(ctx,label,itemW-34),px+16,textY);
     col+=1;
     if(col>=cols){
       col=0;
@@ -1506,6 +1575,7 @@ function drawInfoPills(ctx,x,y,w,h){
 function drawFooter(ctx,w,h,pad){
   ctx.fillStyle="#9A6848";
   ctx.textAlign="center";
+  ctx.textBaseline="alphabetic";
   ctx.font="700 42px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif";
   ctx.fillText("午后好，慢慢来也能走很远",w/2,h-pad-110);
   ctx.font="28px 'Microsoft YaHei',sans-serif";
@@ -1579,6 +1649,7 @@ async function makePoster(seed=0){
   const pad=mode==="portrait"?120:94;
 
   drawPosterBg(ctx,w,h,seed);
+  drawCuteStickers(ctx,w,h,pad);
   rr(ctx,pad,pad,w-pad*2,h-pad*2,56);
   ctx.fillStyle="rgba(255,251,245,.76)";
   ctx.fill();
@@ -1594,12 +1665,13 @@ async function makePoster(seed=0){
 
     drawCard(ctx,x,y,cardW,280,.92);
     ctx.textAlign="center";
+    ctx.textBaseline="alphabetic";
     ctx.fillStyle="#A8532B";
     ctx.font="700 84px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif";
     ctx.fillText("暖暖猫咪幸运站",w/2,y+112);
     ctx.fillStyle="#8F5B39";
     ctx.font="700 42px 'Microsoft YaHei',sans-serif";
-    ctx.fillText(`${profile.name} 的今日专属好运`,w/2,y+184);
+    ctx.fillText(fitLine(ctx,`${profile.name} 的今日专属好运`,cardW-80),w/2,y+184);
     ctx.font="30px 'Microsoft YaHei',sans-serif";
     ctx.fillText(`${WarmCat.day()} · 第三层纪念海报`,w/2,y+232);
 
@@ -1641,17 +1713,21 @@ async function makePoster(seed=0){
 
     drawCard(ctx,x,y,innerW-48,236,.92);
     ctx.textAlign="center";
+    ctx.textBaseline="alphabetic";
     ctx.fillStyle="#A8532B";
     ctx.font="700 78px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif";
     ctx.fillText("暖暖猫咪幸运站",w/2,y+94);
     ctx.fillStyle="#8F5B39";
     ctx.font="700 40px 'Microsoft YaHei',sans-serif";
-    ctx.fillText(`${profile.name} 的今日专属好运`,w/2,y+158);
+    ctx.fillText(fitLine(ctx,`${profile.name} 的今日专属好运`,innerW-120),w/2,y+158);
     ctx.font="28px 'Microsoft YaHei',sans-serif";
     ctx.fillText(`${WarmCat.day()} · 第三层纪念海报`,w/2,y+204);
 
     y+=262;
-    const bodyH=innerH-262-224;
+    const infoH=150;
+    const footerReserve=220;
+    const infoY=h-pad-footerReserve-infoH;
+    const bodyH=Math.max(760,infoY-y-24);
     const leftW=Math.floor((innerW-72)*.44);
     const rightW=innerW-72-leftW;
     drawCard(ctx,x,y,leftW,bodyH,.93);
@@ -1666,7 +1742,7 @@ async function makePoster(seed=0){
     ],rx,y,rightW,Math.floor(bodyH*.48),{titleSize:46,textSize:31,lineStep:44});
     drawTextBlock(ctx,"名字小诗",state.poem.split("\n"),rx,y+Math.floor(bodyH*.48)+20,rightW,bodyH-Math.floor(bodyH*.48)-20,{titleSize:46,textSize:32,lineStep:46});
 
-    drawInfoPills(ctx,x, h-pad-190, innerW-48,136);
+    drawInfoPills(ctx,x,infoY,innerW-48,infoH);
   }
 
   drawFooter(ctx,w,h,pad);

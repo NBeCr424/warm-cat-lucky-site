@@ -502,6 +502,7 @@
         <button id="savePoster" class="sec" type="button" aria-label="保存为图片">保存为图片</button>
         <button id="sharePoster" class="sec" type="button" aria-label="复制海报文案">复制文案</button>
         <button id="regenPoster" class="next" type="button" aria-label="重新生成海报">重新生成</button>
+        <button id="goEnding" class="next" type="button" aria-label="完成旅程进入结束页">完成旅程</button>
       </div>
       <a id="download" class="btn sec hide" download="warm-cat-poster.png" aria-label="下载海报">下载图片</a>
       <img id="previewImg" alt="海报预览" />
@@ -608,6 +609,7 @@ const E={
   savePoster:document.getElementById("savePoster"),
   sharePoster:document.getElementById("sharePoster"),
   regenPoster:document.getElementById("regenPoster"),
+  goEnding:document.getElementById("goEnding"),
   posterPanel:document.getElementById("posterPanel"),
   posterLayoutNote:document.getElementById("posterLayoutNote"),
   modePortrait:document.getElementById("modePortrait"),
@@ -1610,6 +1612,7 @@ E.previewPoster.addEventListener("click",()=>{void previewPoster();});
 E.savePoster.addEventListener("click",()=>{void savePoster();});
 E.sharePoster.addEventListener("click",()=>{void sharePosterText();});
 E.regenPoster.addEventListener("click",()=>{void regenPoster();});
+E.goEnding.addEventListener("click",()=>{location.href="ending.html";});
 
 E.modePortrait.addEventListener("click",()=>setPosterMode("portrait",true));
 E.modeLandscape.addEventListener("click",()=>setPosterMode("landscape",true));

@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>暖暖猫咪幸运站 - 三层旅程结束页</title>
+<style>
+:root{--bg1:#FAF7F2;--bg2:#F9EED8;--a:#F4A868;--b:#F2995E;--p:#FFD6E0;--c:#D9C5B0;--t:#8B7355;--s:#A6937C;--w:#FFFBF5;--e:.2s ease-in-out}
+*{box-sizing:border-box}html,body{margin:0;min-width:320px;color:var(--t);font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+body{background:radial-gradient(circle at 10px 8px,rgba(139,115,85,.08) 0 3px,transparent 3px),radial-gradient(circle at 18px 8px,rgba(139,115,85,.08) 0 3px,transparent 3px),radial-gradient(circle at 14px 14px,rgba(139,115,85,.08) 0 4px,transparent 4px),radial-gradient(circle at 72px 58px,rgba(244,168,104,.08) 0 8px,transparent 8px),radial-gradient(circle at 80px 66px,rgba(244,168,104,.08) 0 5px,transparent 5px),radial-gradient(circle at 66px 66px,rgba(255,214,224,.08) 0 5px,transparent 5px),linear-gradient(180deg,var(--bg1),var(--bg2));background-size:118px 118px,118px 118px,118px 118px,150px 150px,150px 150px,150px 150px,auto;overflow-x:hidden}
+body.star{background:radial-gradient(circle at 20% 18%,rgba(255,255,255,.45) 0 1px,transparent 1px),radial-gradient(circle at 68% 26%,rgba(255,255,255,.4) 0 1px,transparent 1px),radial-gradient(circle at 34% 74%,rgba(255,255,255,.35) 0 1px,transparent 1px),linear-gradient(180deg,#f8efe0,#f4e4ca)}
+.page{max-width:1200px;margin:0 auto;min-height:100vh;padding:20px;display:flex;flex-direction:column;gap:16px;animation:in .5s ease-in-out both;transition:transform var(--e),opacity var(--e)}
+body.out .page{opacity:0;transform:translateX(-40px)}
+.panel{border-radius:16px;border:1px solid rgba(217,197,176,.92);background:var(--w);box-shadow:inset 0 2px 4px rgba(217,197,176,.3),0 4px 8px rgba(240,240,240,.5)}
+.top{padding:20px 16px;text-align:center}.top h1{margin:0;font-family:"YouYuan","STKaiti","KaiTi",cursive;font-size:32px;text-shadow:1px 1px 0 var(--c)}.sub{margin:8px auto;max-width:900px;color:var(--s);font-size:18px;line-height:1.6}.line{margin:0 auto;color:var(--s);font-size:14px;line-height:1.6}.line b{color:var(--a)}
+.core{min-height:65vh;padding:18px;display:flex;justify-content:center;align-items:center;gap:30px}
+.poster{width:300px;height:400px;border-radius:16px;border:1px solid var(--p);background:#fffdf9;padding:10px;position:relative;overflow:hidden;transition:transform var(--e),box-shadow var(--e)}
+.poster:hover{transform:translateY(-5px) scale(1.03);box-shadow:0 0 10px var(--p),0 10px 18px rgba(139,115,85,.15)}
+.poster.pop{animation:pop .5s ease}.corner{position:absolute;width:18px;height:18px;border-radius:50%;background:rgba(255,214,224,.72);display:grid;place-items:center;font-size:10px;color:#a86f52}.c1{left:6px;top:6px}.c2{right:6px;top:6px}.c3{left:6px;bottom:6px}.c4{right:6px;bottom:6px}
+.poster-in{height:100%;border-radius:12px;border:1px dashed rgba(217,197,176,.9);background:linear-gradient(180deg,#fff9f2,#f9eddc);padding:12px;display:flex;flex-direction:column;gap:8px}
+.badge{display:inline-flex;align-self:flex-start;border-radius:999px;border:1px solid rgba(244,168,104,.45);background:rgba(244,168,104,.13);color:#9d6543;font-size:12px;font-weight:700;padding:3px 8px}
+.h2{margin:0;font-size:16px;line-height:1.45}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{border-radius:999px;padding:3px 8px;border:1px solid rgba(217,197,176,.9);background:rgba(255,251,245,.9);font-size:12px;color:#9a7253}
+.box{border-radius:10px;border:1px solid rgba(217,197,176,.82);background:rgba(255,251,245,.82);padding:8px;font-size:13px;color:#8d6a4f;line-height:1.5}.poem{border-color:rgba(255,214,224,.85);background:rgba(255,245,249,.78);line-height:1.6;flex:1;white-space:pre-wrap;overflow:hidden}
+.foot{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:12px;color:#9a7458}.mini{width:30px;height:30px;border-radius:50%;box-shadow:inset -4px -4px 7px rgba(0,0,0,.08),inset 4px 4px 7px rgba(255,255,255,.7)}
+.tone-yellow{background:radial-gradient(circle at 35% 30%,#F9D59B 0 52%,#F7C878 100%)}.tone-white{background:radial-gradient(circle at 35% 30%,#F8F8F8 0 55%,#EFEFEF 100%)}.tone-gray{background:radial-gradient(circle at 35% 30%,#D0D0D0 0 55%,#B8B8B8 100%)}
+.catwrap{width:280px;min-height:420px;border-radius:16px;border:1px solid rgba(255,214,224,.9);background:rgba(255,251,245,.85);padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative}
+.cat{width:120px;height:120px;border:0;background:transparent;position:relative;cursor:pointer;touch-action:manipulation;transition:transform var(--e)}.cat:hover{transform:scale(1.04)}
+.catb{position:absolute;inset:8px;border-radius:50% 50% 46% 46%;box-shadow:inset -8px -8px 14px rgba(0,0,0,.08),inset 8px 8px 14px rgba(255,255,255,.72),0 6px 12px rgba(120,95,70,.18);transform:rotate(-4deg);animation:breath 3s ease-in-out infinite}
+body.pause .catb{animation-duration:4.8s}.ear{position:absolute;top:-4px;width:24px;height:20px;border-radius:65% 65% 42% 42%;border:1px solid rgba(139,115,85,.24);background:rgba(255,255,255,.62)}.l{left:14px;transform:rotate(-16deg)}.r{right:14px;transform:rotate(16deg)}
+.eye{position:absolute;top:42px;width:8px;height:10px;border-radius:50%;background:#5d4938}.el{left:36px}.er{right:36px}.mouth{position:absolute;left:50%;top:60px;transform:translateX(-50%);width:16px;height:9px;border-bottom:2px solid #7a5942;border-radius:0 0 12px 12px}.cheek{position:absolute;top:55px;width:11px;height:8px;border-radius:50%;background:rgba(255,214,224,.85)}.cl{left:26px}.cr{right:26px}.ticket{position:absolute;left:50%;top:69px;transform:translateX(-50%) rotate(-6deg);border-radius:5px;border:1px solid rgba(217,197,176,.95);background:#fff4e6;color:#a36a49;font-size:10px;padding:2px 5px}
+.cat.tap .catb{animation:tap .42s ease-in-out}.cat.long .catb{animation:gift .75s ease-in-out}.speech{min-height:28px;max-width:220px;text-align:center;color:var(--s);line-height:1.6;font-size:13px}.tray{position:absolute;bottom:16px;display:flex;gap:8px;opacity:0;transition:opacity var(--e)}.tray.show{opacity:1}.gifti{width:28px;height:28px;border-radius:50%;border:1px solid rgba(217,197,176,.95);background:rgba(255,251,245,.94);display:grid;place-items:center;animation:gpop .4s ease-in-out}
+.ops{padding:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.btns{display:flex;gap:12px;flex-wrap:wrap}
+button{font-weight:700;cursor:pointer;transition:transform var(--e),background var(--e),box-shadow var(--e),border-color var(--e)}.pri{height:50px;border:0;border-radius:16px;padding:0 30px;color:#fff;background:linear-gradient(180deg,var(--a),var(--b));box-shadow:inset 0 0 0 1px rgba(255,251,245,.88),0 8px 16px rgba(242,153,94,.3)}.sec{height:50px;border:1px solid var(--c);border-radius:16px;padding:0 24px;color:var(--t);background:transparent}.sec:hover{background:#f9eed8}.pri:hover,.sec:hover{transform:scale(1.02)}.pri:active,.sec:active{transform:scale(.98)}
+.music{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.music button{height:36px;border-radius:999px;padding:0 16px;border:1px solid var(--c);background:#fff8ef}.music input[type=range]{width:200px;accent-color:#f4a868}.music small{color:var(--s)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);border-radius:999px;background:rgba(255,251,245,.96);border:1px solid rgba(217,197,176,.95);color:#8b6c53;padding:10px 16px;box-shadow:0 8px 18px rgba(139,115,85,.22);opacity:0;pointer-events:none;z-index:120;transition:opacity var(--e),transform var(--e)}.toast.show{opacity:1;transform:translate(-50%,0)}
+.mask{position:fixed;inset:0;background:rgba(139,115,85,.26);display:none;align-items:center;justify-content:center;z-index:130}.mask.show{display:flex}.share{width:min(420px,92vw);border-radius:16px;border:1px solid rgba(217,197,176,.9);background:#fffbf5;padding:16px;box-shadow:0 10px 28px rgba(139,115,85,.24)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 6px}.item{height:78px;border-radius:12px;border:1px solid var(--c);background:#fff8ef;color:var(--t);font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}.item:hover{background:#f9eed8;transform:translateY(-2px)}.ft{margin-top:12px;display:flex;justify-content:flex-end;gap:8px}
+.fx{position:fixed;font-size:18px;pointer-events:none;z-index:125;animation:fx .95s ease-out forwards}
+@keyframes in{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}@keyframes breath{0%,100%{transform:rotate(-4deg) scale(.98)}50%{transform:rotate(-4deg) scale(1.02)}}@keyframes tap{0%{transform:rotate(-4deg) scale(.96)}35%{transform:rotate(6deg) scale(1.06)}100%{transform:rotate(-4deg) scale(1)}}@keyframes gift{0%{transform:rotate(-4deg) scale(.98)}40%{transform:rotate(4deg) scale(1.04)}100%{transform:rotate(-4deg) scale(1)}}@keyframes gpop{from{transform:translateY(10px) scale(.8);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}@keyframes fx{from{opacity:.95;transform:translate3d(0,0,0) scale(1)}to{opacity:0;transform:translate3d(var(--dx),var(--dy),0) rotate(var(--dr)) scale(.8)}}
+@media (max-width:767px){.top h1{font-size:28px}.sub{font-size:16px}.core{flex-direction:column;gap:20px}.poster{width:280px;height:380px}.catwrap{width:100%;max-width:320px;min-height:280px}.cat{width:100px;height:100px}.ops{flex-direction:column;align-items:stretch}.btns{width:100%;display:flex;flex-direction:column}.pri,.sec{width:100%;height:54px;font-size:16px}.music{justify-content:center}.music input[type=range]{width:150px}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="panel top">
+    <h1>🐾 三层旅程圆满啦～</h1>
+    <p class="sub">谢谢你走完这趟治愈小旅程，愿好运和温柔一直围着你～✨</p>
+    <p class="line">💌 你完成了：<b>信息填写</b> → <b>幸运签抽取</b> → <b>专属小诗+猫咪换装+纪念海报</b></p>
+    <div class="line" style="font-size:12px">悄悄说：长按猫咪有惊喜哦～</div>
+  </section>
+
+  <section class="panel core">
+    <div>
+      <article class="poster" id="posterBox" aria-label="第三层专属纪念海报预览">
+        <span class="corner c1">🐾</span><span class="corner c2">💗</span><span class="corner c3">🐾</span><span class="corner c4">💗</span>
+        <div class="poster-in">
+          <span class="badge">🖼️ 你的第三层专属纪念海报</span>
+          <h2 class="h2" id="posterTitle">暖暖猫咪幸运站 · 今日专属好运</h2>
+          <div class="chips" id="metaList"></div>
+          <div class="box" id="fortuneText">幸运签内容将在这里展示。</div>
+          <div class="box poem" id="poemText">名字小诗将在这里展示。</div>
+          <div class="foot"><span class="mini tone-yellow" id="miniCat"></span><span id="posterFoot">午后好，慢慢来也能走很远</span></div>
+        </div>
+      </article>
+      <p class="line" id="posterTip" style="font-size:12px;margin-top:8px">用户专属治愈纪念海报，默认 9:16 竖版，可切换 16:9 横版导出。</p>
+    </div>
+    <aside class="catwrap">
+      <button class="cat" id="catModel" type="button" aria-label="点击猫咪互动">
+        <span class="catb tone-yellow" id="catBody"><span class="ear l"></span><span class="ear r"></span><span class="eye el"></span><span class="eye er"></span><span class="cheek cl"></span><span class="cheek cr"></span><span class="mouth"></span><span class="ticket">好运签</span></span>
+      </button>
+      <p class="speech" id="catSpeech">轻触我，我会给你一个收尾抱抱～</p>
+      <div class="tray" id="giftTray"><span class="gifti">⭐</span><span class="gifti">🐟</span><span class="gifti">🧧</span></div>
+    </aside>
+  </section>
+
+  <section class="panel ops">
+    <div class="btns">
+      <button class="pri" id="savePoster" type="button" aria-label="保存第三层纪念海报">💾 保存第三层纪念海报</button>
+      <button class="sec" id="restartJourney" type="button" aria-label="重新开启三层旅程">🔄 重新开启三层旅程</button>
+      <button class="sec" id="openShare" type="button" aria-label="分享这份治愈美好">📤 分享这份治愈美好</button>
+      <button class="sec" id="modeToggle" type="button" aria-label="切换海报导出比例">🖼️ 当前导出比例：9:16</button>
+    </div>
+    <div class="music">
+      <button id="musicToggle" type="button" aria-pressed="false">🎵 播放舒缓音乐</button>
+      <input id="musicVolume" type="range" min="0" max="100" value="40" aria-label="背景音乐音量" />
+      <small id="musicInfo">音量 40%</small>
+    </div>
+  </section>
+</main>
+
+<audio id="bgMusic" preload="auto" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+</audio>
+<canvas id="exportCanvas" width="2160" height="3840" hidden></canvas>
+<div class="mask" id="shareMask" aria-hidden="true"><div class="share" role="dialog" aria-modal="true" aria-label="分享面板"><h3 style="margin:0">分享这份治愈美好</h3><p class="line" style="margin:8px 0">把今天的温柔继续传递给更多人吧～</p><div class="grid"><button class="item" data-share="moments" type="button">🌼<span>朋友圈</span></button><button class="item" data-share="friend" type="button">💌<span>好友</span></button><button class="item" data-share="save" type="button">🖼️<span>保存图片</span></button></div><div class="ft"><button class="sec" id="copyText" type="button">复制文案</button><button class="sec" id="closeShare" type="button">关闭</button></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+(()=>{
+const K={profile:"warm_cat_profile_v1",fortune:"warm_cat_fortune_v1",poem:"warm_cat_poem_v1",outfit:"warm_cat_outfit_v1",score:"warm_cat_score_v1",history:"warm_cat_fortune_history_v1",music:"warm_cat_music_v1",daily:"warm_cat_daily_v1",pref:"warm_cat_preference_v1",greet:"warm_cat_greeting_v1"};
+const E={posterBox:document.getElementById("posterBox"),posterTitle:document.getElementById("posterTitle"),metaList:document.getElementById("metaList"),fortuneText:document.getElementById("fortuneText"),poemText:document.getElementById("poemText"),miniCat:document.getElementById("miniCat"),posterFoot:document.getElementById("posterFoot"),posterTip:document.getElementById("posterTip"),catModel:document.getElementById("catModel"),catBody:document.getElementById("catBody"),catSpeech:document.getElementById("catSpeech"),giftTray:document.getElementById("giftTray"),savePoster:document.getElementById("savePoster"),restartJourney:document.getElementById("restartJourney"),openShare:document.getElementById("openShare"),modeToggle:document.getElementById("modeToggle"),musicToggle:document.getElementById("musicToggle"),musicVolume:document.getElementById("musicVolume"),musicInfo:document.getElementById("musicInfo"),bgMusic:document.getElementById("bgMusic"),shareMask:document.getElementById("shareMask"),closeShare:document.getElementById("closeShare"),copyText:document.getElementById("copyText"),toast:document.getElementById("toast"),canvas:document.getElementById("exportCanvas")};
+const S={profile:null,fortune:null,poem:"",score:0,tone:"yellow",mode:"portrait",url:"",press:null,longed:false,audio:null,toast:null};
+const j=(k)=>{try{return JSON.parse(localStorage.getItem(k)||"null")}catch{return null}};const w=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const day=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const tone=(t)=>t==="gray"?"tone-gray":t==="white"?"tone-white":"tone-yellow";
+const tByF=(x)=>x==="energetic"?"yellow":x==="zen"?"gray":"white";
+function tip(msg){E.toast.textContent=msg;E.toast.classList.add("show");clearTimeout(S.toast);S.toast=setTimeout(()=>E.toast.classList.remove("show"),1800)}
+function redirect(url,msg){tip(msg);setTimeout(()=>location.href=url,900)}
+function initData(){const p=j(K.profile);if(!p||!p.name||!p.age){redirect("layer1.html","🐾 请先完成第一层信息填写哦～");return false;}const f=j(K.fortune);if(!f||f.date!==day()||f.name!==p.name){redirect("layer2.html","🐱 先去第二层抽今天的幸运签吧～");return false;}const poem=j(K.poem)||{};S.profile=p;S.fortune=f;S.poem=poem.poem||`${p.name}轻轻笑，\n今日小愿望慢慢到。`;S.score=Number(j(K.score)||0)||0;S.tone=tByF(f.typeKey||"healing");return true;}
+function meta(){const a=[`名字 ${S.profile.name}`,`年龄 ${S.profile.age}`];if(S.profile.city)a.push(`城市 ${S.profile.city}`);if(S.profile.hobby)a.push(`喜欢 ${S.profile.hobby}`);if(S.profile.wish)a.push(`愿望 ${S.profile.wish}`);a.push(`爱心分 ${S.score}`);E.metaList.innerHTML="";a.slice(0,6).forEach(t=>{const s=document.createElement("span");s.className="chip";s.textContent=t;E.metaList.appendChild(s)});}
+function apply(){E.posterTitle.textContent=`暖暖猫咪幸运站 · ${S.profile.name} 的今日专属好运`;E.fortuneText.textContent=`${S.fortune.title||"幸运签"}：${S.fortune.reading||"今天也会顺顺利利"} ｜ 建议：${S.fortune.advice||"慢慢来也会很棒"}`;E.poemText.textContent=S.poem;E.posterFoot.textContent=`午后好，慢慢来也能走很远 · ${day()}`;E.catSpeech.textContent=`${S.profile.name}，轻触我收下收尾抱抱吧～`;E.miniCat.className=`mini ${tone(S.tone)}`;E.catBody.className=`catb ${tone(S.tone)}`;meta();}
+function fx(x,y,n,pool){for(let i=0;i<n;i+=1){const e=document.createElement("span");e.className="fx";e.textContent=pool[Math.floor(Math.random()*pool.length)];e.style.left=`${x+(Math.random()*46-23)}px`;e.style.top=`${y+(Math.random()*18-9)}px`;e.style.setProperty("--dx",`${Math.random()*90-45}px`);e.style.setProperty("--dy",`${-56-Math.random()*90}px`);e.style.setProperty("--dr",`${Math.random()*120-60}deg`);document.body.appendChild(e);setTimeout(()=>e.remove(),980);}}
+function ctx(){if(!S.audio){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;S.audio=new A();}if(S.audio.state==="suspended")S.audio.resume();return S.audio;}
+function meow(long=false){const c=ctx();if(!c)return;const v=Math.max(0,Math.min(1,Number(E.musicVolume.value)/100));const now=c.currentTime;const o=c.createOscillator();const g=c.createGain();const base=S.tone==="yellow"?680:S.tone==="white"?560:490;const d=long?.45:.24;o.type=long?"triangle":"sine";o.frequency.setValueAtTime(base,now);o.frequency.exponentialRampToValueAtTime(base*(long?.6:.64),now+d);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(Math.max(.02,v*(long?.09:.14)),now+.03);g.gain.exponentialRampToValueAtTime(.0001,now+d);o.connect(g).connect(c.destination);o.start(now);o.stop(now+d+.02)}
+function tapCat(){E.catModel.classList.remove("tap");void E.catModel.offsetWidth;E.catModel.classList.add("tap");const r=E.catModel.getBoundingClientRect();const words=(S.poem||"温柔 好运 开心").replace(/\s+/g," ").split(/[，。！？\n ]+/).filter(Boolean);const pick=words[Math.floor(Math.random()*words.length)]||"开心";E.catSpeech.textContent=`呼噜呼噜～把「${pick}」送给你 💗`;fx(r.left+r.width/2,r.top+12,3,["💗","🐾","✨"]);meow(false);setTimeout(()=>E.catModel.classList.remove("tap"),460)}
+function longCat(){E.catModel.classList.remove("long");void E.catModel.offsetWidth;E.catModel.classList.add("long");E.giftTray.classList.add("show");E.catSpeech.textContent="🐾 走完三层小旅程，要一直开开心心哦～";meow(true);document.body.classList.add("star");const r=E.catModel.getBoundingClientRect();fx(r.left+r.width/2,r.top,6,["⭐","🐟","🧧","💗"]);setTimeout(()=>E.giftTray.classList.remove("show"),2300);setTimeout(()=>E.catModel.classList.remove("long"),820);setTimeout(()=>document.body.classList.remove("star"),5000)}
+function bindCat(){E.catModel.addEventListener("pointerdown",()=>{S.longed=false;clearTimeout(S.press);S.press=setTimeout(()=>{S.longed=true;longCat()},800)});E.catModel.addEventListener("pointerup",()=>{clearTimeout(S.press);if(!S.longed)tapCat()});E.catModel.addEventListener("pointerleave",()=>clearTimeout(S.press));}
+function rRect(ctx,x,y,w,h,r){const rr=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+rr,y);ctx.arcTo(x+w,y,x+w,y+h,rr);ctx.arcTo(x+w,y+h,x,y+h,rr);ctx.arcTo(x,y+h,x,y,rr);ctx.arcTo(x,y,x+w,y,rr);ctx.closePath();}
+function palette(){if(S.tone==="white")return ["#F8F8F8","#EFEFEF"];if(S.tone==="gray")return ["#D0D0D0","#B8B8B8"];return ["#F9D59B","#F7C878"];}
+function drawPoster(){const c=E.canvas;if(S.mode==="portrait"){c.width=2160;c.height=3840}else{c.width=3840;c.height=2160}const x=c.getContext("2d");if(!x)return false;const g=x.createLinearGradient(0,0,0,c.height);g.addColorStop(0,"#FAF7F2");g.addColorStop(1,"#F9EED8");x.fillStyle=g;x.fillRect(0,0,c.width,c.height);for(let i=0;i<100;i+=1){x.fillStyle=i%2?"rgba(255,214,224,.12)":"rgba(217,197,176,.12)";x.beginPath();x.arc(Math.random()*c.width,Math.random()*c.height,2+Math.random()*8,0,Math.PI*2);x.fill();}
+const pad=Math.round(c.width*.06),w=c.width-pad*2,h=c.height-pad*2;rRect(x,pad,pad,w,h,Math.round(c.width*.03));x.fillStyle="rgba(255,251,245,.92)";x.fill();x.strokeStyle="rgba(217,197,176,.9)";x.lineWidth=Math.max(2,Math.round(c.width*.0013));x.stroke();x.fillStyle="#8B7355";x.textAlign="center";x.font=`700 ${Math.round(c.width*.05)}px "KaiTi","STKaiti","Microsoft YaHei",sans-serif`;x.fillText("暖暖猫咪幸运站",c.width/2,pad+Math.round(c.height*.07));x.font=`700 ${Math.round(c.width*.027)}px "Microsoft YaHei",sans-serif`;x.fillText(`${S.profile.name} 的今日专属好运`,c.width/2,pad+Math.round(c.height*.11));
+const [c1,c2]=palette();const cx=c.width/2,cy=pad+Math.round(c.height*.22),cr=Math.round(Math.min(c.width,c.height)*.095);const cg=x.createRadialGradient(cx-cr*.25,cy-cr*.28,cr*.2,cx,cy,cr);cg.addColorStop(0,c1);cg.addColorStop(1,c2);x.fillStyle=cg;x.beginPath();x.arc(cx,cy,cr,0,Math.PI*2);x.fill();x.fillStyle="#5d4938";x.beginPath();x.arc(cx-cr*.3,cy-cr*.05,cr*.08,0,Math.PI*2);x.fill();x.beginPath();x.arc(cx+cr*.3,cy-cr*.05,cr*.08,0,Math.PI*2);x.fill();x.strokeStyle="#7a5942";x.lineWidth=Math.max(2,Math.round(c.width*.0014));x.beginPath();x.arc(cx,cy+cr*.18,cr*.2,0,Math.PI,false);x.stroke();
+const y0=cy+cr+Math.round(c.height*.03);card(x,"幸运签主题 + 解读",`${S.fortune.title||"今日好运"}：${S.fortune.reading||"愿你被温柔拥抱"}\n今日建议：${S.fortune.advice||"慢慢来也会很棒"}`,pad+Math.round(c.width*.06),y0,w-Math.round(c.width*.12),Math.round(c.height*.16));card(x,"专属名字小诗",S.poem,pad+Math.round(c.width*.06),y0+Math.round(c.height*.18),w-Math.round(c.width*.12),Math.round(c.height*.19));pills(x,pad+Math.round(c.width*.06),y0+Math.round(c.height*.4),w-Math.round(c.width*.12));x.fillStyle="#9a7458";x.font=`${Math.round(c.width*.016)}px "Microsoft YaHei",sans-serif`;x.fillText(`午后好，慢慢来也能走很远 · ${day()}`,c.width/2,c.height-pad-Math.round(c.height*.03));S.url=c.toDataURL("image/png");E.posterTip.textContent=`导出分辨率：${c.width} × ${c.height}（高清保存）`;return true;}
+function card(x,title,text,px,py,pw,ph){x.fillStyle="rgba(255,251,245,.94)";rRect(x,px,py,pw,ph,Math.round(pw*.04));x.fill();x.strokeStyle="rgba(217,197,176,.88)";x.lineWidth=Math.max(2,Math.round(pw*.005));x.stroke();x.textAlign="left";x.fillStyle="#8f5b39";x.font=`700 ${Math.round(pw*.075)}px "Microsoft YaHei",sans-serif`;x.fillText(title,px+Math.round(pw*.04),py+Math.round(ph*.2));x.fillStyle="#8b6b52";x.font=`${Math.round(pw*.05)}px "Microsoft YaHei",sans-serif`;String(text).split(/\n+/).slice(0,4).forEach((ln,i)=>x.fillText(ln.slice(0,22),px+Math.round(pw*.04),py+Math.round(ph*.4)+i*Math.round(ph*.16)));}
+function pills(x,px,py,pw){const arr=[`名字 ${S.profile.name}`,`年龄 ${S.profile.age}`,S.profile.city?`城市 ${S.profile.city}`:"",S.profile.hobby?`喜欢 ${S.profile.hobby}`:"",S.profile.wish?`愿望 ${S.profile.wish}`:"",`爱心分 ${S.score}`].filter(Boolean);let cx=px,cy=py;const rh=Math.round(pw*.13);x.font=`${Math.round(pw*.05)}px "Microsoft YaHei",sans-serif`;arr.forEach((t)=>{const ww=Math.max(Math.round(pw*.22),Math.min(Math.round(pw*.46),Math.round(x.measureText(t).width)+36));if(cx+ww>px+pw){cx=px;cy+=rh;}x.fillStyle="rgba(255,251,245,.94)";rRect(x,cx,cy,ww,rh-10,24);x.fill();x.strokeStyle="rgba(217,197,176,.9)";x.lineWidth=2;x.stroke();x.fillStyle="#9a7253";x.fillText(t,cx+18,cy+Math.round((rh-10)*.66));cx+=ww+12;});}
+async function savePoster(){if(!S.url){const ok=drawPoster();if(!ok){tip("海报生成失败，请重试。");return;}}E.posterBox.classList.remove("pop");void E.posterBox.offsetWidth;E.posterBox.classList.add("pop");setTimeout(()=>E.posterBox.classList.remove("pop"),520);const a=document.createElement("a");a.href=S.url;a.download=`warm-cat-ending-${S.mode}-${day()}.png`;document.body.appendChild(a);a.click();a.remove();const r=E.posterBox.getBoundingClientRect();fx(r.left+r.width*.5,r.top+r.height*.7,8,["💗","🐾","🧧"]);tip("🐱 第三层的专属纪念海报已保存到相册啦～");}
+const text=()=>[`${S.profile.name} 的暖暖猫咪幸运站纪念时刻`,`幸运签：${S.fortune.title||"今日好运"} - ${S.fortune.reading||"顺顺利利"}`,`名字小诗：${S.poem.replace(/\n/g," / ")}`,`愿望：${S.profile.wish||"天天开心"}`,"午后好，慢慢来也能走很远"].join("\n");
+async function copy(){if(navigator.clipboard&&navigator.clipboard.writeText){try{await navigator.clipboard.writeText(text());tip("分享文案已复制～");return;}catch{}}tip("当前环境不支持自动复制。");}
+function openMask(){E.shareMask.classList.add("show");E.shareMask.setAttribute("aria-hidden","false");}
+function closeMask(){E.shareMask.classList.remove("show");E.shareMask.setAttribute("aria-hidden","true");}
+function restart(){[K.profile,K.fortune,K.poem,K.outfit,K.score,K.history,K.daily,K.pref,K.greet].forEach((k)=>localStorage.removeItem(k));document.body.classList.add("out");tip("已清理三层记录，准备重新开始～");setTimeout(()=>location.href="layer1.html",520)}
+function music(){const saved=j(K.music)||{};const vol=Math.max(0,Math.min(100,Number(saved.volume)||40));const play=Boolean(saved.playing);E.musicVolume.value=String(vol);E.bgMusic.volume=vol/100;E.musicInfo.textContent=`音量 ${vol}%`;const save=(p)=>w(K.music,{playing:p,volume:Number(E.musicVolume.value)});const ui=(p)=>{E.musicToggle.textContent=p?"🎵 暂停舒缓音乐":"🎵 播放舒缓音乐";E.musicToggle.setAttribute("aria-pressed",String(p));document.body.classList.toggle("pause",!p)};
+async function start(u){try{await E.bgMusic.play();ui(true);save(true);if(u)tip("🎵 为你切换专属收尾轻音乐～");}catch{ui(false);save(false);if(u)tip("设备当前保持安静模式。");}}
+function stop(u){E.bgMusic.pause();ui(false);save(false);if(u)tip("🐱 音乐暂停啦，随时可以再听～");}
+E.musicToggle.addEventListener("click",()=>E.bgMusic.paused?start(true):stop(true));E.musicVolume.addEventListener("input",()=>{const v=Number(E.musicVolume.value);E.bgMusic.volume=v/100;E.musicInfo.textContent=`音量 ${v}%`;w(K.music,{playing:!E.bgMusic.paused,volume:v});});ui(play);if(play)start(false);else document.body.classList.add("pause");}
+function bind(){E.savePoster.addEventListener("click",()=>void savePoster());E.restartJourney.addEventListener("click",restart);E.openShare.addEventListener("click",openMask);E.closeShare.addEventListener("click",closeMask);E.copyText.addEventListener("click",()=>void copy());E.shareMask.addEventListener("click",(ev)=>{if(ev.target===E.shareMask)closeMask()});Array.from(document.querySelectorAll("[data-share]")).forEach((b)=>b.addEventListener("click",async()=>{const t=b.getAttribute("data-share");if(t==="save"){await savePoster();closeMask();return;}tip(t==="moments"?"已准备朋友圈分享文案，可直接粘贴。":"已准备好友分享文案，可直接粘贴。");await copy();}));E.modeToggle.addEventListener("click",()=>{S.mode=S.mode==="portrait"?"landscape":"portrait";E.modeToggle.textContent=`🖼️ 当前导出比例：${S.mode==="portrait"?"9:16":"16:9"}`;S.url="";drawPoster();tip(`已切换${S.mode==="portrait"?"竖版":"横版"}导出。`)});}
+function init(){if(!initData())return;apply();bind();bindCat();music();drawPoster();tip(`欢迎来到收尾页，${S.profile.name}～`);}init();
+})();
+</script>
+</body>
+</html>

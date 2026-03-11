@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>暖暖猫咪幸运站 - 第一层信息填写（单文件版）</title>
+<style>
+:root{--bg-top:#FAF7F2;--bg-bottom:#F9EED8;--main-a:#F4A868;--main-b:#F2995E;--pad-pink:#FFD6E0;--milk-coffee:#D9C5B0;--ink:#8B7355;--sub-ink:#A6937C;--milk-white:#FFFBF5;--cat-tone:#F7C878;--ease:.2s ease-in-out}
+*{box-sizing:border-box}
+html,body{margin:0;min-width:320px;color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+body{background:
+radial-gradient(circle at 11px 8px,rgba(139,115,85,.08) 0 3px,transparent 3px),
+radial-gradient(circle at 19px 8px,rgba(139,115,85,.08) 0 3px,transparent 3px),
+radial-gradient(circle at 15px 14px,rgba(139,115,85,.08) 0 4px,transparent 4px),
+radial-gradient(circle at 74px 58px,rgba(244,168,104,.08) 0 8px,transparent 8px),
+radial-gradient(circle at 80px 66px,rgba(244,168,104,.08) 0 5px,transparent 5px),
+radial-gradient(circle at 66px 66px,rgba(255,214,224,.08) 0 5px,transparent 5px),
+linear-gradient(180deg,var(--bg-top),var(--bg-bottom));background-size:120px 120px,120px 120px,120px 120px,160px 160px,160px 160px,160px 160px,auto;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.08;background-image:radial-gradient(rgba(170,140,106,.3) .5px,transparent .5px),radial-gradient(rgba(170,140,106,.22) .6px,transparent .6px);background-size:4px 4px,7px 7px;z-index:0}
+.page{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px;animation:pageIn .5s ease-in-out both}
+.hero{text-align:center;margin-bottom:14px}.hero h1{margin:0;font-family:"YouYuan","STKaiti","KaiTi",cursive;font-size:clamp(2rem,5vw,3.2rem);color:var(--ink);text-shadow:1px 1px 0 var(--milk-coffee)}
+.hero p{margin:8px auto 0;max-width:760px;color:var(--sub-ink);line-height:1.75}
+.card{width:min(800px,100%);margin:0 auto;border-radius:16px;border:1px solid rgba(217,197,176,.9);background:var(--milk-white);box-shadow:inset 0 2px 4px rgba(217,197,176,.3),0 4px 8px rgba(240,240,240,.5);padding:30px;animation:panelPop .3s ease-in-out both}
+.card h2{margin:0 0 8px}.card .lead{margin:0;color:var(--sub-ink);line-height:1.6;font-size:.95rem}
+form{margin-top:16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:6px}.field label{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.94rem}
+.heart-required{width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffe6ee 0 20%,transparent 21%),radial-gradient(circle at 70% 30%,#ffe6ee 0 20%,transparent 21%),radial-gradient(circle at 50% 66%,var(--pad-pink) 0 46%,transparent 47%),var(--pad-pink);transform:rotate(45deg);box-shadow:0 0 0 1px rgba(255,214,224,.8)}
+.field-wrap{position:relative}
+input,textarea{width:100%;border-radius:12px;border:1px solid var(--milk-coffee);background:#fffdf8;color:var(--ink);line-height:1.5;font-size:.96rem;transition:border-color var(--ease),box-shadow var(--ease),transform var(--ease),background var(--ease)}
+input{height:48px;padding:14px 16px 10px}textarea{min-height:90px;max-height:190px;resize:vertical;padding:14px 16px}
+.placeholder-hint{position:absolute;left:14px;top:14px;font-size:.9rem;color:var(--sub-ink);pointer-events:none;opacity:.95;transition:transform var(--ease),font-size var(--ease),opacity var(--ease)}
+.field-wrap.focused .placeholder-hint,.field-wrap.has-value .placeholder-hint{transform:translateY(-10px);font-size:12px;opacity:.92}
+input::placeholder,textarea::placeholder{color:transparent}
+input:hover,textarea:hover{border-color:#e2b68f;box-shadow:0 0 0 1px rgba(255,214,224,.6)}
+input:focus,textarea:focus{outline:none;border:1px solid transparent;background:linear-gradient(#fffdf8,#fffdf8) padding-box,linear-gradient(135deg,var(--main-a),var(--main-b)) border-box;box-shadow:0 0 0 1px rgba(255,214,224,.8),0 0 12px rgba(255,214,224,.4)}
+.field.assist-accent input:focus,.field.assist-accent textarea:focus{background:linear-gradient(#fffdf8,#fffdf8) padding-box,linear-gradient(135deg,var(--cat-tone),var(--main-b)) border-box}
+.remain{margin-left:auto;font-size:.8rem;font-weight:700;transition:color var(--ease)}.remain.warn{color:var(--main-a)}.remain.over{color:var(--pad-pink)}.shake{animation:fieldShake .22s ease-in-out}.flash-error{animation:flashPink .55s ease-in-out 3}
+.btn-row{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font-weight:700;cursor:pointer;border:0;transition:transform var(--ease),box-shadow var(--ease),background var(--ease),color var(--ease),border-color var(--ease)}
+.btn-main{height:48px;padding:0 24px;border-radius:16px;color:#fff;background:linear-gradient(180deg,var(--main-a),var(--main-b));box-shadow:inset 0 0 0 1px rgba(255,251,245,.88),0 8px 16px rgba(242,153,94,.3);text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.btn-main:hover:not(:disabled){transform:scale(1.02)}.btn-main:active:not(:disabled){transform:scale(.98)}.btn-main:disabled{background:var(--milk-coffee);color:var(--sub-ink);box-shadow:inset 0 0 0 1px rgba(255,251,245,.6);cursor:not-allowed}
+.btn-sub{height:48px;padding:0 20px;border-radius:16px;border:1px solid var(--milk-coffee);background:transparent;color:var(--ink)}.btn-sub:hover{background:#F9EED8;transform:translateY(-1px)}
+.music-line{margin-top:14px;padding:10px 12px;border-radius:12px;border:1px solid rgba(217,197,176,.8);background:rgba(255,251,245,.8);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.btn-music{height:36px;padding:0 16px;border-radius:999px;border:1px solid var(--milk-coffee);background:#fff8f0;color:var(--ink)}.btn-music:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(255,214,224,.7)}
+.volume-shell{display:flex;align-items:center;gap:10px;margin-left:auto}.music-line b{color:var(--sub-ink);font-size:.86rem;min-width:40px}
+input[type="range"]{width:200px;height:8px;appearance:none;border-radius:999px;outline:none;background:var(--milk-coffee)}
+input[type="range"]::-webkit-slider-runnable-track{height:8px;border-radius:999px;background:linear-gradient(90deg,var(--main-a),var(--main-b))}
+input[type="range"]::-webkit-slider-thumb{appearance:none;width:20px;height:20px;margin-top:-6px;border:1px solid rgba(217,197,176,.95);border-radius:50%;background:radial-gradient(circle at 50% 64%,var(--pad-pink) 0 34%,transparent 35%),radial-gradient(circle at 29% 33%,var(--pad-pink) 0 13%,transparent 14%),radial-gradient(circle at 43% 26%,var(--pad-pink) 0 12%,transparent 13%),radial-gradient(circle at 57% 26%,var(--pad-pink) 0 12%,transparent 13%),radial-gradient(circle at 71% 33%,var(--pad-pink) 0 13%,transparent 14%),#fff8fb;box-shadow:0 1px 0 rgba(255,255,255,.8);cursor:pointer;transition:transform var(--ease)}
+input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.08)}
+.cat-box{margin-top:18px;border-radius:12px;border:1px solid var(--pad-pink);background:#F9EED8;padding:20px}
+.cat-box h3{margin:0;font-size:1.05rem}.cat-box p{margin:6px 0 0;color:var(--sub-ink);line-height:1.6;font-size:.88rem}
+.cats{margin-top:14px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.cat-item{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:8px;padding:4px;border-radius:12px;min-width:90px;position:relative;transition:transform var(--ease),box-shadow var(--ease);touch-action:manipulation}
+.cat-item.active{box-shadow:0 0 0 2px rgba(244,168,104,.34),0 0 14px rgba(244,168,104,.26);background:rgba(255,251,245,.74)}
+.cat-item:hover{transform:translateY(-2px)}
+.cat-avatar{width:80px;height:80px;border-radius:50%;position:relative;box-shadow:inset -8px -8px 12px rgba(0,0,0,.06),inset 8px 8px 12px rgba(255,255,255,.6),0 4px 10px rgba(90,67,49,.18);animation:catBreath 3s ease-in-out infinite;transform-origin:center bottom}
+.cat-item[data-cat="yellow"] .cat-avatar{background:radial-gradient(circle at 34% 30%,#F9D59B 0 50%,#F7C878 100%)}
+.cat-item[data-cat="white"] .cat-avatar{background:radial-gradient(circle at 34% 30%,#F8F8F8 0 54%,#EFEFEF 100%)}
+.cat-item[data-cat="gray"] .cat-avatar{background:radial-gradient(circle at 34% 30%,#D0D0D0 0 54%,#B8B8B8 100%)}
+.ear,.tail,.eye,.nose,.mouth,.blush{position:absolute;pointer-events:none}
+.ear{width:24px;height:20px;top:-5px;border-radius:60% 60% 45% 45%;background:rgba(255,255,255,.75);border:1px solid rgba(139,115,85,.25)}
+.ear.left{left:10px;transform:rotate(-18deg)}.ear.right{right:10px;transform:rotate(18deg)}
+.eye{width:8px;height:10px;top:32px;border-radius:50%;background:#5d4938}.eye.left{left:24px}.eye.right{right:24px}
+.nose{width:10px;height:8px;top:43px;left:50%;transform:translateX(-50%);border-radius:50%;background:#d28a79}
+.mouth{width:16px;height:8px;left:50%;top:51px;transform:translateX(-50%);border-bottom:2px solid #7a5942;border-radius:0 0 12px 12px}
+.blush{width:12px;height:8px;border-radius:50%;top:43px;background:rgba(255,214,224,.8)}.blush.left{left:15px}.blush.right{right:15px}
+.tail{width:24px;height:12px;right:-6px;top:46px;border-radius:12px;background:rgba(139,115,85,.22);transform-origin:left center}
+.cat-item.tap .cat-avatar{animation:catTap .35s ease-in-out}
+.cat-item.long-yellow .tail{animation:wagTail .35s ease-in-out 3}
+.cat-item.long-white .cat-avatar{animation:rubNuzzle .6s ease-in-out 2}
+.cat-item.long-gray .mouth{animation:yawnMouth .8s ease-in-out 1}
+.music-playing .cat-avatar{animation:catBreath 3s ease-in-out infinite,catMusicShake 2s infinite ease-in-out}
+.cat-msg{margin-top:12px;text-align:center;min-height:24px;color:var(--sub-ink);font-size:.92rem;line-height:1.6}
+.status-line{margin-top:10px;min-height:22px;color:var(--sub-ink);font-size:.9rem}
+.toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:40;border-radius:999px;border:1px solid rgba(217,197,176,.9);background:rgba(255,251,245,.98);color:var(--ink);padding:8px 14px;box-shadow:0 10px 20px rgba(159,124,90,.2);opacity:0;pointer-events:none;transition:opacity var(--ease),transform var(--ease)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(3px)}
+.fx{position:fixed;z-index:38;pointer-events:none;font-size:18px;opacity:0;animation:floatUp 1s ease-in-out forwards}
+.confirm-mask{position:fixed;inset:0;z-index:45;display:none;align-items:center;justify-content:center;background:rgba(139,115,85,.28);padding:14px}
+.confirm-mask.show{display:flex}
+.confirm-card{width:min(420px,100%);background:var(--milk-white);border-radius:16px;border:1px solid rgba(217,197,176,.95);box-shadow:0 12px 22px rgba(93,73,56,.22);padding:18px;animation:panelPop .2s ease-in-out}
+.confirm-card h4{margin:0;font-size:1rem}.confirm-card p{margin:8px 0 0;color:var(--sub-ink);line-height:1.6;font-size:.9rem}.confirm-actions{margin-top:14px;display:flex;justify-content:flex-end;gap:8px}
+@keyframes pageIn{0%{opacity:0;transform:translateY(-10px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes panelPop{0%{opacity:0;transform:scale(.97)}100%{opacity:1;transform:scale(1)}}
+@keyframes fieldShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}50%{transform:translateX(2px)}75%{transform:translateX(-1px)}}
+@keyframes flashPink{0%,100%{box-shadow:none}50%{box-shadow:0 0 0 2px rgba(255,214,224,.9)}}
+@keyframes catBreath{0%,100%{transform:scale(.98)}50%{transform:scale(1.02)}}
+@keyframes catTap{0%{transform:scale(1)}40%{transform:scale(.92) rotate(-5deg)}100%{transform:scale(1) rotate(0deg)}}
+@keyframes wagTail{0%,100%{transform:rotate(0deg)}50%{transform:rotate(22deg)}}
+@keyframes rubNuzzle{0%,100%{transform:translateX(0) rotate(0deg)}50%{transform:translateX(6px) rotate(8deg)}}
+@keyframes yawnMouth{0%,100%{transform:translateX(-50%) scaleY(1)}50%{transform:translateX(-50%) scaleY(1.8)}}
+@keyframes catMusicShake{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-2deg)}75%{transform:rotate(2deg)}}
+@keyframes floatUp{0%{opacity:0;transform:translate(-50%,0) scale(.85) rotate(0deg)}20%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx,0px)),calc(-50% + var(--dy,-90px))) scale(1.2) rotate(var(--dr,0deg))}}
+@media (max-width:767px){.page{padding:14px 10px 28px}.card{width:90%;padding:22px 14px}.grid{grid-template-columns:1fr}input{height:58px}textarea{min-height:112px}.btn-main,.btn-sub{height:58px;font-size:1rem}.btn-row{gap:12px}.cats{flex-direction:column;align-items:center;gap:14px}.cat-avatar{width:100px;height:100px}.music-line{gap:10px}.volume-shell{margin-left:0;width:100%}input[type="range"]{width:150px}}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+<main class="page">
+<header class="hero">
+  <h1>暖暖猫咪幸运站 · 第一层</h1>
+  <p>软萌治愈信息填写区，慢慢填也没关系，三只小猫会一直陪你。🐾</p>
+</header>
+<section class="card" aria-label="第一层信息填写">
+  <h2>第一层：填写并保存信息</h2>
+  <p class="lead">必填项是名字和年龄，填好后即可进入第二层抽取今日幸运签。</p>
+  <form id="profileForm" novalidate>
+    <div class="grid">
+      <div class="field assist-accent"><label for="name">名字 <span class="heart-required"></span></label><div class="field-wrap"><input id="name" placeholder="🐱 比如：小橘" /><span class="placeholder-hint">🐱 比如：小橘</span></div></div>
+      <div class="field assist-accent"><label for="age">年龄 <span class="heart-required"></span></label><div class="field-wrap"><input id="age" inputmode="numeric" placeholder="🎂 比如：18" /><span class="placeholder-hint">🎂 比如：18</span></div></div>
+      <div class="field"><label for="city">城市</label><div class="field-wrap"><input id="city" placeholder="🏙️ 比如：上海" /><span class="placeholder-hint">🏙️ 比如：上海</span></div></div>
+      <div class="field"><label for="hobby">喜欢的事</label><div class="field-wrap"><input id="hobby" placeholder="✨ 比如：晒太阳、看电影" /><span class="placeholder-hint">✨ 比如：晒太阳、看电影</span></div></div>
+      <div class="field full"><label for="wish">今日小愿望 <b class="remain" id="wishRemain">剩余80字</b></label><div class="field-wrap"><textarea id="wish" placeholder="💭 比如：暴富、变美、吃好吃的～"></textarea><span class="placeholder-hint">💭 比如：暴富、变美、吃好吃的～</span></div></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn-main" id="saveBtn">🐾 保存信息</button>
+      <button type="button" class="btn-sub" id="readBtn">读取已保存信息</button>
+      <button type="button" class="btn-sub" id="clearBtn">清空信息</button>
+      <button type="button" class="btn-main" id="nextBtn" disabled title="🐱 先填好名字和年龄哦～">🐾 完成第一层进入第二层</button>
+    </div>
+    <div class="music-line">
+      <button type="button" class="btn-music" id="musicToggle">🎵 播放舒缓音乐</button>
+      <div class="volume-shell"><input type="range" id="musicVolume" min="0" max="100" value="40" /><b id="volumeText">40%</b></div>
+    </div>
+    <div class="status-line" id="statusLine"></div>
+  </form>
+  <section class="cat-box">
+    <h3>猫咪陪填区</h3><p>轻触会喵喵叫，长按会触发专属陪伴动作。</p>
+    <div class="cats">
+      <button class="cat-item active" data-cat="yellow"><span class="cat-avatar"><span class="ear left"></span><span class="ear right"></span><span class="eye left"></span><span class="eye right"></span><span class="nose"></span><span class="mouth"></span><span class="blush left"></span><span class="blush right"></span><span class="tail"></span></span><strong>元气黄猫</strong></button>
+      <button class="cat-item" data-cat="white"><span class="cat-avatar"><span class="ear left"></span><span class="ear right"></span><span class="eye left"></span><span class="eye right"></span><span class="nose"></span><span class="mouth"></span><span class="blush left"></span><span class="blush right"></span><span class="tail"></span></span><strong>温柔白猫</strong></button>
+      <button class="cat-item" data-cat="gray"><span class="cat-avatar"><span class="ear left"></span><span class="ear right"></span><span class="eye left"></span><span class="eye right"></span><span class="nose"></span><span class="mouth"></span><span class="blush left"></span><span class="blush right"></span><span class="tail"></span></span><strong>佛系灰猫</strong></button>
+    </div>
+    <div class="cat-msg" id="catMsg">🐱 你好呀，我会陪你慢慢填～</div>
+  </section>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+<div class="confirm-mask" id="confirmMask"><div class="confirm-card"><h4>🐾 确定清空专属小信息吗？</h4><p>清空后需要重新填写，但你可以随时再回来慢慢写。</p><div class="confirm-actions"><button type="button" class="btn-sub" id="cancelClear">再想想</button><button type="button" class="btn-main" id="confirmClear">确定清空</button></div></div></div>
+<script>
+(function(){"use strict";
+const PROFILE_KEY="warm_cat_profile_v1",MUSIC_KEY="warm_cat_music_v1",WISH_LIMIT=80;
+const CAT_COLORS={yellow:"#F7C878",white:"#EFEFEF",gray:"#B8B8B8"};
+const TAP={yellow:["喵呜！今天也要元气满满～","别急，我陪你一步步填。","写下名字，好运就会记住你。"],white:["慢慢来，我在这里等你。","你已经做得很好啦。","先深呼吸一下，再继续填写吧。"],gray:["不慌不忙也很厉害。","先填一点点也算前进。","给自己一点松弛感，喵。"]};
+const LONG={yellow:"🐱 我陪你慢慢填～（黄猫摇尾巴）",white:"🐱 我陪你慢慢填～（白猫蹭蹭你）",gray:"🐱 我陪你慢慢填～（灰猫打哈欠）"};
+const E={form:document.getElementById("profileForm"),name:document.getElementById("name"),age:document.getElementById("age"),city:document.getElementById("city"),hobby:document.getElementById("hobby"),wish:document.getElementById("wish"),wishRemain:document.getElementById("wishRemain"),saveBtn:document.getElementById("saveBtn"),readBtn:document.getElementById("readBtn"),clearBtn:document.getElementById("clearBtn"),nextBtn:document.getElementById("nextBtn"),musicToggle:document.getElementById("musicToggle"),musicVolume:document.getElementById("musicVolume"),volumeText:document.getElementById("volumeText"),statusLine:document.getElementById("statusLine"),catMsg:document.getElementById("catMsg"),cats:Array.from(document.querySelectorAll(".cat-item")),floatWraps:Array.from(document.querySelectorAll(".field-wrap")),toast:document.getElementById("toast"),confirmMask:document.getElementById("confirmMask"),cancelClear:document.getElementById("cancelClear"),confirmClear:document.getElementById("confirmClear")};
+const inputs=[E.name,E.age,E.city,E.hobby,E.wish];let selectedCat="yellow",toastTimer=null,audioCtx=null,musicEngine=null;
+function showToast(msg){E.toast.textContent=msg;E.toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>E.toast.classList.remove("show"),1800);}function setStatus(msg){E.statusLine.textContent=msg;}
+function spawnFx(x,y,count,chars){for(let i=0;i<count;i+=1){const n=document.createElement("span");n.className="fx";n.textContent=chars[Math.floor(Math.random()*chars.length)];n.style.left=`${x+(Math.random()*42-21)}px`;n.style.top=`${y+(Math.random()*16-8)}px`;n.style.setProperty("--dx",`${Math.random()*90-45}px`);n.style.setProperty("--dy",`${-50-Math.random()*80}px`);n.style.setProperty("--dr",`${Math.random()*120-60}deg`);document.body.appendChild(n);setTimeout(()=>n.remove(),1100);}}
+function spawnSuccess(){spawnFx(window.innerWidth*.5,window.innerHeight-20,3,["💗","💖","🐾"]);}function validName(){return E.name.value.trim().length>0;}function validAge(){const raw=E.age.value.trim();return /^\d+$/.test(raw)&&Number(raw)>0;}function validWish(){return E.wish.value.length<=WISH_LIMIT;}
+function updateNext(){const ok=validName()&&validAge();E.nextBtn.disabled=!ok;E.nextBtn.title=ok?"":"🐱 先填好名字和年龄哦～";}
+function fieldBy(input){return input.closest(".field");}
+function flashRequired(){const list=[];if(!validName())list.push(fieldBy(E.name));if(!validAge())list.push(fieldBy(E.age));list.forEach((f)=>{if(!f)return;f.classList.remove("flash-error");void f.offsetWidth;f.classList.add("flash-error");});}
+function updateWishRemain(){const remain=WISH_LIMIT-E.wish.value.length;E.wishRemain.textContent=`剩余${remain}字`;E.wishRemain.classList.remove("warn","over");const wf=fieldBy(E.wish);if(remain<0){E.wishRemain.classList.add("over");wf.classList.remove("shake");void wf.offsetWidth;wf.classList.add("shake");}else if(remain<=40){E.wishRemain.classList.add("warn");wf.classList.remove("shake");}else{wf.classList.remove("shake");}}
+function collect(){return {name:E.name.value.trim(),age:E.age.value.trim(),city:E.city.value.trim(),hobby:E.hobby.value.trim(),wish:E.wish.value.trim(),selectedCat,updatedAt:Date.now()};}
+function applyProfile(p){E.name.value=p.name||"";E.age.value=p.age||"";E.city.value=p.city||"";E.hobby.value=p.hobby||"";E.wish.value=p.wish||"";selectCat(p.selectedCat||"yellow",false);refreshHints();updateWishRemain();updateNext();}
+function saveInfo(withFx=true){if(!validName()||!validAge()){flashRequired();showToast("🐾 名字和年龄是专属小标记，填好再走吧～");setStatus("请先完成必填项：名字、年龄（正整数）。");return false;}if(!validWish()){showToast("💭 小愿望超出80字啦，精简一点更可爱哦～");setStatus("小愿望建议控制在80字以内。");return false;}localStorage.setItem(PROFILE_KEY,JSON.stringify(collect()));if(withFx){showToast("✅ 信息存好啦～");spawnSuccess();}setStatus("信息已保存到本地，下次打开也不会丢。");return true;}
+function readInfo(){const raw=localStorage.getItem(PROFILE_KEY);if(!raw){showToast("还没有已保存的信息哦～");setStatus("暂无本地信息，可以先填写并保存。");return;}try{applyProfile(JSON.parse(raw));showToast("🐱 已读取已保存信息");setStatus("已加载本地信息，你可以继续修改后再保存。");}catch{showToast("信息读取失败，已忽略损坏数据。");setStatus("本地数据格式异常，建议重新填写并保存。");}}
+function clearInfo(){E.form.reset();localStorage.removeItem(PROFILE_KEY);updateWishRemain();refreshHints();updateNext();setStatus("信息已清空。今天也可以从头慢慢来。");showToast("已清空信息～");}
+function openConfirm(){E.confirmMask.classList.add("show");}function closeConfirm(){E.confirmMask.classList.remove("show");}
+function refreshHints(){E.floatWraps.forEach((wrap)=>{const input=wrap.querySelector("input,textarea");if(!input)return;wrap.classList.toggle("has-value",input.value.trim().length>0);});}
+function bindHint(input){const wrap=input.closest(".field-wrap");if(!wrap)return;input.addEventListener("focus",()=>wrap.classList.add("focused"));input.addEventListener("blur",()=>{wrap.classList.remove("focused");wrap.classList.toggle("has-value",input.value.trim().length>0);});input.addEventListener("input",()=>wrap.classList.toggle("has-value",input.value.trim().length>0));}
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function selectCat(catKey,report=true){selectedCat=CAT_COLORS[catKey]?catKey:"yellow";document.documentElement.style.setProperty("--cat-tone",CAT_COLORS[selectedCat]);E.cats.forEach((btn)=>{const on=btn.dataset.cat===selectedCat;btn.classList.toggle("active",on);});if(report){const name=selectedCat==="yellow"?"元气黄猫":selectedCat==="white"?"温柔白猫":"佛系灰猫";E.catMsg.textContent=`🐱 已选中${name}陪你填写。`;}}
+function getCtx(){if(!audioCtx){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;audioCtx=new Ctx();}if(audioCtx.state==="suspended")audioCtx.resume();return audioCtx;}
+function playMeow(cat,longMode=false){const ctx=getCtx();if(!ctx)return;const now=ctx.currentTime;const osc=ctx.createOscillator();const gain=ctx.createGain();const base=cat==="yellow"?680:cat==="white"?560:490;const duration=longMode?.42:.24;const vol=(Number(E.musicVolume.value)/100)*(longMode?.45:.62);osc.type=longMode?"triangle":"sine";osc.frequency.setValueAtTime(base,now);osc.frequency.exponentialRampToValueAtTime(base*(longMode?.58:.64),now+duration);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.02,vol*.12),now+.03);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain).connect(ctx.destination);osc.start(now);osc.stop(now+duration+.02);}
+class AmbientMusic{constructor(){this.ctx=null;this.master=null;this.timer=null;this.step=0;this.playing=false;this.scale=[261.63,293.66,329.63,392.0,349.23,293.66];}ensure(){if(!this.ctx){const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return false;this.ctx=new Ctx();this.master=this.ctx.createGain();this.master.gain.value=Number(E.musicVolume.value)/100*.25;this.master.connect(this.ctx.destination);}if(this.ctx.state==="suspended")this.ctx.resume();return true;}setVolume(p){if(!this.master)return;this.master.gain.setTargetAtTime(Number(p)/100*.25,this.ctx.currentTime,.03);}schedule(freq,t,d){const a=this.ctx.createOscillator();const b=this.ctx.createOscillator();const g=this.ctx.createGain();a.type="sine";b.type="triangle";a.frequency.setValueAtTime(freq,t);b.frequency.setValueAtTime(freq*.5,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.04,t+.08);g.gain.exponentialRampToValueAtTime(.0001,t+d);a.connect(g);b.connect(g);g.connect(this.master);a.start(t);b.start(t);a.stop(t+d+.04);b.stop(t+d+.04);}tick(){const t=this.ctx.currentTime+.02;const note=this.scale[this.step%this.scale.length];this.schedule(note,t,.7);this.step+=1;}start(){if(this.playing)return;if(!this.ensure())return;this.playing=true;this.tick();this.timer=setInterval(()=>this.tick(),760);}stop(){this.playing=false;if(this.timer){clearInterval(this.timer);this.timer=null;}}}
+function setMusicUI(on){document.body.classList.toggle("music-playing",on);E.musicToggle.textContent=on?"🎵 暂停舒缓音乐":"🎵 播放舒缓音乐";}
+function loadMusic(){const raw=localStorage.getItem(MUSIC_KEY);if(!raw)return {playing:false,volume:40};try{const d=JSON.parse(raw);return {playing:Boolean(d.playing),volume:Number.isFinite(Number(d.volume))?Math.max(0,Math.min(100,Number(d.volume))):40};}catch{return {playing:false,volume:40};}}
+function saveMusic(on,v){localStorage.setItem(MUSIC_KEY,JSON.stringify({playing:on,volume:v}));}
+function toggleMusic(){if(!musicEngine)musicEngine=new AmbientMusic();if(musicEngine.playing){musicEngine.stop();setMusicUI(false);saveMusic(false,Number(E.musicVolume.value));return;}musicEngine.start();setMusicUI(true);saveMusic(true,Number(E.musicVolume.value));const r=E.musicToggle.getBoundingClientRect();spawnFx(r.left+r.width/2,r.top+r.height/2,4,["💗","🐾"]);}
+function tapCat(btn){const key=btn.dataset.cat;selectCat(key);playMeow(key,false);btn.classList.remove("tap");void btn.offsetWidth;btn.classList.add("tap");setTimeout(()=>btn.classList.remove("tap"),360);const r=btn.getBoundingClientRect();spawnFx(r.left+r.width/2,r.top+8,2,["💗","💖"]);E.catMsg.textContent=pick(TAP[key]);}
+function longCat(btn){const key=btn.dataset.cat;selectCat(key);playMeow(key,true);const cls=key==="yellow"?"long-yellow":key==="white"?"long-white":"long-gray";btn.classList.remove("long-yellow","long-white","long-gray");void btn.offsetWidth;btn.classList.add(cls);setTimeout(()=>btn.classList.remove(cls),900);const r=btn.getBoundingClientRect();spawnFx(r.left+r.width/2,r.top,3,["💗","🐾"]);E.catMsg.textContent=LONG[key];}
+function bindCat(btn){let timer=null;let longed=false;btn.addEventListener("pointerdown",()=>{longed=false;timer=setTimeout(()=>{longed=true;longCat(btn);},800);});btn.addEventListener("pointerup",()=>{if(timer){clearTimeout(timer);timer=null;}if(!longed)tapCat(btn);});btn.addEventListener("pointerleave",()=>{if(timer){clearTimeout(timer);timer=null;}});}
+function initStorage(){const raw=localStorage.getItem(PROFILE_KEY);if(!raw)return;try{applyProfile(JSON.parse(raw));setStatus("已自动读取上次保存的信息。");}catch{}}
+function goLayer2(){const ok=saveInfo(false);if(!ok)return;showToast("准备进入第二层抽幸运签～");setTimeout(()=>location.href="layer2.html",420);} 
+function initEvents(){inputs.forEach((input)=>{bindHint(input);input.addEventListener("input",updateNext);input.addEventListener("input",()=>{if(input===E.wish)updateWishRemain();});});E.age.addEventListener("input",()=>{E.age.value=E.age.value.replace(/\D+/g,"");});E.saveBtn.addEventListener("click",()=>saveInfo(true));E.readBtn.addEventListener("click",readInfo);E.clearBtn.addEventListener("click",openConfirm);E.cancelClear.addEventListener("click",closeConfirm);E.confirmClear.addEventListener("click",()=>{closeConfirm();clearInfo();});E.confirmMask.addEventListener("click",(ev)=>{if(ev.target===E.confirmMask)closeConfirm();});E.nextBtn.addEventListener("click",goLayer2);E.musicToggle.addEventListener("click",toggleMusic);E.musicVolume.addEventListener("input",()=>{E.volumeText.textContent=`${E.musicVolume.value}%`;if(musicEngine)musicEngine.setVolume(Number(E.musicVolume.value));saveMusic(!!(musicEngine&&musicEngine.playing),Number(E.musicVolume.value));});E.cats.forEach((btn)=>{bindCat(btn);btn.addEventListener("click",(ev)=>ev.preventDefault());});}
+function initMusic(){const pref=loadMusic();E.musicVolume.value=String(pref.volume);E.volumeText.textContent=`${pref.volume}%`;if(pref.playing){musicEngine=new AmbientMusic();musicEngine.start();musicEngine.setVolume(pref.volume);setMusicUI(true);}else setMusicUI(false);} 
+function init(){selectCat("yellow",false);refreshHints();updateWishRemain();updateNext();initStorage();initEvents();initMusic();}
+init();
+})();
+</script>
+</body>
+</html>

@@ -6,27 +6,320 @@
 <title>暖暖猫咪幸运站 - 第三层</title>
 <link rel="stylesheet" href="style.css" />
 <style>
-.stage{perspective:900px}
-.stage-light{position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.45),transparent 46%);pointer-events:none}
-.cat{transform-style:preserve-3d;transform:translateX(-50%) rotateX(8deg)}
-.head{background:linear-gradient(160deg,#ffe9cc,#ffd7ab 60%,#ffc78f)}
-.body{background:linear-gradient(165deg,#ffe8cc,#ffd8b4 62%,#ffc996)}
+:root{
+  --warm-bg-top:#FAF7F2;
+  --warm-bg-bottom:#F9EED8;
+  --warm-main-a:#F4A868;
+  --warm-main-b:#F2995E;
+  --warm-ink:#8B7355;
+  --warm-line:#D9C5B0;
+  --warm-card:#FFFBF5;
+  --pad-pink:#FFD6E0;
+  --grass-soft:#D6E9C6;
+  --sky-soft:#D9E9F7;
+}
+
+.layer3-page{
+  background:
+    radial-gradient(circle at 18px 14px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 33px 14px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 25px 25px,rgba(139,115,85,.07) 0 6px,transparent 6px),
+    radial-gradient(circle at 18px 36px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 33px 36px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 25px 46px,rgba(139,115,85,.07) 0 8px,transparent 8px),
+    linear-gradient(180deg,var(--warm-bg-top),var(--warm-bg-bottom));
+  background-size:118px 118px,118px 118px,118px 118px,118px 118px,118px 118px,118px 118px,auto;
+  color:var(--warm-ink);
+}
+
+.layer3-page h1{
+  font-family:"STKaiti","KaiTi","YouYuan","Comic Sans MS",cursive;
+  color:#8B6549;
+  text-shadow:1px 1px 0 #EAD9C6;
+}
+
+.layer3-page .hero p{font-size:1.06rem;line-height:1.88;color:#8B7355}
+.layer3-page .steps{gap:10px;margin-top:16px}
+.layer3-page .step-btn{min-height:44px;padding:10px 18px;border-radius:999px;border-color:#D9C5B0;background:#FFF9F1;color:#8B7355}
+.layer3-page .step-btn.on{background:linear-gradient(180deg,#F4A868,#F2995E);border-color:#F2995E;color:#fff;box-shadow:0 10px 16px rgba(242,153,94,.28)}
+.layer3-page .step-btn.done{background:linear-gradient(180deg,#F5BC81,#F2A96C);border-color:#EFA164;color:#804724}
+.layer3-page .step-track{height:12px;border-color:#D9C5B0;background:#FFF9F1}
+.layer3-page .step-fill{background:radial-gradient(circle at 8px 6px,rgba(255,255,255,.34) 0 2.5px,transparent 2.5px),linear-gradient(90deg,#F4A868,#F2995E);background-size:20px 12px,auto}
+
+.layer3-page .card{
+  border-radius:20px;
+  border:1px solid rgba(217,197,176,.82);
+  box-shadow:0 10px 24px rgba(205,171,138,.22);
+  background:rgba(255,252,247,.94);
+  padding:18px;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.layer3-page .card:hover{transform:translateY(-2px);box-shadow:0 14px 26px rgba(205,171,138,.28)}
+
 .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{transition:transform .25s ease,box-shadow .25s ease}
-.card:hover{transform:translateY(-3px);box-shadow:0 16px 26px rgba(169,93,41,.2)}
+.summary-grid .summary{background:#fff7ef;border:1px solid #ecd1b9;border-radius:14px;padding:10px}
+
+.music-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+#musicToggle{position:relative;border-radius:20px;padding:10px 18px 10px 20px;border:1px solid var(--warm-line);background:linear-gradient(180deg,#FFF4E8,#FFE8D6);color:#8B7355}
+#musicToggle:before{content:"🐾 "}
+#musicVolume{accent-color:var(--warm-main-a)}
+
+.dress-upgraded{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.model-panel,.wardrobe-panel{background:rgba(255,250,242,.92);border:1px solid #ead2bb;border-radius:16px;padding:12px;box-shadow:0 8px 18px rgba(210,170,130,.14)}
+
+.base-switch{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.base-switch button{
+  border:1px solid #e7c8ad;
+  border-radius:999px;
+  background:#fff8ef;
+  color:#8b5f3f;
+  padding:6px 12px;
+  font-weight:700;
+}
+.base-switch button.on{background:linear-gradient(180deg,var(--warm-main-a),var(--warm-main-b));color:#fff;border-color:#ec9f63}
+
+.plush-stage{
+  --cat-main-light:#fcd391;
+  --cat-main-mid:#f9c870;
+  --cat-main-dark:#e2ab61;
+  --cat-fur-edge:#b68758;
+  --cat-belly:#fff8ef;
+  --cat-ear-inner:#FFD6E0;
+  --cat-eye:#5f3a28;
+  --cat-tail-anim:tailSwing 3s ease-in-out infinite;
+  --cat-ear-anim:none;
+  --cat-tail-tip-anim:none;
+
+  position:relative;
+  min-height:390px;
+  border:1px solid #efc79e;
+  border-radius:18px;
+  overflow:hidden;
+  cursor:pointer;
+  background:
+    radial-gradient(circle at 22% 14%,rgba(255,255,255,.52),transparent 42%),
+    radial-gradient(circle at 78% 80%,rgba(255,214,224,.14),transparent 45%),
+    linear-gradient(160deg,#fff9f0,#ffedd8);
+}
+
+.plush-stage:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 12px 10px,rgba(217,197,176,.10) 0 2px,transparent 2px),
+    radial-gradient(circle at 21px 10px,rgba(217,197,176,.10) 0 2px,transparent 2px),
+    radial-gradient(circle at 16px 16px,rgba(217,197,176,.12) 0 3px,transparent 3px);
+  background-size:120px 120px;
+}
+
+.stage-light{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 30% 16%,rgba(255,255,255,.38),transparent 46%)}
+
+.cat-svg{
+  width:min(100%,440px);
+  height:auto;
+  display:block;
+  margin:8px auto 0;
+  transform-origin:center 74%;
+  animation:catBreathe 3s ease-in-out infinite;
+}
+
+.cat-svg #svgBodyCore{animation:bellyRise 3s ease-in-out infinite}
+.cat-svg #svgTailMain{transform-origin:292px 286px;animation:var(--cat-tail-anim)}
+.cat-svg #svgTailTip{transform-origin:335px 266px;animation:var(--cat-tail-tip-anim)}
+.cat-svg #svgEarL,.cat-svg #svgEarR{transform-origin:210px 132px;animation:var(--cat-ear-anim)}
+
+.plush-stage.cat-a{
+  --cat-main-light:#fcd391;
+  --cat-main-mid:#f9c870;
+  --cat-main-dark:#e2ab61;
+  --cat-fur-edge:#b68758;
+  --cat-tail-anim:tailSwing 3s ease-in-out infinite;
+}
+.plush-stage.cat-b{
+  --cat-main-light:#f8f8f8;
+  --cat-main-mid:#f0f0f0;
+  --cat-main-dark:#dbdbdb;
+  --cat-fur-edge:#a9a9a9;
+  --cat-tail-anim:tailCurve 3.4s ease-in-out infinite;
+  --cat-ear-anim:earDrop 4.2s ease-in-out infinite;
+}
+.plush-stage.cat-c{
+  --cat-main-light:#d8d8d8;
+  --cat-main-mid:#cfcfcf;
+  --cat-main-dark:#bcbcbc;
+  --cat-fur-edge:#8d8d8d;
+  --cat-tail-anim:tailCozy 3.6s ease-in-out infinite;
+  --cat-tail-tip-anim:tailTipJitter 2.8s ease-in-out infinite;
+}
+
+.eye-round{display:none}
+.eye-crescent{display:none}
+.eye-half{display:none}
+.star-glint{display:none}
+
+.plush-stage.cat-a .eye-round{display:block}
+.plush-stage.cat-a .star-glint{display:block}
+.plush-stage.cat-b .eye-crescent{display:block}
+.plush-stage.cat-c .eye-half{display:block}
+
+.cat-svg.blink .eye-round,
+.cat-svg.blink .eye-crescent,
+.cat-svg.blink .eye-half{opacity:0}
+
+.cat-svg.clicking{animation:headNod .32s cubic-bezier(.2,.82,.32,1.15)}
+.cat-svg.wear-pop{animation:wearBounce .36s ease}
+.cat-svg.full-spin{animation:happySpin .5s ease}
+.cat-svg.yawn{animation:yawnTilt .45s ease}
+
+.cat-bubble{
+  position:absolute;
+  left:50%;
+  top:8px;
+  transform:translateX(-50%);
+  background:rgba(255,251,242,.96);
+  border:1px solid #f0c8a4;
+  border-radius:999px;
+  color:#8f542f;
+  padding:4px 11px;
+  font-size:.84rem;
+  box-shadow:0 8px 16px rgba(170,101,50,.18);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+}
+.cat-bubble.on{opacity:1}
+
+.score{margin-top:8px;font-size:.94rem;color:#a15f37}
+.score b{color:#b84f22;display:inline-block}
+.score b.bump{animation:scorePop .28s ease}
+
+.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.action-row button{border-radius:16px;min-height:42px;padding:10px 14px}
+#randomOutfit:before{content:"✨ ";}
+#clearOutfit:before{content:"🗑️ ";}
+
+.category-tabs{display:flex;gap:16px;overflow:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:#f4a868 #fff2e6}
+.category-tab{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid #d9c5b0;
+  border-radius:12px;
+  background:#fff9f1;
+  color:#8b684a;
+  padding:8px 12px;
+  font-weight:700;
+  flex:0 0 auto;
+}
+.category-tab.on{
+  background:linear-gradient(180deg,#F4A868,#F2995E);
+  color:#fff;
+  border-color:#ec9f63;
+  box-shadow:inset 0 0 0 1px rgba(255,246,235,.7);
+}
+
+.option-shell{
+  margin-top:10px;
+  border-radius:16px;
+  border:1px solid #ecd2ba;
+  background:#fffdf8;
+  box-shadow:0 6px 14px rgba(210,170,130,.12);
+  padding:12px 16px;
+  max-height:352px;
+  overflow:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#f4a868 #fff2e6;
+}
+.option-shell::-webkit-scrollbar{width:10px}
+.option-shell::-webkit-scrollbar-track{background:#fff2e6;border-radius:999px}
+.option-shell::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#f4a868,#f2995e);border-radius:999px}
+
+.options-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.opt-btn{
+  position:relative;
+  border:1px solid #ecd2ba;
+  border-radius:8px;
+  background:#fff;
+  padding:8px 6px;
+  color:#865b39;
+  box-shadow:0 4px 8px rgba(210,170,130,.12);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease;
+  min-height:72px;
+}
+.opt-btn.none{background:#f6f2ee;color:#9f8d7a}
+.opt-btn:hover{transform:scale(1.05);box-shadow:0 0 0 1px rgba(244,168,104,.35),0 8px 12px rgba(210,170,130,.2)}
+.opt-btn.on{
+  transform:scale(1.02);
+  border:2px solid #f4a868;
+  background:rgba(255,214,224,.3);
+}
+.opt-btn.on:after{content:"✅";position:absolute;right:4px;top:2px;font-size:.78rem}
+.opt-thumb{display:block;font-size:1.34rem;line-height:1.2;filter:drop-shadow(0 2px 2px rgba(205,164,124,.25))}
+.opt-name{display:block;margin-top:4px;font-size:.78rem;line-height:1.25}
+
+.fly-ornament{position:fixed;pointer-events:none;z-index:28;font-size:26px;animation:ornFly .35s ease-out forwards}
+.float-heart{position:absolute;pointer-events:none;animation:heartUp 1s ease forwards}
+
+.poem-style{margin-top:6px;font-size:.9rem;color:#975a34}
 .poster-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .poster-badge{margin-top:8px;padding:6px 10px;border-radius:999px;background:#fff4e5;border:1px solid #efc7a2;color:#9f5f35;font-size:.85rem;display:inline-block}
 .bless-box{margin-top:8px;padding:8px 10px;border-radius:10px;background:linear-gradient(130deg,#fff5eb,#ffe8d1);border:1px dashed #efbd95;color:#8f552f;font-size:.9rem}
-.poem-style{margin-top:6px;font-size:.86rem;color:#975a34}
-@media (max-width:900px){.summary-grid{grid-template-columns:1fr}}
+
+.poster-panel{position:relative}
+.poster-mode{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.poster-mode button{border-radius:999px;padding:7px 12px;border:1px solid #e7c8ad;background:#fff9f1;color:#8b5f3f;font-weight:700}
+.poster-mode button.on{background:linear-gradient(180deg,#F4A868,#F2995E);border-color:#ec9f63;color:#fff}
+
+.poster-layout-note{font-size:.84rem;color:#97633e;margin-top:6px}
+.poster-save-pop{animation:posterSavePop .5s ease}
+
+#previewImg{width:100%;border-radius:14px;border:1px solid #ecd1b8;background:#fffdf8;display:none;margin-top:8px}
+
+@keyframes catBreathe{0%,100%{transform:scale(.98)}50%{transform:scale(1.02)}}
+@keyframes bellyRise{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+@keyframes tailSwing{0%,100%{transform:rotate(0)}50%{transform:rotate(5deg)}}
+@keyframes tailCurve{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes tailCozy{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes tailTipJitter{0%,100%{transform:rotate(0)}50%{transform:rotate(2deg)}}
+@keyframes earDrop{0%,100%{transform:rotate(0)}50%{transform:rotate(3deg)}}
+@keyframes headNod{0%{transform:scale(1)}35%{transform:scale(1.02) translateY(-2px) rotate(-3deg)}100%{transform:scale(1)}}
+@keyframes wearBounce{0%{transform:scale(.99)}50%{transform:scale(1.01) translateY(3px)}100%{transform:scale(1)}}
+@keyframes happySpin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes yawnTilt{0%{transform:rotate(0)}40%{transform:rotate(-6deg)}100%{transform:rotate(0)}}
+@keyframes scorePop{0%{transform:scale(1)}50%{transform:scale(1.22)}100%{transform:scale(1)}}
+@keyframes heartUp{0%{opacity:.95;transform:translate(-50%,-40%) scale(1)}100%{opacity:0;transform:translate(-50%,-170%) scale(1.2)}}
+@keyframes ornFly{0%{opacity:.95;transform:translate(-50%,-50%) scale(.8)}100%{opacity:0;transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1.05)}}
+@keyframes posterSavePop{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+
+@media (max-width:1080px){
+  .layer3,.preview{grid-column:span 12}
+  .dress-upgraded{grid-template-columns:1fr}
+}
+
+@media (max-width:760px){
+  .options-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .opt-btn{min-height:78px}
+  .category-tab{font-size:1rem}
+  .poem-style,.poster-layout-note,.score{font-size:1rem}
+  #poemBox{font-size:1.06rem;line-height:2}
+  .summary p,.summary small,.summary-grid p{font-size:1.02rem}
+  .plush-stage{min-height:340px}
+  .poster-actions{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .cat-svg,.cat-svg *,.float-heart,.fly-ornament,.poster-save-pop{animation:none !important;transition:none !important}
+}
 </style>
 </head>
-<body>
+<body class="layer3-page">
 <div class="bg-cute" id="bgCute"></div>
 <main>
   <section class="hero">
     <h1>暖暖猫咪幸运站</h1>
-    <p id="heroSub">第三层：生成名字小诗，给猫咪换装，导出暖色海报。</p>
+    <p id="heroSub">第三层：生成名字小诗，给猫咪换装，导出暖色海报。🐱</p>
     <div class="steps">
       <button class="step-btn done" type="button" onclick="location.href='layer1.html'" aria-label="返回第一层">第 1 层 信息</button>
       <button class="step-btn done" type="button" onclick="location.href='layer2.html'" aria-label="返回第二层">第 2 层 幸运签</button>
@@ -50,8 +343,8 @@
 
     <article class="card layer3">
       <span class="tag">第三层</span>
-      <h2>名字小诗 + 小猫咪换装</h2>
-      <small>点击猫咪会掉爱心分。换装选项会飞到猫咪身上并实时同步海报。</small>
+      <h2>名字小诗 + 2.5D毛绒猫咪换装</h2>
+      <small>默认跟随你在第一层最常点击的猫咪。点击猫咪会互动，换装有飞入反馈与爱心加分。</small>
       <div class="row">
         <button id="makePoem" class="pri" type="button" aria-label="生成名字小诗">生成名字小诗</button>
         <button id="remakePoem" class="sec" type="button" aria-label="换一首风格">换一首风格</button>
@@ -60,45 +353,142 @@
       <div class="status" id="poemStatus" aria-live="polite"></div>
       <div id="poemBox" class="box poem hide"></div>
 
-      <div class="dress">
-        <div>
-          <div class="stage" id="stage" title="点击猫咪收集爱心" aria-label="猫咪互动区域">
-            <div class="stage-light"></div>
-            <div class="shadow"></div>
-            <div class="cat">
-              <div class="tail"></div>
-              <div class="head">
-                <div class="ear l"></div><div class="ear r"></div>
-                <div class="face">
-                  <div class="eyes"><i></i><i></i></div>
-                  <div class="cheek l"></div><div class="cheek r"></div>
-                  <div class="nose"></div><div class="mouth" id="catMouth">ω</div>
-                  <div class="whisker l"><span></span><span></span></div>
-                  <div class="whisker r"><span></span><span></span></div>
-                </div>
-              </div>
-              <div class="body"><div class="belly">♥</div><div class="paw l"></div><div class="paw r"></div></div>
-            </div>
+      <div class="dress dress-upgraded">
+        <section class="model-panel">
+          <div id="baseSwitch" class="base-switch" aria-label="基础猫咪选择"></div>
+          <div class="stage plush-stage" id="stage" title="点击猫咪收集爱心" aria-label="猫咪互动区域">
+            <div class="stage-light" aria-hidden="true"></div>
+            <svg id="catSvg" class="cat-svg" viewBox="0 0 420 420" role="img" aria-label="Q版毛绒小猫模型">
+              <defs>
+                <radialGradient id="furGrad" cx="50%" cy="38%" r="66%">
+                  <stop offset="0%" stop-color="var(--cat-main-light)" />
+                  <stop offset="68%" stop-color="var(--cat-main-mid)" />
+                  <stop offset="100%" stop-color="var(--cat-main-dark)" />
+                </radialGradient>
+                <radialGradient id="bellyGrad" cx="50%" cy="35%" r="72%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="100%" stop-color="var(--cat-belly)" />
+                </radialGradient>
+                <radialGradient id="blushGrad" cx="50%" cy="50%" r="70%">
+                  <stop offset="0%" stop-color="rgba(255,214,224,.65)" />
+                  <stop offset="100%" stop-color="rgba(255,214,224,0)" />
+                </radialGradient>
+                <filter id="furSoft" x="-10%" y="-10%" width="120%" height="120%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="7" result="noise" />
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4" xChannelSelector="R" yChannelSelector="G" />
+                  <feGaussianBlur stdDeviation="0.25" />
+                </filter>
+                <filter id="furEdge" x="-12%" y="-12%" width="124%" height="124%">
+                  <feGaussianBlur stdDeviation="0.7" />
+                </filter>
+              </defs>
+
+              <g id="svg-tail">
+                <path id="svgTailMain" d="M286 284 C342 250 366 302 344 334 C322 366 280 350 274 322" fill="url(#furGrad)" stroke="rgba(0,0,0,.12)" stroke-width="2.2" filter="url(#furSoft)" />
+                <path id="svgTailTip" d="M330 308 C342 310 350 316 352 326" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round" />
+              </g>
+
+              <g id="svg-base-body">
+                <ellipse cx="210" cy="360" rx="112" ry="18" fill="rgba(125,95,70,.18)" />
+                <ellipse id="svgBodyCore" cx="210" cy="280" rx="96" ry="90" fill="url(#furGrad)" stroke="rgba(0,0,0,.12)" stroke-width="2" filter="url(#furSoft)" />
+                <path d="M165 245 C182 214 238 214 255 245 C266 266 263 290 245 305 C225 321 195 321 175 305 C157 290 154 266 165 245 Z" fill="url(#bellyGrad)" opacity=".96" filter="url(#furSoft)" />
+              </g>
+
+              <g id="svg-paws">
+                <ellipse cx="154" cy="340" rx="32" ry="30" fill="url(#bellyGrad)" stroke="rgba(0,0,0,.10)" stroke-width="1.6" />
+                <ellipse cx="266" cy="340" rx="32" ry="30" fill="url(#bellyGrad)" stroke="rgba(0,0,0,.10)" stroke-width="1.6" />
+                <ellipse cx="154" cy="345" rx="14" ry="18" fill="rgba(255,214,224,.92)" />
+                <ellipse cx="266" cy="345" rx="14" ry="18" fill="rgba(255,214,224,.92)" />
+                <circle cx="142" cy="333" r="4.6" fill="rgba(255,214,224,.92)" />
+                <circle cx="149" cy="328" r="4.4" fill="rgba(255,214,224,.92)" />
+                <circle cx="159" cy="327" r="4.4" fill="rgba(255,214,224,.92)" />
+                <circle cx="167" cy="332" r="4.5" fill="rgba(255,214,224,.92)" />
+                <circle cx="254" cy="333" r="4.6" fill="rgba(255,214,224,.92)" />
+                <circle cx="261" cy="328" r="4.4" fill="rgba(255,214,224,.92)" />
+                <circle cx="271" cy="327" r="4.4" fill="rgba(255,214,224,.92)" />
+                <circle cx="279" cy="332" r="4.5" fill="rgba(255,214,224,.92)" />
+              </g>
+
+              <g id="svg-head">
+                <circle cx="210" cy="166" r="114" fill="url(#furGrad)" stroke="rgba(0,0,0,.12)" stroke-width="2.2" filter="url(#furSoft)" />
+                <path d="M130 195 C148 216 178 228 210 228 C242 228 272 216 290 195" fill="none" stroke="rgba(255,255,255,.42)" stroke-width="3" stroke-linecap="round" />
+              </g>
+
+              <g id="svg-ears">
+                <path id="svgEarL" d="M132 95 C117 42 160 30 184 78" fill="url(#furGrad)" stroke="rgba(0,0,0,.12)" stroke-width="2" />
+                <path id="svgEarR" d="M288 95 C303 42 260 30 236 78" fill="url(#furGrad)" stroke="rgba(0,0,0,.12)" stroke-width="2" />
+                <path d="M142 92 C136 62 160 56 176 82" fill="var(--cat-ear-inner)" opacity=".86" />
+                <path d="M278 92 C284 62 260 56 244 82" fill="var(--cat-ear-inner)" opacity=".86" />
+              </g>
+
+              <g id="svg-eyes">
+                <g class="eye-round">
+                  <circle cx="172" cy="160" r="31" fill="var(--cat-eye)" />
+                  <circle cx="248" cy="160" r="31" fill="var(--cat-eye)" />
+                  <circle cx="183" cy="149" r="10" fill="#fff" opacity=".94" />
+                  <circle cx="258" cy="149" r="10" fill="#fff" opacity=".94" />
+                  <circle cx="189" cy="160" r="4" fill="#fff" opacity=".88" />
+                  <circle cx="264" cy="160" r="4" fill="#fff" opacity=".88" />
+                </g>
+                <g class="eye-crescent" stroke="var(--cat-eye)" stroke-width="6" fill="none" stroke-linecap="round">
+                  <path d="M146 162 Q172 142 198 162" />
+                  <path d="M222 162 Q248 142 274 162" />
+                </g>
+                <g class="eye-half" fill="var(--cat-eye)">
+                  <ellipse cx="172" cy="161" rx="24" ry="12" />
+                  <ellipse cx="248" cy="161" rx="24" ry="12" />
+                  <circle cx="182" cy="157" r="3.4" fill="#fff" opacity=".85" />
+                  <circle cx="258" cy="157" r="3.4" fill="#fff" opacity=".85" />
+                </g>
+                <g class="star-glint" fill="#fff" opacity=".88">
+                  <path d="M155 138 l4 9 l9 4 l-9 4 l-4 9 l-4-9 l-9-4 l9-4 z" />
+                  <path d="M257 138 l4 9 l9 4 l-9 4 l-4 9 l-4-9 l-9-4 l9-4 z" />
+                </g>
+              </g>
+
+              <g id="svg-face">
+                <ellipse cx="162" cy="196" rx="18" ry="12" fill="url(#blushGrad)" />
+                <ellipse cx="258" cy="196" rx="18" ry="12" fill="url(#blushGrad)" />
+                <path d="M210 185 L200 194 L220 194 Z" fill="var(--cat-ear-inner)" />
+                <path d="M200 200 Q210 210 220 200" fill="none" stroke="#8A5A3A" stroke-width="2.4" stroke-linecap="round" />
+                <path d="M210 195 Q210 202 210 205" fill="none" stroke="#8A5A3A" stroke-width="2.1" stroke-linecap="round" />
+                <path d="M136 191 Q162 194 184 197" fill="none" stroke="#fefefe" stroke-width="2" stroke-linecap="round" opacity=".82" />
+                <path d="M236 197 Q258 194 284 191" fill="none" stroke="#fefefe" stroke-width="2" stroke-linecap="round" opacity=".82" />
+              </g>
+
+              <g id="svg-slot-aura"></g>
+              <g id="svg-slot-head"></g>
+              <g id="svg-slot-face"></g>
+              <g id="svg-slot-cloth"></g>
+              <g id="svg-slot-hand"></g>
+            </svg>
             <div class="cat-bubble" id="catBubble"></div>
-            <div id="slotHead" class="slot"></div>
-            <div id="slotFace" class="slot"></div>
-            <div id="slotNeck" class="slot"></div>
-            <div id="slotHand" class="slot"></div>
-            <div id="slotAura" class="slot"></div>
           </div>
           <div class="score">当前爱心分：<b id="score">0</b></div>
-          <div class="row">
-            <button id="randomOutfit" class="pri" type="button" aria-label="随机换装">随机换装</button>
+          <div class="action-row">
+            <button id="randomOutfit" class="sec" type="button" aria-label="随机换装">随机换装</button>
             <button id="clearOutfit" class="sec" type="button" aria-label="清空装饰">清空装饰</button>
           </div>
-        </div>
-        <div id="controls" class="controls" aria-label="换装选择区"></div>
+        </section>
+
+        <section class="wardrobe-panel">
+          <div id="categoryTabs" class="category-tabs" aria-label="换装分类"></div>
+          <div class="option-shell">
+            <div id="optionsGrid" class="options-grid" aria-label="换装选项"></div>
+          </div>
+        </section>
       </div>
     </article>
 
-    <aside class="card preview">
+    <aside class="card preview poster-panel" id="posterPanel">
       <h2>导出海报</h2>
-      <small>国风暖色纪念图，含用户信息、幸运签、小诗和猫咪装扮。</small>
+      <small>用户专属治愈纪念海报，默认 9:16 竖版，可切换 16:9 横版导出。</small>
+      <div class="poster-mode" id="posterModeTabs" aria-label="海报比例模式">
+        <button id="modePortrait" class="on" type="button">竖版 9:16</button>
+        <button id="modeLandscape" type="button">横版 16:9</button>
+      </div>
+      <div class="poster-layout-note" id="posterLayoutNote">导出分辨率：2160 × 3840（高清保存）</div>
+
       <div class="summary">
         <h3 id="sumTitle">尚未生成内容</h3>
         <p id="sumProfile">请先生成内容。</p>
@@ -110,12 +500,12 @@
       <div class="poster-actions">
         <button id="previewPoster" class="pri" type="button" aria-label="预览海报">预览海报</button>
         <button id="savePoster" class="sec" type="button" aria-label="保存为图片">保存为图片</button>
-        <button id="sharePoster" class="sec" type="button" aria-label="分享海报文本">分享</button>
+        <button id="sharePoster" class="sec" type="button" aria-label="复制海报文案">复制文案</button>
         <button id="regenPoster" class="next" type="button" aria-label="重新生成海报">重新生成</button>
       </div>
       <a id="download" class="btn sec hide" download="warm-cat-poster.png" aria-label="下载海报">下载图片</a>
       <img id="previewImg" alt="海报预览" />
-      <canvas id="poster" class="hide" width="1080" height="1520"></canvas>
+      <canvas id="poster" class="hide" width="2160" height="3840"></canvas>
     </aside>
   </section>
 </main>
@@ -126,52 +516,66 @@
 
 <script src="common.js"></script>
 <script>
+const SITE_URL="https://nbecr424.github.io/warm-cat-lucky-site/";
+const SVG_NS="http://www.w3.org/2000/svg";
+const POSTER_SIZE={portrait:{w:2160,h:3840,label:"2160 × 3840"},landscape:{w:3840,h:2160,label:"3840 × 2160"}};
+
 const FORT_MAP={
-  1:{title:"招财招福",text:"贵人相助，心愿易成，今天宜主动出击。",item:"幸运物：红色流苏",time:"幸运时段：09:00-11:00",keyword:"财运"},
-  2:{title:"顺风顺水",text:"沟通顺畅，计划推进快，今天宜处理要事。",item:"幸运物：金色书签",time:"幸运时段：13:00-15:00",keyword:"行动"},
-  3:{title:"有花有酒",text:"情绪柔和，适合庆祝，今天宜见好友。",item:"幸运物：花朵贴纸",time:"幸运时段：18:00-20:00",keyword:"庆祝"},
-  4:{title:"自得其乐",text:"创意旺盛，灵感涌现，今天宜做新尝试。",item:"幸运物：猫咪挂件",time:"幸运时段：11:00-13:00",keyword:"灵感"},
-  5:{title:"见山见海",text:"心境开阔，状态平衡，今天宜学习沉淀。",item:"幸运物：蓝色便签",time:"幸运时段：15:00-17:00",keyword:"山海"},
-  6:{title:"上签上签",text:"整体运势偏强，行动越快收获越多。",item:"幸运物：福字红包",time:"幸运时段：07:30-09:30",keyword:"高能"}
+  1:{title:"招财招福",text:"贵人相助，心愿易成，今天宜主动出击。",item:"幸运物：红色流苏",time:"幸运时段：09:00-11:00",keyword:"财运",typeKey:"energetic"},
+  2:{title:"顺风顺水",text:"沟通顺畅，计划推进快，今天宜处理要事。",item:"幸运物：金色书签",time:"幸运时段：13:00-15:00",keyword:"行动",typeKey:"energetic"},
+  3:{title:"有花有酒",text:"情绪柔和，适合庆祝，今天宜见好友。",item:"幸运物：花朵贴纸",time:"幸运时段：18:00-20:00",keyword:"庆祝",typeKey:"healing"},
+  4:{title:"自得其乐",text:"创意旺盛，灵感涌现，今天宜做新尝试。",item:"幸运物：猫咪挂件",time:"幸运时段：11:00-13:00",keyword:"灵感",typeKey:"healing"},
+  5:{title:"见山见海",text:"心境开阔，状态平衡，今天宜学习沉淀。",item:"幸运物：蓝色便签",time:"幸运时段：15:00-17:00",keyword:"山海",typeKey:"zen"},
+  6:{title:"上签上签",text:"整体运势偏强，行动越快收获越多。",item:"幸运物：福字红包",time:"幸运时段：07:30-09:30",keyword:"高能",typeKey:"zen"}
 };
 
 const OUTFIT={
-  head:[["none","无",""],["bow","蝴蝶结","🎀"],["crown","小皇冠","👑"],["straw","草帽","👒"],["star","星星夹","⭐"],["flower","花花","🌼"],["party","派对帽","🥳"]],
-  face:[["none","无",""],["heart","爱心眼","😍"],["sun","墨镜","🕶️"],["wink","眨眼","😉"],["spark","闪亮眼","✨"],["sleep","困困眼","😴"]],
-  neck:[["none","无",""],["bell","铃铛","🔔"],["ribbon","丝带","🎗️"],["scarf","围巾","🧣"],["flower","花环","🌸"],["cookie","曲奇牌","🍪"]],
-  hand:[["none","无",""],["fish","小鱼干","🐟"],["milk","奶瓶","🍼"],["toy","玩偶","🧸"],["wand","魔法棒","🪄"],["heart","爱心","💖"],["donut","甜甜圈","🍩"]],
-  aura:[["none","无",""],["spark","星光","✨"],["bubble","泡泡","🫧"],["heart","爱心雨","💗"],["moon","小月亮","🌙"],["sun","小太阳","☀️"],["leaf","树叶","🍃"]]
+  head:[["none","无",""],["bow","甜心蝴蝶结","🎀"],["flower","小花发饰","🌼"],["crown","暖暖皇冠","👑"],["leaf","草叶发夹","🍃"],["straw","软萌草帽","👒"],["star","星光发夹","⭐"]],
+  face:[["none","无",""],["spark","星星眼","✨"],["wink","眨眼表情","😉"],["blush","元气腮红","😊"],["sleep","困困眼","😴"],["heart","爱心眼","😍"]],
+  neck:[["none","无",""],["scarf","暖绒围巾","🧣"],["bell","小铃铛","🔔"],["ribbon","丝带结","🎗️"],["dress","奶油裙摆","👗"],["flower","花环领圈","🌸"]],
+  hand:[["none","无",""],["fish","小鱼干","🐟"],["toy","毛绒玩偶","🧸"],["wand","云朵魔杖","🪄"],["kite","小旗旗","🎏"],["milk","奶瓶","🍼"]],
+  aura:[["none","无",""],["spark","星光圈","✨"],["heart","爱心雨","💗"],["bubble","泡泡层","🫧"],["moon","小月亮","🌙"],["sun","小太阳","☀️"]]
+};
+
+const CATEGORY_META={
+  head:{label:"头饰",icon:"🎀"},
+  face:{label:"表情",icon:"😊"},
+  neck:{label:"服饰",icon:"👗"},
+  hand:{label:"手持",icon:"🎏"},
+  aura:{label:"氛围",icon:"✨"}
+};
+
+const CAT_THEME={
+  catA:{id:"catA",typeKey:"energetic",name:"元气黄",emoji:"😺",className:"cat-a",vars:{
+    "--cat-main-light":"#fcd391","--cat-main-mid":"#f9c870","--cat-main-dark":"#e2ab61","--cat-fur-edge":"#b68758","--cat-ear-inner":"#ffd6e0","--cat-belly":"#fff8ef","--cat-eye":"#5f3a28"
+  }},
+  catB:{id:"catB",typeKey:"healing",name:"温柔白",emoji:"🤍",className:"cat-b",vars:{
+    "--cat-main-light":"#f8f8f8","--cat-main-mid":"#f0f0f0","--cat-main-dark":"#dbdbdb","--cat-fur-edge":"#a9a9a9","--cat-ear-inner":"#ffd6e0","--cat-belly":"#fffdf8","--cat-eye":"#5b4a3f"
+  }},
+  catC:{id:"catC",typeKey:"zen",name:"佛系灰",emoji:"🐾",className:"cat-c",vars:{
+    "--cat-main-light":"#d8d8d8","--cat-main-mid":"#cfcfcf","--cat-main-dark":"#bcbcbc","--cat-fur-edge":"#8d8d8d","--cat-ear-inner":"#ffd6e0","--cat-belly":"#f7f7f7","--cat-eye":"#4f4b48"
+  }}
+};
+
+const SLOT_DEF={
+  head:{group:"svg-slot-head",x:210,y:66,size:52},
+  face:{group:"svg-slot-face",x:210,y:170,size:46},
+  neck:{group:"svg-slot-cloth",x:210,y:274,size:50},
+  hand:{group:"svg-slot-hand",x:294,y:282,size:48},
+  aura:{group:"svg-slot-aura",x:308,y:102,size:50}
 };
 
 const POEM_STYLES=["治愈","俏皮","古风"];
 const MOOD={
-  morning:["晨光在窗台揉开一团橘色云，","清晨风很轻，像给你的一封温柔短笺，","阳光正好，今天的好运刚刚上线，","早起的猫咪先把好运叼到你门口，","晨光落在指尖，心情被轻轻点亮，","一杯热饮一缕日光，今日开始发亮，","早安时分，世界把温暖先递给你，","清晨像新开的花，愿你顺顺展开，","今天从一声喵开始，元气满满，","风把晨色吹软，也把好运吹近，","轻轻伸个懒腰，好事正在靠近，","太阳刚升起，你的好消息也在路上。"],
-  afternoon:["奶茶香从街角飘来像一首慢歌，","午后的云朵软软的，适合慢慢发光，","这段时光不急不缓，刚好盛放心愿，","风把热闹收进树影，留给你一点从容，","午后暖阳照在肩上，像温柔拍拍你，","今天的进度条，正在悄悄向前，","你在认真生活，幸运也在认真靠近，","阳光停在窗边，像在等你说愿望，","下午的节奏刚刚好，继续发光吧，","把小目标拆成小步子，也会很厉害，","云影轻晃，心情也变得轻盈，","每一次专注，都是好运的伏笔。"],
-  evening:["晚风把糖渍星光轻轻吹进衣袖，","落日把天边染成琥珀色，","夜色还没全落下，你的好运先亮灯了，","黄昏像一首慢拍情歌，轻轻托住你，","灯光亮起时，愿望也在慢慢靠岸，","傍晚的云像棉花糖，甜到心口，","忙碌一天后，愿你被柔软接住，","晚霞把疲惫染淡，好运继续加温，","暮色温柔，适合许一个小愿望，","夜前的风很轻，刚好适合放松，","天色渐暗，温暖却在你身边发亮，","让今天在安稳里收尾，在期待里续篇。"],
-  night:["夜色安静，像把你轻轻放进柔软毯子里，","星星一颗颗点亮，像给你的晚安签，","月光很轻，把烦恼都叠好收起，","深夜的风不吵，正适合听见自己，","今天辛苦啦，接下来只负责被温柔抱住，","夜晚是慢下来的时刻，也有慢慢到来的好运，","窗外微光闪烁，替你守着小愿望，","把心事交给月亮，明天会更亮，","这会儿只要放松，幸运会悄悄补给，","夜深了，温柔仍在，安心睡吧，","星河铺开，愿你做一个甜甜的梦，","让夜晚把你包好，明天继续闪闪发光。"]
+  morning:["晨光在窗边慢慢摊开，","风把奶香日常轻轻吹来，","今天的第一缕光，先落在你心上，","早安的空气里，藏着柔软好运，","清晨像一团奶油云，慢慢向你靠近，","今天从一声喵开始，心情软软亮亮，","太阳刚冒头，好消息也在路上，","先慢慢醒来，再稳稳发光，"],
+  afternoon:["午后的阳光像一杯温牛奶，","这会儿的风，刚好适合慢慢前进，","云影轻轻晃，愿望也在悄悄靠岸，","你正在认真生活，幸运也在认真靠近，","把节奏放缓一点，心会更亮一点，","暖暖的光落在肩上，烦恼就轻一点，","午后好，慢慢来也能走很远，","这段时光不急不忙，刚好装下温柔，"],
+  evening:["傍晚把天空调成了蜂蜜色，","晚风轻轻抱住你一天的疲惫，","今天快收尾了，温柔还在继续，","暮色像软毯子，把你稳稳接住，","灯光亮起时，好运也悄悄亮起，","把心事放轻一点，夜会更安稳，","黄昏的云很软，适合许愿，","今天的努力，已经在发光了，"],
+  night:["夜色很安静，像在给你轻声说晚安，","月光把烦恼一层层叠好收起，","这会儿只要放松，幸福会慢慢靠近，","给自己一个柔软的收尾，明天会更好，","晚安风吹过，心也变得轻轻的，","夜晚是修复心情的时刻，慢慢来就好，","把今天的小疲惫交给星星，","安心睡吧，明天继续闪闪发光，"]
 };
 const ENDING=[
-  "愿你抬头遇见好事，低头捡到温柔。",
-  "愿你每一步都踩在好运节拍里。",
-  "愿你和喜欢的事都有圆满回应。",
-  "愿你的笑意被世界认真收藏。",
-  "愿你被温暖包围，也把温暖递出去。",
-  "愿今天的幸运，明天继续。",
-  "愿你心里有光，脚下有路。",
-  "愿小愿望稳稳成真，日子甜甜发亮。",
-  "愿你被偏爱，也被自己温柔对待。",
-  "愿你在平凡日子里，收集不平凡的小确幸。",
-  "愿你走到哪里，哪里就有好心情。",
-  "愿你始终有勇气，也始终有拥抱。"
+  "愿你被好运轻轻抱住。","愿你的愿望稳稳靠近。","愿你每一步都被温柔回应。","愿你的小确幸天天出现。","愿你今天比昨天更松弛一点。","愿你在平凡里收集到闪光时刻。","愿你抬头见晴朗，低头有力量。","愿你被生活认真偏爱。"
 ];
-const CAT_WORDS=[
-  "别戳啦～再戳我就撒娇咯😜",
-  "你今天也太可爱了吧。",
-  "喵呜，给你一颗好运心心。",
-  "摸摸头，烦恼溜走。",
-  "继续加油，我给你打气！",
-  "今天也要吃好睡好呀。"
-];
+const CAT_WORDS=["喵呜，今天也很可爱。","慢慢来，我在这里陪你。","摸摸头，烦恼轻一点。","今天也会有小惊喜。","把肩膀放松，先呼吸一下。","你已经做得很好啦。"];
 
 const E={
   bgCute:document.getElementById("bgCute"),
@@ -185,18 +589,15 @@ const E={
   poemStyleText:document.getElementById("poemStyleText"),
   poemStatus:document.getElementById("poemStatus"),
   poemBox:document.getElementById("poemBox"),
+  baseSwitch:document.getElementById("baseSwitch"),
   stage:document.getElementById("stage"),
+  catSvg:document.getElementById("catSvg"),
   catBubble:document.getElementById("catBubble"),
-  catMouth:document.getElementById("catMouth"),
   score:document.getElementById("score"),
   randomOutfit:document.getElementById("randomOutfit"),
   clearOutfit:document.getElementById("clearOutfit"),
-  controls:document.getElementById("controls"),
-  slotHead:document.getElementById("slotHead"),
-  slotFace:document.getElementById("slotFace"),
-  slotNeck:document.getElementById("slotNeck"),
-  slotHand:document.getElementById("slotHand"),
-  slotAura:document.getElementById("slotAura"),
+  categoryTabs:document.getElementById("categoryTabs"),
+  optionsGrid:document.getElementById("optionsGrid"),
   sumTitle:document.getElementById("sumTitle"),
   sumProfile:document.getElementById("sumProfile"),
   sumFortune:document.getElementById("sumFortune"),
@@ -207,6 +608,10 @@ const E={
   savePoster:document.getElementById("savePoster"),
   sharePoster:document.getElementById("sharePoster"),
   regenPoster:document.getElementById("regenPoster"),
+  posterPanel:document.getElementById("posterPanel"),
+  posterLayoutNote:document.getElementById("posterLayoutNote"),
+  modePortrait:document.getElementById("modePortrait"),
+  modeLandscape:document.getElementById("modeLandscape"),
   previewImg:document.getElementById("previewImg"),
   poster:document.getElementById("poster"),
   download:document.getElementById("download"),
@@ -215,124 +620,308 @@ const E={
   bgMusic:document.getElementById("bgMusic")
 };
 
+const slotRefs={
+  head:document.getElementById("svg-slot-head"),
+  face:document.getElementById("svg-slot-face"),
+  neck:document.getElementById("svg-slot-cloth"),
+  hand:document.getElementById("svg-slot-hand"),
+  aura:document.getElementById("svg-slot-aura")
+};
+
 const profile=WarmCat.readJSON(WarmCat.KEYS.profile);
-if(!profile){alert("请先完成第一层。\n将跳转到第一页。");location.href="layer1.html";throw new Error("redirect:layer1");}
+if(!profile){
+  alert("请先完成第一层。\n将跳转到第一页。");
+  location.href="layer1.html";
+  throw new Error("redirect:layer1");
+}
+
 const fortuneSaved=WarmCat.readJSON(WarmCat.KEYS.fortune);
 if(!fortuneSaved||fortuneSaved.date!==WarmCat.day()||fortuneSaved.name!==profile.name){
   alert("请先完成第二层抽签。\n将跳转到第二层。");
   location.href="layer2.html";
   throw new Error("redirect:layer2");
 }
-const fortune=FORT_MAP[fortuneSaved.id]||FORT_MAP[1];
-const trans=WarmCat.popSessionJSON(WarmCat.SESSION_KEYS.l2ToL3);
 
+const fallbackFort=FORT_MAP[fortuneSaved.id]||FORT_MAP[1];
+const fortuneData={
+  id:fortuneSaved.id||fallbackFort.id||1,
+  title:fortuneSaved.title||fallbackFort.title,
+  theme:fortuneSaved.theme||fallbackFort.title,
+  reading:fortuneSaved.reading||fallbackFort.text,
+  advice:fortuneSaved.advice||fallbackFort.item,
+  message:fortuneSaved.message||fallbackFort.time,
+  keyword:fortuneSaved.keyword||fallbackFort.keyword,
+  typeKey:fortuneSaved.typeKey||fallbackFort.typeKey||"healing"
+};
+
+const trans=WarmCat.popSessionJSON(WarmCat.SESSION_KEYS.l2ToL3);
 const defaultOutfit={head:"none",face:"none",neck:"none",hand:"none",aura:"none"};
+
 const state={
   poem:"",
   poemStyle:"治愈",
-  outfit:WarmCat.readJSON(WarmCat.KEYS.outfit)||{...defaultOutfit},
+  outfit:{...defaultOutfit,...(WarmCat.readJSON(WarmCat.KEYS.outfit)||{})},
   score:Number(WarmCat.readJSON(WarmCat.KEYS.score)||0),
   posterUrl:"",
-  catTap:0
+  posterMode:"portrait",
+  catTap:0,
+  activeCategory:"head",
+  baseCat:"catA",
+  fullSetRewarded:false,
+  randoming:false,
+  qrImg:null
 };
 
 E.profileName.textContent=`${profile.name} 的今日档案`;
 E.profileText.textContent=WarmCat.profileText(profile);
-E.fortuneTitle.textContent=`幸运签：${fortune.title}`;
-E.fortuneText.textContent=fortune.text;
+E.fortuneTitle.textContent=`幸运签：${fortuneData.title}`;
+E.fortuneText.textContent=`${fortuneData.reading}`;
 E.score.textContent=String(state.score);
 E.heroSub.textContent=`第三层：生成名字小诗，给猫咪换装，导出暖色海报。${WarmCat.timeGreeting()}`;
+
+function wait(ms){return new Promise((resolve)=>setTimeout(resolve,ms));}
+
+function preferredCatFromLayer1(){
+  const pref=WarmCat.readJSON(WarmCat.KEYS.catPreference)||{};
+  const clicks=pref.clicks||{};
+  const arr=["catA","catB","catC"].map((k)=>[k,Number(clicks[k]||0)]).sort((a,b)=>b[1]-a[1]);
+  if(arr[0][1]>0)return arr[0][0];
+  if(fortuneData.typeKey==="energetic")return "catA";
+  if(fortuneData.typeKey==="zen")return "catC";
+  return "catB";
+}
+
+function setCatTheme(catKey){
+  const conf=CAT_THEME[catKey]||CAT_THEME.catA;
+  state.baseCat=conf.id;
+  E.stage.classList.remove("cat-a","cat-b","cat-c");
+  E.stage.classList.add(conf.className);
+  Object.keys(conf.vars).forEach((k)=>E.stage.style.setProperty(k,conf.vars[k]));
+  E.baseSwitch.querySelectorAll("button").forEach((btn)=>btn.classList.toggle("on",btn.dataset.cat===conf.id));
+}
+
+function buildBaseSwitch(){
+  E.baseSwitch.innerHTML="";
+  Object.values(CAT_THEME).forEach((cat)=>{
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.dataset.cat=cat.id;
+    btn.setAttribute("aria-label",`切换到${cat.name}`);
+    btn.textContent=`${cat.emoji} ${cat.name}`;
+    btn.addEventListener("click",()=>setCatTheme(cat.id));
+    E.baseSwitch.appendChild(btn);
+  });
+  setCatTheme(preferredCatFromLayer1());
+}
+
+function createSvgText(x,y,size,icon,extraClass=""){
+  const text=document.createElementNS(SVG_NS,"text");
+  text.setAttribute("x",String(x));
+  text.setAttribute("y",String(y));
+  text.setAttribute("text-anchor","middle");
+  text.setAttribute("dominant-baseline","middle");
+  text.setAttribute("font-size",String(size));
+  text.setAttribute("class",`svg-ornament ${extraClass}`.trim());
+  text.textContent=icon;
+  return text;
+}
+
+function setOutfitSlot(slotKey,icon){
+  const slot=slotRefs[slotKey];
+  if(!slot)return;
+  slot.innerHTML="";
+  if(!icon)return;
+  const cfg=SLOT_DEF[slotKey];
+  const cls=slotKey==="aura"?"aura":"";
+  slot.appendChild(createSvgText(cfg.x,cfg.y,cfg.size,icon,cls));
+}
 
 function outfitEmoji(cat,id){
   const item=OUTFIT[cat].find((x)=>x[0]===id);
   return item?item[2]:"";
 }
 
-function isOutfitEmpty(){
-  return Object.values(state.outfit).every((v)=>v==="none");
-}
-
-function applyOutfit(save=true){
-  E.slotHead.textContent=outfitEmoji("head",state.outfit.head);
-  E.slotFace.textContent=outfitEmoji("face",state.outfit.face);
-  E.slotNeck.textContent=outfitEmoji("neck",state.outfit.neck);
-  E.slotHand.textContent=outfitEmoji("hand",state.outfit.hand);
-  E.slotAura.textContent=outfitEmoji("aura",state.outfit.aura);
-  document.querySelectorAll(".opt").forEach((btn)=>btn.classList.toggle("on",state.outfit[btn.dataset.cat]===btn.dataset.id));
+function applyOutfit(save=true,feedback=false){
+  Object.keys(OUTFIT).forEach((cat)=>setOutfitSlot(cat,outfitEmoji(cat,state.outfit[cat])));
+  E.optionsGrid.querySelectorAll(".opt-btn").forEach((btn)=>{
+    btn.classList.toggle("on",state.outfit[btn.dataset.cat]===btn.dataset.id);
+  });
   if(save)WarmCat.writeJSON(WarmCat.KEYS.outfit,state.outfit);
+  if(feedback){
+    E.catSvg.classList.remove("wear-pop");
+    void E.catSvg.offsetWidth;
+    E.catSvg.classList.add("wear-pop");
+    E.catSvg.classList.add("blink");
+    setTimeout(()=>E.catSvg.classList.remove("blink"),180);
+  }
   updateSummary();
 }
 
-function flyToCat(fromNode,icon){
+function flyToCat(fromNode,icon,cat){
   if(!icon)return;
   const start=fromNode.getBoundingClientRect();
   const end=E.stage.getBoundingClientRect();
   const f=document.createElement("span");
   f.className="fly-ornament";
   f.textContent=icon;
+  const slotY={head:80,face:168,neck:264,hand:258,aura:86}[cat]||146;
   f.style.left=`${start.left+start.width/2}px`;
   f.style.top=`${start.top+start.height/2}px`;
   f.style.setProperty("--tx",`${end.left+end.width/2-(start.left+start.width/2)}px`);
-  f.style.setProperty("--ty",`${end.top+88-(start.top+start.height/2)}px`);
+  f.style.setProperty("--ty",`${end.top+slotY-(start.top+start.height/2)}px`);
   document.body.appendChild(f);
-  setTimeout(()=>f.remove(),560);
+  setTimeout(()=>f.remove(),420);
 }
 
-function buildControls(){
-  const labels={head:"头饰",face:"表情",neck:"颈饰",hand:"手持",aura:"氛围"};
-  Object.keys(OUTFIT).forEach((cat)=>{
-    const g=document.createElement("div");
-    g.className="grp";
-    const h=document.createElement("h3");
-    h.textContent=labels[cat];
-    g.appendChild(h);
-    const w=document.createElement("div");
-    w.className="opts";
-    OUTFIT[cat].forEach(([id,label,icon])=>{
-      const b=document.createElement("button");
-      b.className="opt";
-      b.type="button";
-      b.dataset.cat=cat;
-      b.dataset.id=id;
-      b.setAttribute("aria-label",`${labels[cat]} ${label}`);
-      b.textContent=`${icon?icon+" ":""}${label}`;
-      b.onclick=()=>{
-        state.outfit[cat]=id;
-        applyOutfit();
-        flyToCat(b,icon);
-      };
-      w.appendChild(b);
+function spawnHearts(x,y,count=3){
+  for(let i=0;i<count;i+=1){
+    const h=document.createElement("span");
+    h.className="float-heart";
+    h.textContent=["💗","💖","💞","🐾"][Math.floor(Math.random()*4)];
+    h.style.left=`${x+(Math.random()*28-14)}px`;
+    h.style.top=`${y+(Math.random()*18-9)}px`;
+    h.style.fontSize=`${16+Math.random()*12}px`;
+    E.stage.appendChild(h);
+    setTimeout(()=>h.remove(),980);
+  }
+}
+
+function showCatBubble(text,duration=1200){
+  E.catBubble.textContent=text;
+  E.catBubble.classList.add("on");
+  clearTimeout(showCatBubble.timer);
+  showCatBubble.timer=setTimeout(()=>E.catBubble.classList.remove("on"),duration);
+}
+
+function addScore(delta=1,showAtStage=true){
+  state.score+=delta;
+  E.score.textContent=String(state.score);
+  E.score.classList.remove("bump");
+  void E.score.offsetWidth;
+  E.score.classList.add("bump");
+  WarmCat.writeJSON(WarmCat.KEYS.score,state.score);
+  if(showAtStage){
+    spawnHearts(E.stage.clientWidth*.5,96,delta>=5?5:2);
+  }
+}
+
+function isFullSet(){
+  return Object.keys(OUTFIT).every((k)=>state.outfit[k]&&state.outfit[k]!=="none");
+}
+
+function checkFullSetReward(){
+  const full=isFullSet();
+  if(full&&!state.fullSetRewarded){
+    state.fullSetRewarded=true;
+    addScore(5,true);
+    E.catSvg.classList.remove("full-spin");
+    void E.catSvg.offsetWidth;
+    E.catSvg.classList.add("full-spin");
+    showCatBubble("穿满5件，开心加分 +5 💖",1400);
+    setTimeout(()=>E.catSvg.classList.remove("full-spin"),520);
+  }
+  if(!full)state.fullSetRewarded=false;
+}
+
+function selectOutfitItem(cat,id,icon,node){
+  const prev=state.outfit[cat];
+  state.outfit[cat]=id;
+  applyOutfit(true,true);
+  flyToCat(node,icon,cat);
+  if(id!==prev&&id!=="none")addScore(1,true);
+  checkFullSetReward();
+}
+
+function renderCategoryTabs(){
+  E.categoryTabs.innerHTML="";
+  Object.keys(CATEGORY_META).forEach((cat)=>{
+    const meta=CATEGORY_META[cat];
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="category-tab";
+    b.dataset.cat=cat;
+    b.setAttribute("aria-label",`切换${meta.label}`);
+    b.innerHTML=`<span>${meta.icon}</span><span>${meta.label}</span>`;
+    b.addEventListener("click",()=>{state.activeCategory=cat;renderCategoryTabs();renderOptionsGrid();});
+    b.classList.toggle("on",state.activeCategory===cat);
+    E.categoryTabs.appendChild(b);
+  });
+}
+
+function renderOptionsGrid(){
+  const cat=state.activeCategory;
+  const opts=OUTFIT[cat]||[];
+  E.optionsGrid.innerHTML="";
+  opts.forEach(([id,label,icon])=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className=`opt-btn ${id==="none"?"none":""}`;
+    b.dataset.cat=cat;
+    b.dataset.id=id;
+    b.setAttribute("aria-label",`${CATEGORY_META[cat].label}${label}`);
+    b.innerHTML=`<span class="opt-thumb">${icon||"◌"}</span><span class="opt-name">${label}</span>`;
+    b.classList.toggle("on",state.outfit[cat]===id);
+    b.addEventListener("click",()=>selectOutfitItem(cat,id,icon,b));
+    E.optionsGrid.appendChild(b);
+  });
+}
+
+function randomPick(cat,excludeNone=false){
+  const arr=OUTFIT[cat]||[];
+  const pool=excludeNone?arr.filter(([id])=>id!=="none"):arr;
+  if(!pool.length)return "none";
+  return pool[Math.floor(Math.random()*pool.length)][0];
+}
+
+async function randomOutfit(){
+  if(state.randoming)return;
+  state.randoming=true;
+  E.randomOutfit.disabled=true;
+  E.clearOutfit.disabled=true;
+  E.randomOutfit.classList.add("btn-loading");
+  const keys=Object.keys(OUTFIT);
+  for(let i=0;i<5;i+=1){
+    keys.forEach((cat)=>{
+      state.outfit[cat]=randomPick(cat,i===4);
     });
-    g.appendChild(w);
-    E.controls.appendChild(g);
-  });
-  applyOutfit();
-}
-
-function randomOutfit(){
-  Object.keys(OUTFIT).forEach((cat)=>{
-    const arr=OUTFIT[cat];
-    state.outfit[cat]=arr[Math.floor(Math.random()*arr.length)][0];
-  });
-  applyOutfit();
+    applyOutfit(false,i===4);
+    await wait(90+i*30);
+  }
+  WarmCat.writeJSON(WarmCat.KEYS.outfit,state.outfit);
+  checkFullSetReward();
+  showCatBubble("随机换装完成啦 ✨",1200);
+  E.randomOutfit.classList.remove("btn-loading");
+  E.randomOutfit.disabled=false;
+  E.clearOutfit.disabled=false;
+  state.randoming=false;
 }
 
 function clearOutfit(){
+  if(state.randoming)return;
   state.outfit={...defaultOutfit};
-  applyOutfit();
+  applyOutfit(true,false);
+  E.catSvg.classList.remove("yawn");
+  void E.catSvg.offsetWidth;
+  E.catSvg.classList.add("yawn");
+  setTimeout(()=>E.catSvg.classList.remove("yawn"),420);
+  showCatBubble("装饰已清空，慢慢来最舒服～",1200);
+}
+
+function isOutfitEmpty(){
+  return Object.values(state.outfit).every((v)=>!v||v==="none");
 }
 
 function applyTransitionHint(){
   if(!trans||!trans.hint||!isOutfitEmpty())return;
   state.outfit={...state.outfit,...trans.hint};
-  applyOutfit();
-  WarmCat.status(E.poemStatus,`已根据「${trans.title||fortune.title}」自动搭配一套装饰。`);
+  applyOutfit(true,true);
+  WarmCat.status(E.poemStatus,`已根据「${trans.title||fortuneData.title}」推荐一套装扮。`);
 }
 
 function poemLineByStyle(style,c1,c2){
-  if(style==="俏皮")return `${c1}字像猫爪轻拍窗台，${c2}字在空气里翻了个可爱跟头，`;
+  if(style==="俏皮")return `${c1}字像猫爪轻拍窗台，${c2}字在风里翻了个可爱跟头，`;
   if(style==="古风")return `${c1}字入笺，轻叩山海远意；${c2}字落墨，温煮人间清欢，`;
-  return `${c1}字写在风里，像一颗软糖慢慢发光，${c2}字落在心上，`;
+  return `${c1}字写在光里，像一颗软糖慢慢发亮，${c2}字落在心上，`;
 }
 
 function makePoemText(salt=0,style="治愈"){
@@ -341,17 +930,36 @@ function makePoemText(salt=0,style="治愈"){
   const c2=chars[1]||c1||"呀";
   const period=WarmCat.timePeriod();
   const moodPool=MOOD[period]||MOOD.morning;
-  const mood=moodPool[WarmCat.hash(`${profile.name}-${fortune.title}-${WarmCat.day()}-${salt}`)%moodPool.length];
-  const ending=ENDING[WarmCat.hash(`${fortune.title}-${profile.name}-${salt}`)%ENDING.length];
-  const hobby=profile.hobby?`把「${profile.hobby}」当作今日幸运动作，`:"";
-  const wish=profile.wish?`愿望「${profile.wish}」正在靠近，`:"";
-  const key=fortuneSaved.keyword||fortune.keyword||fortune.title;
+  const mood=moodPool[WarmCat.hash(`${profile.name}-${fortuneData.title}-${WarmCat.day()}-${salt}`)%moodPool.length];
+  const ending=ENDING[WarmCat.hash(`${fortuneData.title}-${profile.name}-${salt}`)%ENDING.length];
+  const hobby=profile.hobby?`把「${profile.hobby}」当作今天的小幸运动作，`:"";
+  const wish=profile.wish?`愿望「${profile.wish}」正在慢慢靠近，`:"";
+  const key=fortuneData.keyword||fortuneData.theme||fortuneData.title;
   return [
     mood,
     poemLineByStyle(style,c1,c2),
-    `${hobby}${wish}与「${key}」并肩同行。`,
-    `愿${profile.name}今天被温柔拥抱，${ending}`
+    `${hobby}${wish}和「${key}」一起发光。`,
+    `愿${profile.name}今天被温柔抱住，${ending}`
   ].join("\n");
+}
+
+function renderPoemText(text,animated=true){
+  clearInterval(renderPoemText.timer);
+  E.poemBox.classList.remove("hide");
+  if(!animated){
+    E.poemBox.textContent=text;
+    return;
+  }
+  const chars=Array.from(text);
+  let idx=0;
+  E.poemBox.textContent="";
+  renderPoemText.timer=setInterval(()=>{
+    idx+=2;
+    E.poemBox.textContent=chars.slice(0,idx).join("");
+    if(idx>=chars.length){
+      clearInterval(renderPoemText.timer);
+    }
+  },24);
 }
 
 function updatePoemStyleText(){
@@ -361,64 +969,123 @@ function updatePoemStyleText(){
 function makePoem(salt=0,style=state.poemStyle){
   state.poemStyle=style;
   state.poem=makePoemText(salt,style);
-  E.poemBox.textContent=state.poem;
-  E.poemBox.classList.remove("hide");
-  WarmCat.writeJSON(WarmCat.KEYS.poem,{date:WarmCat.day(),name:profile.name,poem:state.poem,salt,style});
+  renderPoemText(state.poem,true);
+  WarmCat.writeJSON(WarmCat.KEYS.poem,{
+    date:WarmCat.day(),
+    name:profile.name,
+    poem:state.poem,
+    salt,
+    style
+  });
   updatePoemStyleText();
   WarmCat.status(E.poemStatus,`名字小诗已生成（${style}）。`);
   updateSummary();
 }
 
 function loadPoem(){
-  const p=WarmCat.readJSON(WarmCat.KEYS.poem);
-  if(!p||p.date!==WarmCat.day()||p.name!==profile.name)return;
-  state.poem=p.poem;
-  state.poemStyle=p.style||"治愈";
-  E.poemBox.textContent=p.poem;
-  E.poemBox.classList.remove("hide");
+  const saved=WarmCat.readJSON(WarmCat.KEYS.poem);
+  if(!saved||saved.date!==WarmCat.day()||saved.name!==profile.name)return false;
+  state.poem=saved.poem||"";
+  state.poemStyle=saved.style||"治愈";
+  renderPoemText(state.poem,false);
   updatePoemStyleText();
-  WarmCat.status(E.poemStatus,"已读取今日小诗。",false);
+  WarmCat.status(E.poemStatus,"已读取今日小诗。");
+  return Boolean(state.poem);
 }
 
-function showCatBubble(text){
-  E.catBubble.textContent=text;
-  E.catBubble.classList.add("on");
-  clearTimeout(showCatBubble.timer);
-  showCatBubble.timer=setTimeout(()=>E.catBubble.classList.remove("on"),1200);
+function catBubblePool(){
+  const wish=profile.wish?`「${profile.wish}」`:"小愿望";
+  return {
+    catA:[
+      `冲呀 ${profile.name}，${wish}会向你跑来！`,
+      "元气补给完成，今天继续闪亮喵～",
+      "别急，慢慢做也能拿下好结果。"
+    ],
+    catB:[
+      `${profile.name}，今天也被温柔好好接住。`,
+      "先深呼吸，再慢慢往前走。你很棒。",
+      `愿你的${wish}，稳稳靠近。`
+    ],
+    catC:[
+      "不赶路也没关系，步子稳就很好。",
+      "把心放松一点，今天会顺一点。",
+      `${profile.name}，慢节奏也会有好运。`
+    ]
+  };
 }
 
-function popHeart(ev){
-  state.catTap+=1;
-  state.score+=1;
-  if(state.catTap%10===0){
-    state.score+=3;
-    showCatBubble("连点奖励 +3 ❤");
-  }else{
-    showCatBubble(CAT_WORDS[Math.floor(Math.random()*CAT_WORDS.length)]);
-  }
-  E.catMouth.textContent=["ω","ᴗ","◡","w"][Math.floor(Math.random()*4)];
-  E.score.textContent=String(state.score);
-  WarmCat.writeJSON(WarmCat.KEYS.score,state.score);
+function nextCatBubble(){
+  const pools=catBubblePool();
+  const arr=pools[state.baseCat]||CAT_WORDS;
+  const key=`${WarmCat.day()}::${state.baseCat}::${state.catTap}`;
+  return arr[WarmCat.hash(key)%arr.length];
+}
+
+function bumpCatPreference(){
+  const pref=WarmCat.readJSON(WarmCat.KEYS.catPreference)||{};
+  const clicks=pref.clicks||{};
+  clicks[state.baseCat]=(Number(clicks[state.baseCat]||0)+1);
+  pref.clicks=clicks;
+  pref.last=state.baseCat;
+  WarmCat.writeJSON(WarmCat.KEYS.catPreference,pref);
+}
+
+function stagePoint(ev){
   const rect=E.stage.getBoundingClientRect();
-  const x=ev.clientX-rect.left;
-  const y=ev.clientY-rect.top;
-  const s=document.createElement("span");
-  s.className="float";
-  s.textContent=["💖","💗","💞","💘"][Math.floor(Math.random()*4)];
-  s.style.left=`${x}px`;
-  s.style.top=`${y}px`;
-  s.style.fontSize=`${18+Math.random()*16}px`;
-  E.stage.appendChild(s);
-  setTimeout(()=>s.remove(),1000);
+  if(ev&&typeof ev.clientX==="number"&&typeof ev.clientY==="number"){
+    return {x:ev.clientX-rect.left,y:ev.clientY-rect.top};
+  }
+  return {x:rect.width*0.5,y:rect.height*0.34};
+}
+
+function handleStageTap(ev){
+  state.catTap+=1;
+  addScore(1,false);
+  bumpCatPreference();
+  const p=stagePoint(ev);
+  spawnHearts(p.x,p.y,Math.random()>.5?3:2);
+  E.catSvg.classList.remove("clicking");
+  void E.catSvg.offsetWidth;
+  E.catSvg.classList.add("clicking");
+  setTimeout(()=>E.catSvg.classList.remove("clicking"),360);
+  if(state.catTap%10===0){
+    addScore(3,true);
+    showCatBubble("连点奖励 +3 💖",1300);
+  }else{
+    showCatBubble(nextCatBubble(),1200);
+  }
   updateSummary();
 }
 
+function scheduleBlink(){
+  clearTimeout(scheduleBlink.timer);
+  scheduleBlink.timer=setTimeout(()=>{
+    E.catSvg.classList.add("blink");
+    setTimeout(()=>E.catSvg.classList.remove("blink"),170);
+    scheduleBlink();
+  },4000+Math.floor(Math.random()*2000));
+}
+
+function dailyGreeting(){
+  const key=`${WarmCat.KEYS.catGreeting}_l3`;
+  const saved=WarmCat.readJSON(key)||{};
+  if(saved.date===WarmCat.day())return;
+  showCatBubble(`${WarmCat.timeGreeting()} ${profile.name}，欢迎来到第三层。`,1800);
+  WarmCat.writeJSON(key,{date:WarmCat.day()});
+}
+
 function updateSummary(){
+  const typeLabel=fortuneData.typeKey==="energetic"?"元气喵签":(fortuneData.typeKey==="zen"?"佛系喵签":"治愈喵签");
+  const outfitText=Object.keys(state.outfit).map((k)=>{
+    const item=OUTFIT[k].find((x)=>x[0]===state.outfit[k]);
+    return item&&item[0]!=="none"?`${CATEGORY_META[k].label}${item[1]}`:"";
+  }).filter(Boolean).join("、");
   E.sumTitle.textContent=`${profile.name} 的今日暖暖海报`;
   E.sumProfile.textContent=WarmCat.profileText(profile);
-  E.sumFortune.textContent=`幸运签：${fortune.title}。${fortune.text} ${fortune.item} ${fortune.time}`;
+  E.sumFortune.textContent=`${typeLabel} · ${fortuneData.title}：${fortuneData.reading} ${fortuneData.advice} ${fortuneData.message}`;
   E.sumPoem.textContent=state.poem?`小诗：${state.poem.replace(/\n/g," ")}`:"请先生成名字小诗。";
   E.blessBox.textContent=WarmCat.wishBlessing(profile.name,profile.wish);
+  E.posterBadge.textContent=`生成时间：${state.posterUrl?new Date().toLocaleString():"未生成"}${outfitText?` · 装扮：${outfitText}`:""}`;
 }
 
 function rr(ctx,x,y,w,h,r){
@@ -453,196 +1120,515 @@ function wrap(ctx,text,max){
   return out;
 }
 
+function setPosterMode(mode,rerender=false){
+  state.posterMode=mode==="landscape"?"landscape":"portrait";
+  E.modePortrait.classList.toggle("on",state.posterMode==="portrait");
+  E.modeLandscape.classList.toggle("on",state.posterMode==="landscape");
+  const sz=POSTER_SIZE[state.posterMode];
+  E.poster.width=sz.w;
+  E.poster.height=sz.h;
+  E.posterLayoutNote.textContent=`导出分辨率：${sz.label}（高清保存）`;
+  if(rerender&&state.poem){
+    void makePoster(Math.floor(Math.random()*100000));
+  }
+}
+
 function drawPosterBg(ctx,w,h,seed=0){
-  const grad=ctx.createLinearGradient(0,0,w,h);
-  grad.addColorStop(0,"#fff5e8");
-  grad.addColorStop(.55,"#ffe2c3");
-  grad.addColorStop(1,"#ffd3a6");
+  const grad=ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,"#FAF7F2");
+  grad.addColorStop(1,"#F9EED8");
   ctx.fillStyle=grad;
   ctx.fillRect(0,0,w,h);
 
-  ctx.fillStyle="rgba(173,116,76,.08)";
-  for(let i=0;i<62;i+=1){
-    const p=WarmCat.hash(`${i}-${seed}-${profile.name}`);
+  ctx.fillStyle="rgba(217,197,176,.12)";
+  for(let i=0;i<84;i+=1){
+    const p=WarmCat.hash(`${seed}-${i}-${profile.name}`);
     const px=(p%997)/997*w;
-    const py=(p%773)/773*h;
-    const s=6+(p%10);
-    ctx.beginPath();ctx.arc(px-s*1.1,py-s*1.2,s*.42,0,Math.PI*2);ctx.arc(px+s*1.1,py-s*1.2,s*.42,0,Math.PI*2);ctx.arc(px,py,s*.58,0,Math.PI*2);ctx.fill();
+    const py=(p%991)/991*h;
+    const s=8+(p%12);
+    ctx.beginPath();
+    ctx.arc(px-s*1.1,py-s*1.16,s*.36,0,Math.PI*2);
+    ctx.arc(px+s*1.1,py-s*1.16,s*.36,0,Math.PI*2);
+    ctx.arc(px,py,s*.54,0,Math.PI*2);
+    ctx.fill();
   }
 
-  const light=ctx.createRadialGradient(w*.22,h*.14,40,w*.22,h*.14,420);
-  light.addColorStop(0,"rgba(255,255,255,.68)");
-  light.addColorStop(1,"rgba(255,255,255,0)");
-  ctx.fillStyle=light;
-  ctx.fillRect(0,0,w,h);
+  for(let i=0;i<28;i+=1){
+    const p=WarmCat.hash(`yarn-${seed}-${i}-${profile.name}`);
+    const x=(p%941)/941*w;
+    const y=(p%887)/887*h;
+    const r=7+(p%13);
+    ctx.strokeStyle="rgba(244,168,104,.18)";
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x,y,r*.55,0,Math.PI*2);
+    ctx.stroke();
+  }
 }
 
-function drawCat(ctx,x,y){
-  ctx.save();
-  ctx.fillStyle="rgba(70,45,20,.16)";
-  ctx.beginPath();
-  ctx.ellipse(x,y+236,132,26,0,0,Math.PI*2);
+function drawCard(ctx,x,y,w,h,alpha=.9){
+  rr(ctx,x,y,w,h,24);
+  ctx.fillStyle=`rgba(255,251,245,${alpha})`;
   ctx.fill();
-  const headGrad=ctx.createLinearGradient(x-80,y-10,x+80,y+120);
-  headGrad.addColorStop(0,"#ffe9cc");headGrad.addColorStop(.65,"#ffd6a8");headGrad.addColorStop(1,"#ffc28f");
-  const bodyGrad=ctx.createLinearGradient(x-70,y+80,x+70,y+240);
-  bodyGrad.addColorStop(0,"#ffe7c8");bodyGrad.addColorStop(.7,"#ffd4ab");bodyGrad.addColorStop(1,"#ffbf8b");
-  ctx.fillStyle=headGrad;ctx.strokeStyle="#6f4225";ctx.lineWidth=5;
-  const ear=(ox,flip)=>{ctx.save();ctx.translate(x+ox,y-44);if(flip)ctx.scale(-1,1);ctx.beginPath();ctx.moveTo(-24,28);ctx.quadraticCurveTo(-22,-26,22,18);ctx.quadraticCurveTo(8,34,-24,28);ctx.fill();ctx.stroke();ctx.fillStyle="#ffcfa8";ctx.beginPath();ctx.moveTo(-9,22);ctx.quadraticCurveTo(-7,-3,11,17);ctx.quadraticCurveTo(4,25,-9,22);ctx.fill();ctx.restore();ctx.fillStyle=headGrad;};
-  ear(-60,false);ear(60,true);
-  ctx.beginPath();ctx.ellipse(x,y+118,86,80,0,0,Math.PI*2);ctx.fillStyle=bodyGrad;ctx.fill();ctx.stroke();
-  ctx.beginPath();ctx.ellipse(x,y+34,98,82,0,0,Math.PI*2);ctx.fillStyle=headGrad;ctx.fill();ctx.stroke();
-  ctx.fillStyle="#ffdfbe";rr(ctx,x-56,y+183,42,30,16);ctx.fill();ctx.stroke();rr(ctx,x+14,y+183,42,30,16);ctx.fill();ctx.stroke();
-  ctx.strokeStyle="#6f4225";ctx.lineWidth=6;ctx.beginPath();ctx.arc(x+96,y+126,48,-1.1,.15);ctx.stroke();
-  ctx.fillStyle="#2f1e14";ctx.beginPath();ctx.ellipse(x-24,y+18,7,10,0,0,Math.PI*2);ctx.ellipse(x+24,y+18,7,10,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="#fff";ctx.beginPath();ctx.ellipse(x-22,y+15,2.3,3,0,0,Math.PI*2);ctx.ellipse(x+26,y+15,2.3,3,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="rgba(241,138,140,.55)";ctx.beginPath();ctx.ellipse(x-38,y+46,14,8,0,0,Math.PI*2);ctx.ellipse(x+38,y+46,14,8,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="#8a4e2c";ctx.beginPath();ctx.ellipse(x,y+36,9,7,0,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle="#8a5738";ctx.lineWidth=2.3;ctx.beginPath();ctx.moveTo(x-60,y+36);ctx.lineTo(x-34,y+39);ctx.moveTo(x-60,y+47);ctx.lineTo(x-34,y+45);ctx.moveTo(x+60,y+36);ctx.lineTo(x+34,y+39);ctx.moveTo(x+60,y+47);ctx.lineTo(x+34,y+45);ctx.stroke();
-  ctx.fillStyle="#6f4225";ctx.font="28px 'Microsoft YaHei'";ctx.textAlign="center";ctx.fillText("ω",x,y+62);
-  ctx.fillStyle="#e78692";ctx.font="bold 30px 'Microsoft YaHei'";ctx.fillText("♥",x,y+158);
-  ctx.font="56px 'Segoe UI Emoji','Apple Color Emoji',sans-serif";
-  const h=outfitEmoji("head",state.outfit.head),f=outfitEmoji("face",state.outfit.face),n=outfitEmoji("neck",state.outfit.neck),d=outfitEmoji("hand",state.outfit.hand),a=outfitEmoji("aura",state.outfit.aura);
-  if(h)ctx.fillText(h,x,y-22);if(f)ctx.fillText(f,x,y+48);if(n)ctx.fillText(n,x,y+140);if(d)ctx.fillText(d,x+90,y+172);if(a)ctx.fillText(a,x+120,y-28);
+  ctx.strokeStyle="rgba(217,197,176,.88)";
+  ctx.lineWidth=2;
+  ctx.stroke();
+}
+
+function drawPlushCat(ctx,cx,cy,scale=1){
+  const t=CAT_THEME[state.baseCat]||CAT_THEME.catA;
+  const main=t.vars["--cat-main-mid"];
+  const light=t.vars["--cat-main-light"];
+  const dark=t.vars["--cat-main-dark"];
+  const belly=t.vars["--cat-belly"];
+  const ear=t.vars["--cat-ear-inner"];
+  const eye=t.vars["--cat-eye"];
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.scale(scale,scale);
+
+  ctx.fillStyle="rgba(85,62,42,.16)";
+  ctx.beginPath();
+  ctx.ellipse(0,132,92,18,0,0,Math.PI*2);
+  ctx.fill();
+
+  const tailGrad=ctx.createRadialGradient(48,44,8,62,56,88);
+  tailGrad.addColorStop(0,light);
+  tailGrad.addColorStop(1,dark);
+  ctx.strokeStyle=tailGrad;
+  ctx.lineWidth=30;
+  ctx.lineCap="round";
+  ctx.beginPath();
+  ctx.arc(78,64,52,-1.06,.7);
+  ctx.stroke();
+
+  const bodyGrad=ctx.createRadialGradient(-10,16,20,0,40,110);
+  bodyGrad.addColorStop(0,light);
+  bodyGrad.addColorStop(.68,main);
+  bodyGrad.addColorStop(1,dark);
+  ctx.fillStyle=bodyGrad;
+  ctx.beginPath();
+  ctx.ellipse(0,48,78,72,0,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.fillStyle=belly;
+  ctx.beginPath();
+  ctx.ellipse(0,54,46,44,0,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.fillStyle=bodyGrad;
+  ctx.beginPath();
+  ctx.ellipse(0,-44,90,76,0,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(-56,-88);
+  ctx.quadraticCurveTo(-74,-132,-24,-92);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(56,-88);
+  ctx.quadraticCurveTo(74,-132,24,-92);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle=ear;
+  ctx.beginPath();
+  ctx.moveTo(-52,-92);
+  ctx.quadraticCurveTo(-62,-114,-35,-94);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(52,-92);
+  ctx.quadraticCurveTo(62,-114,35,-94);
+  ctx.closePath();
+  ctx.fill();
+
+  if(state.baseCat==="catB"){
+    ctx.strokeStyle=eye;
+    ctx.lineWidth=4;
+    ctx.lineCap="round";
+    ctx.beginPath();
+    ctx.moveTo(-45,-50);
+    ctx.quadraticCurveTo(-30,-63,-15,-50);
+    ctx.moveTo(15,-50);
+    ctx.quadraticCurveTo(30,-63,45,-50);
+    ctx.stroke();
+  }else{
+    ctx.fillStyle=eye;
+    const ry=state.baseCat==="catC"?7:16;
+    ctx.beginPath();
+    ctx.ellipse(-30,-50,18,ry,0,0,Math.PI*2);
+    ctx.ellipse(30,-50,18,ry,0,0,Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle="rgba(255,255,255,.92)";
+    ctx.beginPath();
+    ctx.arc(-23,-56,5,0,Math.PI*2);
+    ctx.arc(37,-56,5,0,Math.PI*2);
+    ctx.fill();
+  }
+
+  ctx.fillStyle="rgba(255,214,224,.64)";
+  ctx.beginPath();
+  ctx.ellipse(-46,-20,15,9,0,0,Math.PI*2);
+  ctx.ellipse(46,-20,15,9,0,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.fillStyle=ear;
+  ctx.beginPath();
+  ctx.moveTo(0,-26);
+  ctx.lineTo(-8,-16);
+  ctx.lineTo(8,-16);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle="#8a5a3a";
+  ctx.lineWidth=2;
+  ctx.lineCap="round";
+  ctx.beginPath();
+  ctx.moveTo(-8,-8);
+  ctx.quadraticCurveTo(0,2,8,-8);
+  ctx.moveTo(0,-16);
+  ctx.lineTo(0,-6);
+  ctx.stroke();
+
+  ctx.fillStyle="rgba(255,214,224,.95)";
+  ctx.beginPath();
+  ctx.ellipse(-42,96,20,16,0,0,Math.PI*2);
+  ctx.ellipse(42,96,20,16,0,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.fillStyle="#fff";
+  ctx.font="54px 'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif";
+  const head=outfitEmoji("head",state.outfit.head);
+  const face=outfitEmoji("face",state.outfit.face);
+  const neck=outfitEmoji("neck",state.outfit.neck);
+  const hand=outfitEmoji("hand",state.outfit.hand);
+  const aura=outfitEmoji("aura",state.outfit.aura);
+  if(head)ctx.fillText(head,-18,-128);
+  if(face)ctx.fillText(face,-16,-2);
+  if(neck)ctx.fillText(neck,-18,82);
+  if(hand)ctx.fillText(hand,66,96);
+  if(aura)ctx.fillText(aura,86,-108);
   ctx.restore();
 }
 
 function drawTextBlock(ctx,title,content,x,y,w,h,opt={}){
-  rr(ctx,x,y,w,h,24);
-  ctx.fillStyle=opt.bg||"#fff6eb";
-  ctx.fill();
-  ctx.strokeStyle=opt.line||"#efbf90";
-  ctx.lineWidth=2;
-  ctx.stroke();
-
-  ctx.fillStyle="#a55024";
-  ctx.font="bold 36px 'KaiTi','Microsoft YaHei',sans-serif";
+  drawCard(ctx,x,y,w,h,opt.alpha||.9);
+  ctx.fillStyle=opt.titleColor||"#A35A30";
+  ctx.font=`700 ${opt.titleSize||46}px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif`;
   ctx.textAlign="left";
-  ctx.fillText(title,x+22,y+52);
+  ctx.fillText(title,x+28,y+(opt.titleTop||68));
 
-  ctx.fillStyle="#8a4f2d";
-  ctx.font="27px 'Microsoft YaHei',sans-serif";
-  let py=y+94;
+  ctx.fillStyle=opt.textColor||"#8B5F3F";
+  ctx.font=`${opt.textSize||34}px 'Microsoft YaHei','PingFang SC',sans-serif`;
   const lines=Array.isArray(content)?content:[content];
+  let py=y+(opt.textTop||116);
+  const maxW=w-56;
+  const lineStep=opt.lineStep||48;
   lines.forEach((line)=>{
-    wrap(ctx,line,w-44).forEach((t)=>{if(py<y+h-24){ctx.fillText(t,x+22,py);py+=36;}});
+    wrap(ctx,line,maxW).forEach((t)=>{
+      if(py<=y+h-30){
+        ctx.fillText(t,x+28,py);
+        py+=lineStep;
+      }
+    });
   });
 }
 
-function makePoster(seed=0){
-  if(!state.poem){WarmCat.status(E.poemStatus,"请先生成名字小诗。",true);return false;}
-  const c=E.poster;
-  const ctx=c.getContext("2d");
-  drawPosterBg(ctx,c.width,c.height,seed);
+function drawInfoPills(ctx,x,y,w,h){
+  drawCard(ctx,x,y,w,h,.9);
+  const labels=[
+    `名字 ${profile.name}`,
+    `年龄 ${profile.age}`,
+    profile.city?`城市 ${profile.city}`:"",
+    profile.hobby?`喜好 ${profile.hobby}`:"",
+    profile.wish?`愿望 ${profile.wish}`:""
+  ].filter(Boolean);
+  const cols=state.posterMode==="portrait"?2:3;
+  const gap=16;
+  const itemW=(w-40-gap*(cols-1))/cols;
+  const itemH=52;
+  ctx.font="28px 'Microsoft YaHei',sans-serif";
+  let row=0;
+  let col=0;
+  labels.forEach((label)=>{
+    const px=x+20+col*(itemW+gap);
+    const py=y+22+row*(itemH+14);
+    rr(ctx,px,py,itemW,itemH,26);
+    ctx.fillStyle="rgba(255,244,232,.95)";
+    ctx.fill();
+    ctx.strokeStyle="rgba(240,196,158,.95)";
+    ctx.lineWidth=1.8;
+    ctx.stroke();
+    ctx.fillStyle="#8E5A37";
+    ctx.fillText(label,px+18,py+34);
+    col+=1;
+    if(col>=cols){
+      col=0;
+      row+=1;
+    }
+  });
+}
 
-  rr(ctx,52,48,976,1424,44);
-  ctx.fillStyle="rgba(255,249,241,.94)";
+function drawFooter(ctx,w,h,pad){
+  ctx.fillStyle="#9A6848";
+  ctx.textAlign="center";
+  ctx.font="700 42px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif";
+  ctx.fillText("午后好，慢慢来也能走很远",w/2,h-pad-110);
+  ctx.font="28px 'Microsoft YaHei',sans-serif";
+  ctx.fillStyle="#99643F";
+  ctx.fillText(`生成时间：${new Date().toLocaleString()}`,w/2,h-pad-58);
+  ctx.fillStyle="rgba(154,104,72,.72)";
+  ctx.fillText("暖暖猫咪幸运站",w/2,h-pad-22);
+}
+
+function ensureQrImage(){
+  if(state.qrImg)return Promise.resolve(state.qrImg);
+  if(state.qrLoading)return state.qrLoading;
+  const src=`https://api.qrserver.com/v1/create-qr-code/?size=380x380&data=${encodeURIComponent(SITE_URL)}`;
+  state.qrLoading=new Promise((resolve)=>{
+    const img=new Image();
+    img.crossOrigin="anonymous";
+    img.onload=()=>{state.qrImg=img;resolve(img);};
+    img.onerror=()=>resolve(null);
+    img.src=src;
+  });
+  return state.qrLoading;
+}
+
+function drawFallbackQr(ctx,x,y,size){
+  rr(ctx,x,y,size,size,22);
+  ctx.fillStyle="#fff";
   ctx.fill();
-  ctx.strokeStyle="rgba(214,132,62,.35)";
+  ctx.strokeStyle="#D9C5B0";
+  ctx.lineWidth=2;
+  ctx.stroke();
+  const n=21;
+  const c=size/n;
+  for(let r=0;r<n;r+=1){
+    for(let col=0;col<n;col+=1){
+      const v=WarmCat.hash(`${SITE_URL}-${r}-${col}`)%5;
+      if(v<2){
+        ctx.fillStyle="#8B5F3F";
+        ctx.fillRect(x+col*c+1,y+r*c+1,c-2,c-2);
+      }
+    }
+  }
+  ctx.font="44px 'Segoe UI Emoji','Apple Color Emoji',sans-serif";
+  ctx.fillText("🐾",x+size*.36,y+size*.62);
+}
+
+function posterText(){
+  return [
+    `${profile.name} 的暖暖猫咪纪念海报`,
+    `幸运签：${fortuneData.title}`,
+    `解读：${fortuneData.reading}`,
+    `建议：${fortuneData.advice}`,
+    `小诗：${state.poem?state.poem.replace(/\n/g," "):"（未生成）"}`,
+    WarmCat.wishBlessing(profile.name,profile.wish),
+    SITE_URL
+  ].join("\n");
+}
+
+async function makePoster(seed=0){
+  if(!state.poem){
+    WarmCat.status(E.poemStatus,"请先生成名字小诗，再导出海报。",true);
+    return false;
+  }
+  const mode=state.posterMode==="landscape"?"landscape":"portrait";
+  const size=POSTER_SIZE[mode];
+  const c=E.poster;
+  c.width=size.w;
+  c.height=size.h;
+  const ctx=c.getContext("2d");
+  const w=c.width;
+  const h=c.height;
+  const pad=mode==="portrait"?120:94;
+
+  drawPosterBg(ctx,w,h,seed);
+  rr(ctx,pad,pad,w-pad*2,h-pad*2,56);
+  ctx.fillStyle="rgba(255,251,245,.76)";
+  ctx.fill();
+  ctx.strokeStyle="rgba(220,191,161,.7)";
   ctx.lineWidth=3;
   ctx.stroke();
 
-  ctx.textAlign="center";
-  ctx.fillStyle="#ab4f24";
-  ctx.font="bold 64px 'KaiTi','Microsoft YaHei',sans-serif";
-  ctx.fillText("暖暖猫咪幸运纪念图",540,138);
-  ctx.fillStyle="#8f5732";
-  ctx.font="28px 'Microsoft YaHei',sans-serif";
-  ctx.fillText(`${WarmCat.day()} · ${profile.name} 今日专属`,540,182);
+  if(mode==="portrait"){
+    const innerW=w-pad*2;
+    const x=pad+26;
+    let y=pad+28;
+    const cardW=innerW-52;
 
-  const infoLine=[`名字 ${profile.name}`,`年龄 ${profile.age}`];
-  if(profile.city)infoLine.push(`城市 ${profile.city}`);
-  if(profile.hobby)infoLine.push(`喜欢 ${profile.hobby}`);
-  if(profile.wish)infoLine.push(`愿望 ${profile.wish}`);
-  drawTextBlock(ctx,"用户信息",infoLine.join("  |  "),88,224,904,152,{bg:"#fff4e5"});
+    drawCard(ctx,x,y,cardW,280,.92);
+    ctx.textAlign="center";
+    ctx.fillStyle="#A8532B";
+    ctx.font="700 84px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif";
+    ctx.fillText("暖暖猫咪幸运站",w/2,y+112);
+    ctx.fillStyle="#8F5B39";
+    ctx.font="700 42px 'Microsoft YaHei',sans-serif";
+    ctx.fillText(`${profile.name} 的今日专属好运`,w/2,y+184);
+    ctx.font="30px 'Microsoft YaHei',sans-serif";
+    ctx.fillText(`${WarmCat.day()} · 第三层纪念海报`,w/2,y+232);
 
-  drawTextBlock(ctx,"幸运签",[`主签：${fortune.title}`,fortune.text,fortune.item,fortune.time],88,402,430,392,{bg:"#fff1de"});
+    y+=320;
+    drawCard(ctx,x,y,cardW,1000,.93);
+    drawPlushCat(ctx,w/2,y+520,2.56);
 
-  drawTextBlock(ctx,"名字小诗",state.poem.split("\n"),536,402,456,610,{bg:"#fff6ed"});
+    y+=1026;
+    drawInfoPills(ctx,x,y,cardW,220);
 
-  rr(ctx,88,816,430,412,24);
-  ctx.fillStyle="#fff2e2";
-  ctx.fill();
-  ctx.strokeStyle="#efbf90";
-  ctx.lineWidth=2;
-  ctx.stroke();
-  ctx.fillStyle="#a55024";
-  ctx.font="bold 36px 'KaiTi','Microsoft YaHei',sans-serif";
-  ctx.textAlign="left";
-  ctx.fillText("猫咪装扮",110,868);
-  drawCat(ctx,300,930);
-  ctx.fillStyle="#955d39";
-  ctx.font="24px 'Microsoft YaHei',sans-serif";
-  ctx.fillText(`爱心分：${state.score}`,110,1200);
+    y+=246;
+    drawTextBlock(ctx,"幸运签",[
+      `签文主题：${fortuneData.title}（${fortuneData.keyword}）`,
+      `专属解读：${fortuneData.reading}`,
+      `今日小建议：${fortuneData.advice}`,
+      `猫咪寄语：${fortuneData.message}`
+    ],x,y,cardW,452,{titleSize:52,textSize:35,lineStep:50});
 
-  drawTextBlock(ctx,"专属祝福",WarmCat.wishBlessing(profile.name,profile.wish),536,1032,456,196,{bg:"#fff4e9"});
+    y+=478;
+    drawTextBlock(ctx,"名字小诗",state.poem.split("\n"),x,y,cardW,520,{titleSize:52,textSize:36,lineStep:52});
 
-  ctx.fillStyle="#9a6848";
-  ctx.font="22px 'Microsoft YaHei',sans-serif";
-  ctx.textAlign="left";
-  ctx.fillText(`生成时间：${new Date().toLocaleString()}`,88,1368);
-  ctx.fillText("来自暖暖猫咪幸运站",88,1410);
+    const qr=await ensureQrImage();
+    const qrSize=220;
+    const qrX=pad+54;
+    const qrY=h-pad-qrSize-66;
+    if(qr){
+      rr(ctx,qrX,qrY,qrSize,qrSize,24);
+      ctx.fillStyle="#fff";
+      ctx.fill();
+      ctx.drawImage(qr,qrX+14,qrY+14,qrSize-28,qrSize-28);
+    }else{
+      drawFallbackQr(ctx,qrX,qrY,qrSize);
+    }
+  }else{
+    const innerW=w-pad*2;
+    const innerH=h-pad*2;
+    const x=pad+24;
+    let y=pad+24;
+
+    drawCard(ctx,x,y,innerW-48,236,.92);
+    ctx.textAlign="center";
+    ctx.fillStyle="#A8532B";
+    ctx.font="700 78px 'KaiTi','STKaiti','Microsoft YaHei',sans-serif";
+    ctx.fillText("暖暖猫咪幸运站",w/2,y+94);
+    ctx.fillStyle="#8F5B39";
+    ctx.font="700 40px 'Microsoft YaHei',sans-serif";
+    ctx.fillText(`${profile.name} 的今日专属好运`,w/2,y+158);
+    ctx.font="28px 'Microsoft YaHei',sans-serif";
+    ctx.fillText(`${WarmCat.day()} · 第三层纪念海报`,w/2,y+204);
+
+    y+=262;
+    const bodyH=innerH-262-224;
+    const leftW=Math.floor((innerW-72)*.44);
+    const rightW=innerW-72-leftW;
+    drawCard(ctx,x,y,leftW,bodyH,.93);
+    drawPlushCat(ctx,x+leftW*0.5,y+bodyH*0.58,2.65);
+
+    const rx=x+leftW+24;
+    drawTextBlock(ctx,"幸运签",[
+      `签文主题：${fortuneData.title}（${fortuneData.keyword}）`,
+      `专属解读：${fortuneData.reading}`,
+      `今日小建议：${fortuneData.advice}`,
+      `猫咪寄语：${fortuneData.message}`
+    ],rx,y,rightW,Math.floor(bodyH*.48),{titleSize:46,textSize:31,lineStep:44});
+    drawTextBlock(ctx,"名字小诗",state.poem.split("\n"),rx,y+Math.floor(bodyH*.48)+20,rightW,bodyH-Math.floor(bodyH*.48)-20,{titleSize:46,textSize:32,lineStep:46});
+
+    drawInfoPills(ctx,x, h-pad-190, innerW-48,136);
+  }
+
+  drawFooter(ctx,w,h,pad);
 
   const url=c.toDataURL("image/png");
   state.posterUrl=url;
   E.previewImg.src=url;
   E.previewImg.style.display="block";
   E.download.href=url;
+  E.download.download=`warm-cat-${mode}-${WarmCat.day()}.png`;
   E.download.classList.remove("hide");
   E.posterBadge.textContent=`生成时间：${new Date().toLocaleString()}`;
+  updateSummary();
   return true;
 }
 
-function previewPoster(){
-  makePoster(0);
+async function previewPoster(){
+  await makePoster(0);
 }
 
-function savePoster(){
-  if(!state.posterUrl&&!makePoster(0))return;
+async function savePoster(){
+  if(!state.posterUrl){
+    const ok=await makePoster(0);
+    if(!ok)return;
+  }
+  E.posterPanel.classList.remove("poster-save-pop");
+  void E.posterPanel.offsetWidth;
+  E.posterPanel.classList.add("poster-save-pop");
+  setTimeout(()=>E.posterPanel.classList.remove("poster-save-pop"),520);
   E.download.click();
 }
 
-function sharePoster(){
-  const text=[
-    `${profile.name} 的暖暖猫咪纪念图`,
-    `幸运签：${fortune.title}`,
-    `小诗：${state.poem?state.poem.replace(/\n/g," "):"（未生成）"}`,
-    WarmCat.wishBlessing(profile.name,profile.wish)
-  ].join("\n");
-  if(navigator.share){
-    navigator.share({title:"暖暖猫咪幸运纪念图",text}).catch(()=>{});
+async function sharePosterText(){
+  if(!state.poem){
+    WarmCat.status(E.poemStatus,"请先生成名字小诗后再复制文案。",true);
     return;
   }
+  const text=posterText();
   if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(()=>WarmCat.status(E.poemStatus,"文案已复制，可粘贴分享。"));
-    return;
+    try{
+      await navigator.clipboard.writeText(text);
+      WarmCat.status(E.poemStatus,"文案已复制，可直接粘贴分享。");
+      return;
+    }catch{}
   }
-  WarmCat.status(E.poemStatus,"当前浏览器不支持分享。",true);
+  WarmCat.status(E.poemStatus,"当前环境不支持剪贴板复制。",true);
 }
 
-function regenPoster(){
-  makePoster(Math.floor(Math.random()*100000));
+async function regenPoster(){
+  await makePoster(Math.floor(Math.random()*100000));
 }
 
-E.makePoem.onclick=()=>makePoem(0,state.poemStyle);
-E.remakePoem.onclick=()=>{
+E.makePoem.addEventListener("click",()=>makePoem(0,state.poemStyle));
+E.remakePoem.addEventListener("click",()=>{
   const idx=(POEM_STYLES.indexOf(state.poemStyle)+1)%POEM_STYLES.length;
   makePoem(Math.floor(Math.random()*10000)+1,POEM_STYLES[idx]);
-};
-E.randomOutfit.onclick=randomOutfit;
-E.clearOutfit.onclick=clearOutfit;
-E.stage.addEventListener("click",popHeart);
-E.previewPoster.onclick=previewPoster;
-E.savePoster.onclick=savePoster;
-E.sharePoster.onclick=sharePoster;
-E.regenPoster.onclick=regenPoster;
+});
+E.randomOutfit.addEventListener("click",()=>{void randomOutfit();});
+E.clearOutfit.addEventListener("click",clearOutfit);
+E.stage.addEventListener("click",(ev)=>handleStageTap(ev));
+E.stage.setAttribute("tabindex","0");
+E.stage.addEventListener("keydown",(ev)=>{
+  if(ev.key==="Enter"||ev.key===" "){
+    ev.preventDefault();
+    handleStageTap();
+  }
+});
 
-WarmCat.initCuteBg(E.bgCute);
+E.previewPoster.addEventListener("click",()=>{void previewPoster();});
+E.savePoster.addEventListener("click",()=>{void savePoster();});
+E.sharePoster.addEventListener("click",()=>{void sharePosterText();});
+E.regenPoster.addEventListener("click",()=>{void regenPoster();});
+
+E.modePortrait.addEventListener("click",()=>setPosterMode("portrait",true));
+E.modeLandscape.addEventListener("click",()=>setPosterMode("landscape",true));
+
 WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.poemStatus);
-buildControls();
+WarmCat.initCuteBg(E.bgCute);
+
+buildBaseSwitch();
+renderCategoryTabs();
+renderOptionsGrid();
+applyOutfit(false,false);
 applyTransitionHint();
-loadPoem();
-updatePoemStyleText();
+const loadedPoem=loadPoem();
+if(!loadedPoem){
+  updatePoemStyleText();
+}
+setPosterMode("portrait",false);
+scheduleBlink();
+dailyGreeting();
 updateSummary();
 </script>
 </body>

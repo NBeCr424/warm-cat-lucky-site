@@ -294,6 +294,23 @@
 .cat-side .mini-cat:hover .head:before,.cat-side .mini-cat:hover .head:after{background:rgba(255,214,224,.82)}
 .cat-note{margin-top:8px;color:#F4A868;font-family:"STXingkai","KaiTi","Segoe Script",cursive;font-size:.95rem}
 .cat-note:before{content:"🐾 "}
+.cat-side.ritual-sleep .mini-cat .eye{
+  transform:scaleY(.18);
+  opacity:.82;
+}
+.cat-side.ritual-sleep .mini-cat .mouth{
+  transform:translateX(-50%) scaleY(.92);
+}
+.cat-side.ritual-cheer .mini-cat{
+  animation:catRitualCheer .42s ease-in-out 4;
+}
+.cat-side.ritual-cheer .mini-cat .head{
+  transform:translateX(-50%) rotate(2deg);
+}
+@keyframes catRitualCheer{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px) rotate(3deg)}
+}
 
 .cat-hit{outline:3px solid rgba(243,153,89,.42);border-radius:16px;filter:drop-shadow(0 8px 10px rgba(230,133,65,.26));animation:catHit 1.6s ease}
 @keyframes catHit{0%{transform:translateY(0)}35%{transform:translateY(-6px)}100%{transform:translateY(0)}}
@@ -828,7 +845,7 @@
         </div>
       </div>
 
-      <aside class="cat-side">
+      <aside id="catSide" class="cat-side">
         <div class="cat-trio">
           <button id="catA" data-cat="catA" class="mini-cat orange" type="button" aria-label="元气黄猫">
             <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
@@ -1067,6 +1084,7 @@ const E={
   ritualAdvice:document.getElementById("ritualAdvice"),
   ritualMessage:document.getElementById("ritualMessage"),
   closeRitual:document.getElementById("closeRitual"),
+  catSide:document.getElementById("catSide"),
   catA:document.getElementById("catA"),
   catB:document.getElementById("catB"),
   catC:document.getElementById("catC")
@@ -1298,6 +1316,16 @@ function markCat(catId,msg){
   }
 }
 
+function setRitualCatMood(mode){
+  if(!E.catSide)return;
+  E.catSide.classList.remove("ritual-sleep","ritual-cheer");
+  if(mode==="sleep")E.catSide.classList.add("ritual-sleep");
+  if(mode==="cheer"){
+    E.catSide.classList.add("ritual-cheer");
+    setTimeout(()=>E.catSide&&E.catSide.classList.remove("ritual-cheer"),1600);
+  }
+}
+
 function updateProgress(){
   const done=Boolean(state.currentFortune);
   E.step3.disabled=!done;
@@ -1510,6 +1538,7 @@ async function runRitual(record,isRedraw){
   updateButtons();
   E.ritualModal.classList.add("show");
   E.fortuneSheet.classList.remove("show");
+  setRitualCatMood("sleep");
   setRitualContent(record);
   resetRitualLines();
 
@@ -1541,6 +1570,7 @@ async function runRitual(record,isRedraw){
   E.fortuneSheet.classList.add("paper-pop");
   setTimeout(()=>E.fortuneSheet.classList.remove("paper-pop"),1100);
   await revealRitualLines();
+  setRitualCatMood("cheer");
   state.ritualBusy=false;
   updateButtons();
 }
@@ -1645,6 +1675,7 @@ async function closeRitualPanel(){
   if(state.ritualBusy)return;
   if(!E.ritualModal.classList.contains("show"))return;
   E.fortuneSheet.classList.add("retract");
+  setRitualCatMood("");
   playSfx("purr",{ratio:.24,rate:.8,cutMs:320});
   playRustle(.2);
   await wait(280);

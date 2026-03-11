@@ -14,15 +14,15 @@
     <p class="welcome-sub">欢迎来到今日治愈小宇宙。先收下祝福，再决定要不要立刻开始游戏。🐾</p>
 
     <div class="emoji-wall" aria-label="可爱图标互动区">
-      <button class="emoji-chip" type="button" data-word="今天适合轻轻出发，也会稳稳抵达。" aria-label="元气祝福">😺</button>
-      <button class="emoji-chip" type="button" data-word="你认真生活的样子，本来就很闪亮。" aria-label="鼓励祝福">✨</button>
-      <button class="emoji-chip" type="button" data-word="把节奏放慢一点，心会更亮一点。" aria-label="慢节奏祝福">🐾</button>
-      <button class="emoji-chip" type="button" data-word="好运正在靠近，记得给自己一个微笑。" aria-label="好运祝福">🍀</button>
-      <button class="emoji-chip" type="button" data-word="今天也会有可爱的惊喜在等你。" aria-label="惊喜祝福">🎀</button>
-      <button class="emoji-chip" type="button" data-word="愿你被温柔抱住，烦恼都变轻。" aria-label="治愈祝福">💗</button>
-      <button class="emoji-chip" type="button" data-word="你的小愿望，正在一点点靠近。" aria-label="愿望祝福">🧶</button>
-      <button class="emoji-chip" type="button" data-word="先照顾好自己，今天就已经很棒了。" aria-label="陪伴祝福">🌸</button>
-      <button class="emoji-chip" type="button" data-word="猫咪说：喵呜，今天也请你开心。" aria-label="猫咪祝福">🐱</button>
+      <button class="emoji-chip" type="button" data-link-card="0" data-word="今天适合轻轻出发，也会稳稳抵达。" aria-label="元气祝福">😺</button>
+      <button class="emoji-chip" type="button" data-link-card="1" data-word="你认真生活的样子，本来就很闪亮。" aria-label="鼓励祝福">✨</button>
+      <button class="emoji-chip" type="button" data-link-card="2" data-word="把节奏放慢一点，心会更亮一点。" aria-label="慢节奏祝福">🐾</button>
+      <button class="emoji-chip" type="button" data-link-card="0" data-word="好运正在靠近，记得给自己一个微笑。" aria-label="好运祝福">🍀</button>
+      <button class="emoji-chip" type="button" data-link-card="1" data-word="今天也会有可爱的惊喜在等你。" aria-label="惊喜祝福">🎀</button>
+      <button class="emoji-chip" type="button" data-link-card="2" data-word="愿你被温柔抱住，烦恼都变轻。" aria-label="治愈祝福">💗</button>
+      <button class="emoji-chip" type="button" data-link-card="0" data-word="你的小愿望，正在一点点靠近。" aria-label="愿望祝福">🧶</button>
+      <button class="emoji-chip" type="button" data-link-card="1" data-word="先照顾好自己，今天就已经很棒了。" aria-label="陪伴祝福">🌸</button>
+      <button class="emoji-chip" type="button" data-link-card="2" data-word="猫咪说：喵呜，今天也请你开心。" aria-label="猫咪祝福">🐱</button>
     </div>
 
     <div class="bless-grid" aria-label="祝福文案框">
@@ -30,6 +30,20 @@
       <button class="bless-card c2 active" type="button" data-text="愿你想做的事，都能顺顺利利开始。❤️" aria-label="祝福卡片二">愿你想做的事，都能顺顺利利开始。❤️</button>
       <button class="bless-card c3" type="button" data-text="愿你和可爱的小猫一样，元气又自在。🐱" aria-label="祝福卡片三">愿你和可爱的小猫一样，元气又自在。🐱</button>
     </div>
+
+    <nav class="entry-steps" aria-label="三层流程导航">
+      <div class="entry-step-row">
+        <button class="entry-step-btn done" type="button" aria-label="第一层"><span>🐾</span><span>猫咪小档案</span></button>
+        <button class="entry-step-btn" type="button" aria-label="第二层"><span>✨</span><span>喵系幸运签</span></button>
+        <button class="entry-step-btn" type="button" aria-label="第三层"><span>🎀</span><span>换装小诗馆</span></button>
+      </div>
+      <div class="entry-progress" aria-hidden="true">
+        <span class="entry-node done"></span>
+        <span class="entry-node on"></span>
+        <span class="entry-node"></span>
+        <span class="entry-line"><i class="entry-line-fill"></i></span>
+      </div>
+    </nav>
 
     <article class="welcome-panel">
       <span class="tag">入口页</span>
@@ -60,6 +74,23 @@
         </div>
       </div>
     </article>
+    <section class="entry-cats" aria-label="入口页猫咪展示区">
+      <button class="entry-cat yellow" type="button" aria-label="元气黄猫">
+        <span class="entry-cat-eye left"></span>
+        <span class="entry-cat-eye right"></span>
+        <span class="entry-cat-mouth">ω</span>
+      </button>
+      <button class="entry-cat white" type="button" aria-label="温柔白猫">
+        <span class="entry-cat-eye left"></span>
+        <span class="entry-cat-eye right"></span>
+        <span class="entry-cat-mouth">ω</span>
+      </button>
+      <button class="entry-cat gray" type="button" aria-label="佛系灰猫">
+        <span class="entry-cat-eye left"></span>
+        <span class="entry-cat-eye right"></span>
+        <span class="entry-cat-mouth">ω</span>
+      </button>
+    </section>
     <div class="entry-silhouette" aria-hidden="true">🐈  🐾  🐈</div>
   </section>
 </main>
@@ -80,6 +111,7 @@ const E={
   todayTip:document.getElementById("todayTip"),
   blessCards:Array.from(document.querySelectorAll(".bless-card")),
   emojiChips:Array.from(document.querySelectorAll(".emoji-chip")),
+  entryCats:Array.from(document.querySelectorAll(".entry-cat")),
   musicToggle:document.getElementById("musicToggle"),
   musicVolume:document.getElementById("musicVolume"),
   volumeText:document.getElementById("volumeText"),
@@ -102,8 +134,7 @@ function popHint(msg){
   setTimeout(()=>el.remove(),1700);
 }
 
-function sprinkleAt(x,y,count=8){
-  const pool=["💗","🐾","✨","🧡"];
+function sprinkleAt(x,y,count=8,pool=["💗","🐾","✨","🧡"]){
   for(let i=0;i<count;i+=1){
     const el=document.createElement("span");
     el.className="entry-drop";
@@ -121,6 +152,20 @@ function sprinkleAt(x,y,count=8){
 function burstFromEl(node){
   const rect=node.getBoundingClientRect();
   sprinkleAt(rect.left+rect.width*0.5,rect.top+rect.height*0.5,10);
+}
+
+function linkIconToCard(icon,card){
+  const from=icon.getBoundingClientRect();
+  const to=card.getBoundingClientRect();
+  const cat=document.createElement("span");
+  cat.className="icon-cat-link";
+  cat.textContent="🐱";
+  cat.style.left=`${from.left+from.width/2}px`;
+  cat.style.top=`${from.top+from.height/2}px`;
+  cat.style.setProperty("--mx",`${(to.left+to.width/2)-(from.left+from.width/2)}px`);
+  cat.style.setProperty("--my",`${(to.top-14)-(from.top+from.height/2)}px`);
+  document.body.appendChild(cat);
+  setTimeout(()=>cat.remove(),900);
 }
 
 function setTip(profile){
@@ -169,6 +214,13 @@ E.emojiChips.forEach((chip)=>{
   chip.addEventListener("click",()=>{
     const msg=chip.dataset.word||"愿你今天被温柔接住。";
     E.welcomeStatus.textContent=msg;
+    const idx=Number(chip.dataset.linkCard||0);
+    const card=E.blessCards[Math.max(0,Math.min(E.blessCards.length-1,idx))];
+    if(card){
+      E.blessCards.forEach((x)=>x.classList.remove("active"));
+      card.classList.add("active");
+      linkIconToCard(chip,card);
+    }
     burstFromEl(chip);
     popHint("喵呜祝福到达 💗");
   });
@@ -180,6 +232,17 @@ E.blessCards.forEach((card)=>{
     card.classList.add("active");
     E.welcomeStatus.textContent=card.dataset.text||card.textContent;
     burstFromEl(card);
+  });
+});
+
+E.entryCats.forEach((cat)=>{
+  cat.addEventListener("click",()=>{
+    cat.classList.remove("tilt");
+    void cat.offsetWidth;
+    cat.classList.add("tilt");
+    burstFromEl(cat);
+    sprinkleAt(cat.getBoundingClientRect().left+cat.getBoundingClientRect().width/2,cat.getBoundingClientRect().top+8,2,["💗","💖"]);
+    setTimeout(()=>cat.classList.remove("tilt"),360);
   });
 });
 

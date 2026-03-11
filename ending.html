@@ -13,6 +13,27 @@ body.star{background:radial-gradient(circle at 20% 18%,rgba(255,255,255,.45) 0 1
 body.out .page{opacity:0;transform:translateX(-40px)}
 .panel{border-radius:16px;border:1px solid rgba(217,197,176,.92);background:var(--w);box-shadow:inset 0 2px 4px rgba(217,197,176,.3),0 4px 8px rgba(240,240,240,.5)}
 .top{padding:20px 16px;text-align:center}.top h1{margin:0;font-family:"YouYuan","STKaiti","KaiTi",cursive;font-size:32px;text-shadow:1px 1px 0 var(--c)}.sub{margin:8px auto;max-width:900px;color:var(--s);font-size:18px;line-height:1.6}.line{margin:0 auto;color:var(--s);font-size:14px;line-height:1.6}.line b{color:var(--a)}
+.journey{
+  margin:10px auto 0;
+  max-width:960px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+}
+.journey-step{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border-radius:999px;
+  border:1px solid rgba(217,197,176,.92);
+  background:rgba(255,251,245,.92);
+  color:#A6937C;
+  padding:7px 12px;
+  font-size:13px;
+  line-height:1.5;
+}
+.journey-step b{color:#F4A868}
 .core{min-height:65vh;padding:18px;display:flex;justify-content:center;align-items:center;gap:30px}
 .poster{width:300px;height:400px;border-radius:16px;border:1px solid var(--p);background:#fffdf9;padding:10px;position:relative;overflow:hidden;transition:transform var(--e),box-shadow var(--e)}
 .poster:hover{transform:translateY(-5px) scale(1.03);box-shadow:0 0 10px var(--p),0 10px 18px rgba(139,115,85,.15)}
@@ -36,7 +57,7 @@ button{font-weight:700;cursor:pointer;transition:transform var(--e),background v
 .mask{position:fixed;inset:0;background:rgba(139,115,85,.26);display:none;align-items:center;justify-content:center;z-index:130}.mask.show{display:flex}.share{width:min(420px,92vw);border-radius:16px;border:1px solid rgba(217,197,176,.9);background:#fffbf5;padding:16px;box-shadow:0 10px 28px rgba(139,115,85,.24)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 6px}.item{height:78px;border-radius:12px;border:1px solid var(--c);background:#fff8ef;color:var(--t);font-size:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}.item:hover{background:#f9eed8;transform:translateY(-2px)}.ft{margin-top:12px;display:flex;justify-content:flex-end;gap:8px}
 .fx{position:fixed;font-size:18px;pointer-events:none;z-index:125;animation:fx .95s ease-out forwards}
 @keyframes in{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}@keyframes breath{0%,100%{transform:rotate(-4deg) scale(.98)}50%{transform:rotate(-4deg) scale(1.02)}}@keyframes tap{0%{transform:rotate(-4deg) scale(.96)}35%{transform:rotate(6deg) scale(1.06)}100%{transform:rotate(-4deg) scale(1)}}@keyframes gift{0%{transform:rotate(-4deg) scale(.98)}40%{transform:rotate(4deg) scale(1.04)}100%{transform:rotate(-4deg) scale(1)}}@keyframes gpop{from{transform:translateY(10px) scale(.8);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}@keyframes fx{from{opacity:.95;transform:translate3d(0,0,0) scale(1)}to{opacity:0;transform:translate3d(var(--dx),var(--dy),0) rotate(var(--dr)) scale(.8)}}
-@media (max-width:767px){.top h1{font-size:28px}.sub{font-size:16px}.core{flex-direction:column;gap:20px}.poster{width:280px;height:380px}.catwrap{width:100%;max-width:320px;min-height:280px}.cat{width:100px;height:100px}.ops{flex-direction:column;align-items:stretch}.btns{width:100%;display:flex;flex-direction:column}.pri,.sec{width:100%;height:54px;font-size:16px}.music{justify-content:center}.music input[type=range]{width:150px}}
+@media (max-width:767px){.top h1{font-size:28px}.sub{font-size:16px}.journey{flex-direction:column;align-items:stretch;gap:8px}.journey-step{justify-content:center}.core{flex-direction:column;gap:20px}.poster{width:280px;height:380px}.catwrap{width:100%;max-width:320px;min-height:280px}.cat{width:100px;height:100px}.ops{flex-direction:column;align-items:stretch}.btns{width:100%;display:flex;flex-direction:column}.pri,.sec{width:100%;height:54px;font-size:16px}.music{justify-content:center}.music input[type=range]{width:150px}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none !important;transition:none !important}}
 </style>
 </head>
@@ -45,7 +66,11 @@ button{font-weight:700;cursor:pointer;transition:transform var(--e),background v
   <section class="panel top">
     <h1>🐾 三层旅程圆满啦～</h1>
     <p class="sub">谢谢你走完这趟治愈小旅程，愿好运和温柔一直围着你～✨</p>
-    <p class="line">💌 你完成了：<b>🐾 猫咪小档案</b> → <b>✨ 喵系幸运签</b> → <b>🎀 换装小诗馆</b></p>
+    <div class="journey" aria-label="三层旅程回顾">
+      <div class="journey-step">📝 <b>填写了专属小档案</b></div>
+      <div class="journey-step">✨ <b>抽到了治愈喵签</b></div>
+      <div class="journey-step">🎀 <b>生成了纪念海报</b></div>
+    </div>
     <div class="line" style="font-size:12px">悄悄说：长按猫咪有惊喜哦～</div>
   </section>
 

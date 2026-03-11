@@ -234,7 +234,17 @@
   transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
 }
 .layer1-page input::placeholder,
-.layer1-page textarea::placeholder{color:#B49F8A}
+.layer1-page textarea::placeholder{
+  color:#B49F8A;
+  transition:transform .3s ease,color .3s ease,font-size .3s ease;
+  transform-origin:left center;
+}
+.layer1-page input:focus::placeholder,
+.layer1-page textarea:focus::placeholder{
+  transform:translateY(-10px) scale(.9);
+  color:#A6937C;
+  font-size:12px;
+}
 .layer1-page input:hover,
 .layer1-page textarea:hover,
 .layer1-page input:focus,
@@ -249,8 +259,63 @@
   font-family:"STXingkai","KaiTi","Segoe Script",cursive;
   font-size:.82rem;
 }
+.layer1-page textarea.wish-shake{
+  animation:wishShake .3s ease;
+}
 .layer1-page .field-tip:not(:empty):before{
   content:"🐱 ";
+}
+
+.layer1-page .save-bubble{
+  position:absolute;
+  z-index:24;
+  max-width:280px;
+  border-radius:12px;
+  border:1px solid rgba(255,214,224,.95);
+  background:#FFFBF5;
+  color:#8B7355;
+  padding:8px 12px;
+  box-shadow:0 10px 20px rgba(176,126,92,.2);
+  animation:saveBubbleIn .25s ease forwards;
+  pointer-events:none;
+}
+.layer1-page .save-bubble.fade{
+  animation:saveBubbleOut .25s ease forwards;
+}
+.layer1-page .save-heart{
+  position:fixed;
+  z-index:24;
+  font-size:18px;
+  pointer-events:none;
+  animation:saveHeartFloat .85s ease forwards;
+}
+
+.layer1-page .soft-confirm{
+  margin-top:10px;
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  border-radius:12px;
+  border:1px solid rgba(255,214,224,.95);
+  background:#FFFBF5;
+  padding:10px 12px;
+  color:#8B7355;
+  box-shadow:0 8px 16px rgba(176,126,92,.14);
+}
+.layer1-page .soft-confirm.show{
+  display:flex;
+}
+.layer1-page .soft-confirm-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.layer1-page .soft-confirm .pri,
+.layer1-page .soft-confirm .sec{
+  min-height:38px;
+  padding:8px 12px;
 }
 
 .layer1-page .row{
@@ -409,6 +474,24 @@
   50%{transform:scale(1.02)}
 }
 
+@keyframes wishShake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  75%{transform:translateX(5px)}
+}
+@keyframes saveHeartFloat{
+  0%{opacity:.95;transform:translate(-50%,-20%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-160%) scale(1.15)}
+}
+@keyframes saveBubbleIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes saveBubbleOut{
+  from{opacity:1;transform:translateY(0)}
+  to{opacity:0;transform:translateY(-8px)}
+}
+
 @media (max-width:760px){
   .layer1-page .steps{gap:10px}
   .layer1-page .step-btn{
@@ -457,24 +540,24 @@
       <span class="mini-cat-corner" aria-hidden="true">🐱</span>
       <span class="tag">第一层</span>
       <h2>填写并保存信息</h2>
-      <small>名字与年龄是必填项，先轻轻填好，我们再一起进入下一层。</small>
+      <small>🐾 这是专属小标记哦～名字和年龄先轻轻填好，我们再一起进入下一层。</small>
 
       <div class="form" id="profileForm">
         <div class="item">
           <label for="name">名字 <span class="req-heart" aria-hidden="true">❤️</span></label>
-          <input id="name" maxlength="20" placeholder="例如：小橘" aria-label="名字，必填" />
+          <input id="name" maxlength="20" placeholder="🐱 例如：小橘" aria-label="名字，必填" />
           <div id="nameTip" class="field-tip" aria-live="polite"></div>
         </div>
         <div class="item">
           <label for="age">年龄 <span class="req-heart" aria-hidden="true">❤️</span></label>
-          <input id="age" type="text" inputmode="numeric" maxlength="3" placeholder="例如：18" aria-label="年龄，必填，正整数" />
+          <input id="age" type="text" inputmode="numeric" maxlength="3" placeholder="🎂 例如：18" aria-label="年龄，必填，正整数" />
           <div id="ageTip" class="field-tip" aria-live="polite"></div>
         </div>
-        <div class="item"><label for="city">城市</label><input id="city" maxlength="20" placeholder="例如：上海" aria-label="城市" /></div>
-        <div class="item"><label for="hobby">喜欢的事</label><input id="hobby" maxlength="40" placeholder="例如：晒太阳、看电影" aria-label="喜欢的事情" /></div>
+        <div class="item"><label for="city">城市</label><input id="city" maxlength="20" placeholder="🏙️ 例如：上海" aria-label="城市" /></div>
+        <div class="item"><label for="hobby">喜欢的事</label><input id="hobby" maxlength="40" placeholder="✨ 例如：晒太阳、看电影" aria-label="喜欢的事情" /></div>
         <div class="item full">
           <label for="wish">今日小愿望 <span id="wishCount" class="char-count">0/80</span></label>
-          <textarea id="wish" rows="2" maxlength="80" placeholder="比如：暴富、变美、吃好吃的～" aria-label="今日小愿望"></textarea>
+          <textarea id="wish" rows="2" maxlength="80" placeholder="💭 比如：暴富、变美、吃好吃的～" aria-label="今日小愿望"></textarea>
         </div>
       </div>
 
@@ -485,6 +568,13 @@
         <button id="toLayer2" class="next" type="button" disabled aria-label="完成第一层进入第二层">完成第一层，进入第二层</button>
       </div>
       <div class="status" id="profileStatus" aria-live="polite"></div>
+      <div id="clearConfirm" class="soft-confirm" aria-live="polite">
+        <span>🐾 确定清空专属小信息吗？</span>
+        <div class="soft-confirm-actions">
+          <button id="confirmClearYes" class="pri" type="button" aria-label="确认清空">确认清空</button>
+          <button id="confirmClearNo" class="sec" type="button" aria-label="取消清空">先不清空</button>
+        </div>
+      </div>
 
       <div id="catTrioWrap" class="cat-trio-wrap">
         <div class="cat-trio">
@@ -535,6 +625,9 @@ const E={
   saveProfile:document.getElementById("saveProfile"),
   loadProfile:document.getElementById("loadProfile"),
   clearProfile:document.getElementById("clearProfile"),
+  clearConfirm:document.getElementById("clearConfirm"),
+  confirmClearYes:document.getElementById("confirmClearYes"),
+  confirmClearNo:document.getElementById("confirmClearNo"),
   toLayer2:document.getElementById("toLayer2"),
   profileStatus:document.getElementById("profileStatus"),
   catTrioWrap:document.getElementById("catTrioWrap"),
@@ -673,6 +766,42 @@ function showHint(msg){
   setTimeout(()=>hint.remove(),1700);
 }
 
+function popSaveBubble(msg){
+  const rect=E.saveProfile.getBoundingClientRect();
+  const bubble=document.createElement("div");
+  bubble.className="save-bubble";
+  bubble.textContent=msg;
+  bubble.style.left=`${rect.left+window.scrollX+Math.max(0,rect.width-250)}px`;
+  bubble.style.top=`${rect.top+window.scrollY-46}px`;
+  document.body.appendChild(bubble);
+  setTimeout(()=>bubble.classList.add("fade"),1300);
+  setTimeout(()=>bubble.remove(),1650);
+}
+
+function popSaveHearts(count=3){
+  const rect=E.saveProfile.getBoundingClientRect();
+  for(let i=0;i<count;i+=1){
+    const heart=document.createElement("span");
+    heart.className="save-heart";
+    heart.textContent=i%2===0?"💗":"🐾";
+    heart.style.left=`${rect.left+rect.width*.5+(Math.random()*34-17)}px`;
+    heart.style.top=`${rect.top+6+(Math.random()*12)}px`;
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),900);
+  }
+}
+
+function triggerWishShake(){
+  E.wish.classList.remove("wish-shake");
+  void E.wish.offsetWidth;
+  E.wish.classList.add("wish-shake");
+  setTimeout(()=>E.wish.classList.remove("wish-shake"),320);
+}
+
+function toggleClearConfirm(show){
+  E.clearConfirm.classList.toggle("show",Boolean(show));
+}
+
 function wait(ms){
   return new Promise((resolve)=>setTimeout(resolve,ms));
 }
@@ -716,7 +845,7 @@ function paintFieldState(){
   E.name.classList.toggle("field-bad",!nameOk&&E.name.dataset.touched==="1");
   E.age.classList.toggle("field-bad",!ageOk&&E.age.dataset.touched==="1");
 
-  E.nameTip.textContent=!nameOk&&E.name.dataset.touched==="1"?"名字是必填项哦。":"";
+  E.nameTip.textContent=!nameOk&&E.name.dataset.touched==="1"?"🐾 这是专属小标记哦～名字要填上。":"";
   E.ageTip.textContent=!ageOk&&E.age.dataset.touched==="1"?"请输入 1-120 的正整数年龄。":"";
 
   updateStepState(valid.ok);
@@ -725,7 +854,7 @@ function paintFieldState(){
 
 function updateWishCount(){
   const len=Array.from(E.wish.value).length;
-  E.wishCount.textContent=`${len}/80`;
+  E.wishCount.textContent=`剩余 ${Math.max(0,80-len)} 字`;
   E.wishCount.classList.toggle("warn",len>=64&&len<80);
   E.wishCount.classList.toggle("max",len>=80);
 }
@@ -781,7 +910,11 @@ async function saveProfile(showMsg=true){
   E.saveProfile.classList.remove("btn-loading");
   E.saveProfile.disabled=false;
 
-  if(showMsg)WarmCat.status(E.profileStatus,`已保存：${profile.name} 的资料。`);
+  if(showMsg){
+    WarmCat.status(E.profileStatus,"✅ 信息存好啦，小猫咪帮你保管～");
+    popSaveBubble("✅ 信息存好啦，小猫咪帮你保管～");
+    popSaveHearts(3);
+  }
   updateStepState(true);
   return true;
 }
@@ -797,14 +930,20 @@ function loadProfile(showMsg=true){
   return true;
 }
 
-function clearProfile(){
+function clearProfileConfirmed(){
   [E.name,E.age,E.city,E.hobby,E.wish].forEach((el)=>{el.value="";el.dataset.touched="";el.classList.remove("field-bad");});
   E.nameTip.textContent="";
   E.ageTip.textContent="";
   updateWishCount();
   localStorage.removeItem(WarmCat.KEYS.profile);
   WarmCat.status(E.profileStatus,"信息已清空，想重新写随时都可以。",false);
+  toggleClearConfirm(false);
   updateStepState(false);
+}
+
+function requestClearProfile(){
+  toggleClearConfirm(true);
+  WarmCat.status(E.profileStatus,"🐾 确定清空专属小信息吗？",false);
 }
 
 function hasTodayFortune(name){
@@ -1276,6 +1415,14 @@ function initFormEvents(){
     updateWishCount();
     paintFieldState();
   });
+  E.wish.addEventListener("keydown",(ev)=>{
+    const limit=80;
+    const blocked=["Backspace","Delete","ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Tab","Enter","Home","End"];
+    if(blocked.includes(ev.key)||ev.ctrlKey||ev.metaKey||ev.altKey)return;
+    if(Array.from(E.wish.value).length>=limit){
+      triggerWishShake();
+    }
+  });
 
   bindEnterJump();
 }
@@ -1341,9 +1488,20 @@ function bootstrap(){
   applyFavoriteCat();
   runDailyGreeting();
 
-  E.saveProfile.addEventListener("click",()=>saveProfile(true));
-  E.loadProfile.addEventListener("click",()=>loadProfile(true));
-  E.clearProfile.addEventListener("click",clearProfile);
+  E.saveProfile.addEventListener("click",()=>{
+    toggleClearConfirm(false);
+    saveProfile(true);
+  });
+  E.loadProfile.addEventListener("click",()=>{
+    toggleClearConfirm(false);
+    loadProfile(true);
+  });
+  E.clearProfile.addEventListener("click",requestClearProfile);
+  E.confirmClearYes.addEventListener("click",clearProfileConfirmed);
+  E.confirmClearNo.addEventListener("click",()=>{
+    toggleClearConfirm(false);
+    WarmCat.status(E.profileStatus,"那就先留着这份小档案吧～",false);
+  });
   E.toLayer2.addEventListener("click",goLayer2);
 
   WarmCat.initCuteBg(E.bgCute);

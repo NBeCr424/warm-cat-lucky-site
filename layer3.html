@@ -339,6 +339,41 @@
 .poster-mode button.on{background:linear-gradient(180deg,#F4A868,#F2995E);border-color:#ec9f63;color:#fff}
 
 .poster-layout-note{font-size:.84rem;color:#97633e;margin-top:6px}
+.poster-ritual{
+  margin-top:8px;
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid #ecd2ba;
+  background:#fff7ee;
+  color:#8f5c39;
+}
+.poster-ritual.show{
+  display:flex;
+  animation:posterRitualIn .2s ease;
+}
+.printer-emoji{
+  font-size:1.05rem;
+  animation:printerWiggle .42s ease-in-out infinite;
+}
+.poster-ritual-track{
+  flex:1;
+  min-width:120px;
+  height:8px;
+  border-radius:999px;
+  background:#D9C5B0;
+  overflow:hidden;
+}
+.poster-ritual-fill{
+  display:block;
+  width:0;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#F4A868,#F2995E);
+  transition:width .2s ease;
+}
 .poster-save-pop{animation:posterSavePop .5s ease}
 
 #previewImg{width:100%;border-radius:14px;border:1px solid #ecd1b8;background:#fffdf8;display:none;margin-top:8px}
@@ -358,6 +393,8 @@
 @keyframes heartUp{0%{opacity:.95;transform:translate(-50%,-40%) scale(1)}100%{opacity:0;transform:translate(-50%,-170%) scale(1.2)}}
 @keyframes ornFly{0%{opacity:.95;transform:translate(-50%,-50%) scale(.8)}100%{opacity:0;transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1.05)}}
 @keyframes posterSavePop{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+@keyframes posterRitualIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes printerWiggle{0%,100%{transform:rotate(0)}50%{transform:rotate(-6deg)}}
 
 @media (max-width:1080px){
   .layer3,.preview{grid-column:span 12}
@@ -562,6 +599,11 @@
         <button id="modeLandscape" type="button">横版 16:9</button>
       </div>
       <div class="poster-layout-note" id="posterLayoutNote">导出分辨率：2160 × 3840（高清保存）</div>
+      <div id="posterRitual" class="poster-ritual" aria-live="polite">
+        <span class="printer-emoji" aria-hidden="true">🖨️</span>
+        <span id="posterRitualText">海报打印中...</span>
+        <span class="poster-ritual-track"><i id="posterRitualFill" class="poster-ritual-fill"></i></span>
+      </div>
 
       <div class="summary">
         <h3 id="sumTitle">尚未生成内容</h3>
@@ -679,6 +721,9 @@ const E={
   sumPoem:document.getElementById("sumPoem"),
   posterBadge:document.getElementById("posterBadge"),
   blessBox:document.getElementById("blessBox"),
+  posterRitual:document.getElementById("posterRitual"),
+  posterRitualText:document.getElementById("posterRitualText"),
+  posterRitualFill:document.getElementById("posterRitualFill"),
   previewPoster:document.getElementById("previewPoster"),
   savePoster:document.getElementById("savePoster"),
   sharePoster:document.getElementById("sharePoster"),
@@ -704,17 +749,24 @@ const slotRefs={
   aura:document.getElementById("svg-slot-aura")
 };
 
+function softRedirect(msg,target){
+  const hint=document.createElement("div");
+  hint.className="hint-pop";
+  hint.textContent=msg;
+  document.body.appendChild(hint);
+  setTimeout(()=>hint.remove(),1800);
+  setTimeout(()=>{location.href=target;},860);
+}
+
 const profile=WarmCat.readJSON(WarmCat.KEYS.profile);
 if(!profile){
-  alert("请先完成第一层。\n将跳转到第一页。");
-  location.href="layer1.html";
+  softRedirect("🐾 请先完成第一层信息填写哦～", "layer1.html");
   throw new Error("redirect:layer1");
 }
 
 const fortuneSaved=WarmCat.readJSON(WarmCat.KEYS.fortune);
 if(!fortuneSaved||fortuneSaved.date!==WarmCat.day()||fortuneSaved.name!==profile.name){
-  alert("请先完成第二层抽签。\n将跳转到第二层。");
-  location.href="layer2.html";
+  softRedirect("🐱 请先完成第二层抽签，再来换装小诗馆～", "layer2.html");
   throw new Error("redirect:layer2");
 }
 
@@ -745,7 +797,8 @@ const state={
   baseCat:"catA",
   fullSetRewarded:false,
   randoming:false,
-  qrImg:null
+  qrImg:null,
+  posterRitualBusy:false
 };
 
 E.profileName.textContent=`${profile.name} 的今日档案`;
@@ -1630,14 +1683,60 @@ async function makePoster(seed=0){
   return true;
 }
 
+function setPosterActionLock(locked){
+  [E.previewPoster,E.savePoster,E.regenPoster,E.modePortrait,E.modeLandscape].forEach((btn)=>{
+    if(!btn)return;
+    btn.disabled=Boolean(locked);
+  });
+}
+
+async function runPosterRitual(text="海报打印中..."){
+  if(state.posterRitualBusy)return false;
+  state.posterRitualBusy=true;
+  setPosterActionLock(true);
+  E.posterRitualText.textContent=text;
+  E.posterRitualFill.style.width="0%";
+  E.posterRitual.classList.add("show");
+
+  await new Promise((resolve)=>{
+    const total=2000;
+    const start=performance.now();
+    const timer=setInterval(()=>{
+      const p=Math.min(1,(performance.now()-start)/total);
+      E.posterRitualFill.style.width=`${Math.round(p*100)}%`;
+      if(p>=1){
+        clearInterval(timer);
+        resolve();
+      }
+    },80);
+  });
+
+  state.posterRitualBusy=false;
+  E.posterRitual.classList.remove("show");
+  setPosterActionLock(false);
+  return true;
+}
+
 async function previewPoster(){
-  await makePoster(0);
+  if(!state.poem){
+    WarmCat.status(E.poemStatus,"请先生成名字小诗，再导出海报。",true);
+    return;
+  }
+  await runPosterRitual("海报打印中...");
+  const ok=await makePoster(0);
+  if(ok)WarmCat.status(E.poemStatus,"🖼️ 专属纪念海报生成啦～");
 }
 
 async function savePoster(){
   if(!state.posterUrl){
+    if(!state.poem){
+      WarmCat.status(E.poemStatus,"请先生成名字小诗，再导出海报。",true);
+      return;
+    }
+    await runPosterRitual("海报打印中...");
     const ok=await makePoster(0);
     if(!ok)return;
+    WarmCat.status(E.poemStatus,"🖼️ 专属纪念海报生成啦～");
   }
   E.posterPanel.classList.remove("poster-save-pop");
   void E.posterPanel.offsetWidth;
@@ -1663,7 +1762,13 @@ async function sharePosterText(){
 }
 
 async function regenPoster(){
-  await makePoster(Math.floor(Math.random()*100000));
+  if(!state.poem){
+    WarmCat.status(E.poemStatus,"请先生成名字小诗，再导出海报。",true);
+    return;
+  }
+  await runPosterRitual("海报打印中...");
+  const ok=await makePoster(Math.floor(Math.random()*100000));
+  if(ok)WarmCat.status(E.poemStatus,"🖼️ 专属纪念海报生成啦～");
 }
 
 E.makePoem.addEventListener("click",()=>makePoem(0,state.poemStyle));

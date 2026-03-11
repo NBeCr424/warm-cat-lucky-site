@@ -6,22 +6,31 @@
 <title>暖暖猫咪幸运站</title>
 <style>
 :root{
-  --bg1:#fff4e8;--bg2:#ffd8b2;--bg3:#ffbf81;--card:rgba(255,248,239,.86);
-  --line:rgba(203,126,65,.28);--text:#6f4225;--sub:#915b38;--acc:#e77c3f;--ok:#467a42;
+  --bg1:#fff4e8;--bg2:#ffd8b2;--bg3:#ffbf81;
+  --card:rgba(255,248,239,.88);--line:rgba(203,126,65,.28);
+  --text:#6f4225;--sub:#915b38;--ok:#467a42;
 }
 *{box-sizing:border-box}
-body{margin:0;color:var(--text);font-family:"YouYuan","KaiTi","Microsoft YaHei",sans-serif;
+body{margin:0;color:var(--text);font-family:"YouYuan","KaiTi","Microsoft YaHei",sans-serif;overflow-x:hidden;
   background:radial-gradient(circle at 18% 15%,rgba(255,255,255,.7),transparent 35%),
   radial-gradient(circle at 84% 82%,rgba(255,238,217,.6),transparent 42%),
   linear-gradient(140deg,var(--bg1),var(--bg2) 55%,var(--bg3));}
-main{max-width:1180px;margin:auto;padding:22px 14px 40px}
+.bg-cute{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-chip{position:absolute;opacity:.22;animation:chipUp linear forwards;filter:drop-shadow(0 1px 2px rgba(255,255,255,.6))}
+@keyframes chipUp{0%{transform:translateY(0) scale(.8);opacity:0}15%{opacity:.22}100%{transform:translateY(-120vh) scale(1.2);opacity:0}}
+main{position:relative;z-index:1;max-width:1180px;margin:auto;padding:22px 14px 40px}
 .hero{text-align:center}
 .hero h1{margin:0;font-size:clamp(2rem,5vw,3.2rem);color:#af5228}
 .hero p{margin:8px auto 0;max-width:760px;line-height:1.75;color:var(--sub)}
+.steps{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0 2px}
+.step-btn{border:1px solid #edbd96;background:#fff7ef;color:#9b5128;border-radius:999px;padding:8px 14px;font-size:.86rem;font-weight:700;cursor:pointer}
+.step-btn.on{background:linear-gradient(180deg,#f39a61,#e77d41);color:#fff;border-color:#df7638;box-shadow:0 6px 12px rgba(223,118,56,.28)}
+.step-btn:disabled{opacity:.45;cursor:not-allowed}
 .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:14px}
-.card{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:20px;
-  padding:16px;box-shadow:0 10px 24px rgba(188,106,53,.15)}
+.card{position:relative;grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 10px 24px rgba(188,106,53,.15)}
 .layer3{grid-column:span 7}.preview{grid-column:span 5}
+.locked{opacity:.72;filter:saturate(.8);pointer-events:none}
+.locked:after{content:attr(data-lock);position:absolute;left:16px;right:16px;bottom:12px;padding:9px 12px;border-radius:10px;border:1px dashed #e8ba8f;background:rgba(255,245,233,.95);color:#a2562f;font-size:.88rem;text-align:center}
 .tag{display:inline-block;background:rgba(231,124,63,.2);color:#a24921;border-radius:999px;padding:3px 10px;font-size:.82rem}
 h2{margin:8px 0 6px;color:#a74d23;font-size:1.2rem}small{color:var(--sub)}
 .form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
@@ -30,40 +39,50 @@ h2{margin:8px 0 6px;color:#a74d23;font-size:1.2rem}small{color:var(--sub)}
 .item label{font-size:.9rem;color:var(--sub)}
 input,textarea{width:100%;border:1px solid #e6b88f;border-radius:12px;padding:9px 10px;background:#fff;font-size:.95rem;color:var(--text)}
 input:focus,textarea:focus{outline:2px solid rgba(231,124,63,.35);border-color:#f09b65}
-.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
 button,a.btn{border:0;border-radius:999px;padding:9px 16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:.2s transform}
 button:hover,a.btn:hover{transform:translateY(-2px)}
 .pri{background:linear-gradient(180deg,#f49558,#e56f35);color:#fff;box-shadow:0 8px 16px rgba(229,111,53,.3)}
 .sec{background:#fff4e8;color:#9b4d23;border:1px solid #eebd98}
+.next{background:linear-gradient(180deg,#f9ae72,#ee8d4f);color:#fff;box-shadow:0 8px 14px rgba(233,131,73,.3)}
 .status{min-height:22px;margin-top:8px;font-size:.92rem;color:var(--ok)}
 .box{margin-top:10px;padding:12px;border-radius:14px;border:1px dashed #e5a97d;background:linear-gradient(145deg,#fff7ee,#ffe8d0)}
 .poem{white-space:pre-line;line-height:1.9}
 .dress{display:grid;grid-template-columns:270px 1fr;gap:12px;margin-top:12px}
 .stage{position:relative;height:325px;border:1px solid #efc79e;border-radius:16px;overflow:hidden;cursor:pointer;
   background:radial-gradient(circle at 50% 18%,rgba(255,255,255,.82),transparent 43%),linear-gradient(180deg,#ffe9cc,#ffd4a1)}
-.shadow{position:absolute;left:50%;bottom:22px;width:148px;height:28px;transform:translateX(-50%);border-radius:999px;background:rgba(185,109,52,.2)}
-.cat{position:absolute;left:50%;bottom:52px;width:160px;height:205px;transform:translateX(-50%)}
-.head{position:absolute;left:50%;top:0;transform:translateX(-50%);width:126px;height:110px;border-radius:50%;background:#ffe2c0;border:3px solid #e5a46f}
-.ear{position:absolute;top:-16px;width:44px;height:44px;background:#ffe2c0;border:3px solid #e5a46f;border-radius:12px 42px 8px 8px}
+.shadow{position:absolute;left:50%;bottom:22px;width:156px;height:30px;transform:translateX(-50%);border-radius:999px;background:rgba(185,109,52,.2)}
+.cat{position:absolute;left:50%;bottom:52px;width:160px;height:205px;transform:translateX(-50%);animation:breathe 2.8s ease-in-out infinite}
+.head{position:absolute;left:50%;top:0;transform:translateX(-50%);width:126px;height:110px;border-radius:50%;background:#ffe2c0;border:3px solid #e5a46f;box-shadow:inset 0 -6px 0 rgba(255,201,157,.45)}
+.ear{position:absolute;top:-16px;width:44px;height:44px;background:#ffe2c0;border:3px solid #e5a46f;border-radius:12px 42px 8px 8px;animation:earWiggle 4.2s ease-in-out infinite}
 .ear:after{content:"";position:absolute;inset:10px 10px 8px;background:#ffd5bf;border-radius:12px 30px 8px 8px}
-.ear.l{left:14px;transform:rotate(-34deg)}.ear.r{right:14px;transform:rotate(34deg) scaleX(-1)}
+.ear.l{left:14px;transform:rotate(-34deg)}
+.ear.r{right:14px;transform:rotate(34deg) scaleX(-1);animation-name:earWiggleR;animation-delay:-2.1s}
 .face{position:absolute;left:50%;top:32px;transform:translateX(-50%);width:90px;text-align:center}
-.eyes{display:flex;justify-content:space-between;padding:0 8px}.eyes i{width:12px;height:14px;background:#5a3822;border-radius:50%}
+.eyes{display:flex;justify-content:space-between;padding:0 8px}.eyes i{position:relative;width:12px;height:14px;background:#5a3822;border-radius:50%}
+.eyes i:after{content:"";position:absolute;left:2px;top:2px;width:4px;height:4px;background:#fff;border-radius:50%}
+.cheek{position:absolute;top:20px;width:16px;height:10px;background:rgba(241,138,140,.55);border-radius:50%}
+.cheek.l{left:10px}.cheek.r{right:10px}
+.whisker{position:absolute;top:23px;width:26px}.whisker span{display:block;height:2px;background:#a3653f;border-radius:999px}
+.whisker span+span{margin-top:5px}.whisker.l{left:-12px;transform:rotate(6deg)}.whisker.r{right:-12px;transform:rotate(-6deg)}
+.whisker.l span{transform:rotate(8deg)}.whisker.r span{transform:rotate(-8deg)}
 .nose{width:12px;height:9px;margin:6px auto 0;background:#d36d53;border-radius:50% 50% 60% 60%}.mouth{font-size:14px;margin-top:3px}
-.body{position:absolute;left:50%;top:84px;transform:translateX(-50%);width:118px;height:112px;border-radius:55% 55% 44% 44%;background:#ffe2c0;border:3px solid #e5a46f}
-.paw{position:absolute;bottom:-8px;width:34px;height:24px;border-radius:16px;background:#ffd8b4;border:2px solid #e5a46f}
-.paw.l{left:24px}.paw.r{right:24px}
+.body{position:absolute;left:50%;top:84px;transform:translateX(-50%);width:118px;height:112px;border-radius:55% 55% 44% 44%;background:#ffe2c0;border:3px solid #e5a46f;box-shadow:inset 0 -8px 0 rgba(255,199,152,.35)}
+.belly{position:absolute;left:50%;top:38px;transform:translateX(-50%);font-size:20px;color:#e78692;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.paw{position:absolute;bottom:-8px;width:34px;height:24px;border-radius:16px;background:#ffd8b4;border:2px solid #e5a46f}.paw.l{left:24px}.paw.r{right:24px}
 .tail{position:absolute;right:8px;top:128px;width:52px;height:66px;border:4px solid #e5a46f;border-left:0;border-bottom:0;border-radius:0 80% 0 0;transform:rotate(20deg)}
+.tail:after{content:"";position:absolute;right:9px;top:22px;width:20px;height:6px;border-radius:999px;background:rgba(229,164,111,.6)}
 .slot{position:absolute;left:50%;transform:translateX(-50%);pointer-events:none;user-select:none}
 #slotHead{top:14px;font-size:54px}#slotFace{top:74px;font-size:56px}#slotNeck{top:150px;font-size:54px}#slotHand{top:172px;left:calc(50% + 58px);font-size:46px}#slotAura{top:16px;left:calc(50% + 78px);font-size:38px}
 .score{margin-top:8px;font-size:.92rem;color:#a15f37}.score b{color:#b84f22}
 .float{position:absolute;pointer-events:none;animation:up 1s ease forwards}
 @keyframes up{0%{opacity:0;transform:translate(-50%,-10%) scale(.8)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-140%) scale(1.3)}}
-.controls{display:flex;flex-direction:column;gap:8px}
-.grp{padding:9px;border:1px solid #efc79e;border-radius:12px;background:rgba(255,243,228,.9)}
+@keyframes breathe{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
+@keyframes earWiggle{0%,100%{transform:rotate(-34deg)}8%{transform:rotate(-30deg)}16%{transform:rotate(-36deg)}}
+@keyframes earWiggleR{0%,100%{transform:rotate(34deg) scaleX(-1)}8%{transform:rotate(30deg) scaleX(-1)}16%{transform:rotate(36deg) scaleX(-1)}}
+.controls{display:flex;flex-direction:column;gap:8px}.grp{padding:9px;border:1px solid #efc79e;border-radius:12px;background:rgba(255,243,228,.9)}
 .grp h3{margin:0 0 6px;font-size:.94rem;color:#a2471e}.opts{display:flex;flex-wrap:wrap;gap:6px}
-.opt{border:1px solid #efbd96;background:#fff9f2;color:#8c4a26;border-radius:999px;padding:5px 10px;font-size:.85rem}
-.opt.on{background:linear-gradient(180deg,#f49c64,#e67f42);color:#fff;border-color:#df7638}
+.opt{border:1px solid #efbd96;background:#fff9f2;color:#8c4a26;border-radius:999px;padding:5px 10px;font-size:.85rem}.opt.on{background:linear-gradient(180deg,#f49c64,#e67f42);color:#fff;border-color:#df7638}
 .summary{border:1px solid #efbc95;border-radius:14px;background:rgba(255,244,232,.9);padding:12px}.summary h3{margin:0;color:#a74b20}.summary p{line-height:1.7;margin:6px 0}
 #previewImg{width:100%;margin-top:10px;border:1px solid #efbc95;border-radius:12px;display:none;background:#fff}
 .hide{display:none}.tip{font-size:.86rem;color:#a16641;margin-top:8px}
@@ -72,13 +91,24 @@ button:hover,a.btn:hover{transform:translateY(-2px)}
 </style>
 </head>
 <body>
+<div class="bg-cute" id="bgCute"></div>
 <main>
 <section class="hero">
 <h1>暖暖猫咪幸运站</h1>
 <p>第一层保存个人信息，第二层抽取当日幸运签，第三层生成名字小诗并玩猫咪换装，最后导出纪念图。</p>
+<div class="steps">
+  <button id="nav1" class="step-btn on" type="button">第 1 层 信息</button>
+  <button id="nav2" class="step-btn" type="button" disabled>第 2 层 幸运签</button>
+  <button id="nav3" class="step-btn" type="button" disabled>第 3 层 小诗+换装</button>
+  <button id="nav4" class="step-btn" type="button" disabled>第 4 层 纪念图</button>
+</div>
+<div class="row" style="justify-content:center">
+  <button id="musicToggle" class="sec" type="button">播放舒缓音乐</button>
+  <input id="musicVolume" type="range" min="0" max="100" value="40" style="width:140px" aria-label="音乐音量" />
+</div>
 </section>
 <section class="grid">
-<article class="card">
+<article class="card" id="layer1Card">
 <span class="tag">第一层</span>
 <h2>填写并保存信息</h2><small>数据保存到浏览器 localStorage</small>
 <div class="form">
@@ -88,13 +118,13 @@ button:hover,a.btn:hover{transform:translateY(-2px)}
 <div class="item"><label for="hobby">喜欢的事</label><input id="hobby" maxlength="40" placeholder="例如：晒太阳" /></div>
 <div class="item full"><label for="wish">今日小愿望</label><textarea id="wish" rows="2" maxlength="80" placeholder="写下一件想实现的小事"></textarea></div>
 </div>
-<div class="row"><button id="saveProfile" class="pri">保存信息</button><button id="loadProfile" class="sec">读取已保存信息</button></div>
+<div class="row"><button id="saveProfile" class="pri">保存信息</button><button id="loadProfile" class="sec">读取已保存信息</button><button id="toLayer2" class="next">完成第一层，进入第二层</button></div>
 <div class="status" id="profileStatus"></div>
 </article>
-<article class="card">
+<article class="card locked" id="layer2Card" data-lock="请先完成第一层，再点击“进入第二层”">
 <span class="tag">第二层</span>
 <h2>抽取当日幸运签</h2><small>同一天同名字默认稳定，点“重新抽签”可换一版</small>
-<div class="row"><button id="drawFortune" class="pri">抽今日幸运签</button><button id="refreshFortune" class="sec">重新抽签</button></div>
+<div class="row"><button id="drawFortune" class="pri">抽今日幸运签</button><button id="refreshFortune" class="sec">重新抽签</button><button id="toLayer3" class="next">完成第二层，进入第三层</button></div>
 <div class="status" id="fortuneStatus"></div>
 <div class="box hide" id="fortuneBox">
 <h3 id="fortuneTitle" style="margin:0;color:#bb5a2a"></h3>
@@ -103,7 +133,7 @@ button:hover,a.btn:hover{transform:translateY(-2px)}
 </div>
 </article>
 
-<article class="card layer3">
+<article class="card layer3 locked" id="layer3Card" data-lock="请先完成第二层，再点击“进入第三层”">
 <span class="tag">第三层</span>
 <h2>名字小诗 + 猫咪换装小游戏</h2><small>点击猫咪可以收集爱心分数</small>
 <div class="row"><button id="makePoem" class="pri">生成名字小诗</button><button id="remakePoem" class="sec">换一首风格</button></div>
@@ -118,9 +148,15 @@ button:hover,a.btn:hover{transform:translateY(-2px)}
 <div class="tail"></div>
 <div class="head">
 <div class="ear l"></div><div class="ear r"></div>
-<div class="face"><div class="eyes"><i></i><i></i></div><div class="nose"></div><div class="mouth">ω</div></div>
+<div class="face">
+  <div class="eyes"><i></i><i></i></div>
+  <div class="cheek l"></div><div class="cheek r"></div>
+  <div class="nose"></div><div class="mouth">ω</div>
+  <div class="whisker l"><span></span><span></span></div>
+  <div class="whisker r"><span></span><span></span></div>
 </div>
-<div class="body"><div class="paw l"></div><div class="paw r"></div></div>
+</div>
+<div class="body"><div class="belly">♥</div><div class="paw l"></div><div class="paw r"></div></div>
 </div>
 <div id="slotHead" class="slot"></div>
 <div id="slotFace" class="slot"></div>
@@ -129,13 +165,13 @@ button:hover,a.btn:hover{transform:translateY(-2px)}
 <div id="slotAura" class="slot"></div>
 </div>
 <div class="score">当前爱心分：<b id="score">0</b></div>
-<div class="row"><button id="randomOutfit" class="pri">随机换装</button><button id="clearOutfit" class="sec">清空装饰</button></div>
+<div class="row"><button id="randomOutfit" class="pri">随机换装</button><button id="clearOutfit" class="sec">清空装饰</button><button id="toLayer4" class="next">完成第三层，进入纪念图</button></div>
 </div>
 <div id="controls" class="controls"></div>
 </div>
 </article>
 
-<aside class="card preview">
+<aside class="card preview locked" id="previewCard" data-lock="请先完成第三层，再点击“进入纪念图”">
 <h2>生成并保存纪念图</h2><small>将猫咪、幸运签和名字小诗合成 PNG 图片</small>
 <div class="summary">
 <h3 id="sumTitle">尚未生成内容</h3>
@@ -151,9 +187,14 @@ button:hover,a.btn:hover{transform:translateY(-2px)}
 </section>
 </main>
 
+<audio id="bgMusic" preload="auto" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+</audio>
+
 <script>
 const KEY={profile:"warm_cat_profile_v1",fortune:"warm_cat_fortune_v1",poem:"warm_cat_poem_v1",outfit:"warm_cat_outfit_v1"};
-const STATE={profile:null,fortune:null,poem:"",outfit:{head:"none",face:"none",neck:"none",hand:"none",aura:"none"},score:0};
+const STATE={profile:null,fortune:null,poem:"",outfit:{head:"none",face:"none",neck:"none",hand:"none",aura:"none"},score:0,maxStep:1,activeStep:1,done:{profile:false,fortune:false,poem:false}};
+
 const OUT={
   head:[["none","无",""],["bow","蝴蝶结","🎀"],["crown","小皇冠","👑"],["straw","草帽","👒"],["star","星星夹","⭐"],["flower","花花","🌼"],["party","派对帽","🥳"],["pumpkin","南瓜帽","🎃"]],
   face:[["none","无",""],["heart","爱心眼","😍"],["sun","墨镜","🕶️"],["blush","腮红","😊"],["wink","眨眼","😉"],["mask","猫咪面具","🐱"],["spark","闪亮眼","✨"],["sleep","困困眼","😴"]],
@@ -161,6 +202,7 @@ const OUT={
   hand:[["none","无",""],["fish","小鱼干","🐟"],["milk","奶瓶","🍼"],["toy","玩偶","🧸"],["wand","魔法棒","🪄"],["heart","爱心","💖"],["donut","甜甜圈","🍩"],["ice","冰淇淋","🍦"]],
   aura:[["none","无",""],["spark","星光","✨"],["bubble","泡泡","🫧"],["heart","爱心雨","💗"],["moon","小月亮","🌙"],["sun","小太阳","☀️"],["flower","花瓣","🌺"],["leaf","树叶","🍃"]]
 };
+
 const FORT=[
 {id:1,title:"朝阳上上签",text:"今天适合主动表达，你的一句温柔会点亮一整天。",item:"幸运物：橙色发圈",time:"幸运时段：09:00-11:00"},
 {id:2,title:"奶油平安签",text:"保持节奏就会顺利，细小的耐心会得到意外回报。",item:"幸运物：小笔记本",time:"幸运时段：13:00-15:00"},
@@ -175,10 +217,21 @@ const FORT=[
 {id:11,title:"桂花轻甜签",text:"今天会收到一句暖心的话，记得把好心情传出去。",item:"幸运物：桂花香囊",time:"幸运时段：15:00-17:00"},
 {id:12,title:"金橘勇气签",text:"犹豫的事可以定下来，行动比完美更重要。",item:"幸运物：橘色钥匙扣",time:"幸运时段：12:00-14:00"}
 ];
+
 const MOOD=["晨光在窗台揉开一团橘色云，","晚风把糖渍星光轻轻吹进衣袖，","奶茶香从街角飘来像一首慢歌，","微暖日光刚好，世界变得软软的，","云朵像棉花一样托住心情，","落日把天边染成琥珀色，"];
 const END=["愿你抬头遇见好事，低头捡到温柔。","愿你每一步都踩在好运节拍里。","愿你和喜欢的事都有圆满回应。","愿你的笑意被世界认真收藏。","愿你被温暖包围，也把温暖递出去。","愿今天的幸运，明天继续。"];
+
 const $=id=>document.getElementById(id);
-const E={name:$("name"),age:$("age"),city:$("city"),hobby:$("hobby"),wish:$("wish"),profileStatus:$("profileStatus"),fortuneStatus:$("fortuneStatus"),poemStatus:$("poemStatus"),fortuneBox:$("fortuneBox"),fortuneTitle:$("fortuneTitle"),fortuneText:$("fortuneText"),fortuneDetail:$("fortuneDetail"),poemBox:$("poemBox"),score:$("score"),slotHead:$("slotHead"),slotFace:$("slotFace"),slotNeck:$("slotNeck"),slotHand:$("slotHand"),slotAura:$("slotAura"),controls:$("controls"),sumTitle:$("sumTitle"),sumProfile:$("sumProfile"),sumFortune:$("sumFortune"),sumPoem:$("sumPoem"),previewImg:$("previewImg"),poster:$("poster"),download:$("download"),stage:$("stage")};
+const E={
+name:$("name"),age:$("age"),city:$("city"),hobby:$("hobby"),wish:$("wish"),
+profileStatus:$("profileStatus"),fortuneStatus:$("fortuneStatus"),poemStatus:$("poemStatus"),
+fortuneBox:$("fortuneBox"),fortuneTitle:$("fortuneTitle"),fortuneText:$("fortuneText"),fortuneDetail:$("fortuneDetail"),
+poemBox:$("poemBox"),score:$("score"),slotHead:$("slotHead"),slotFace:$("slotFace"),slotNeck:$("slotNeck"),slotHand:$("slotHand"),slotAura:$("slotAura"),
+controls:$("controls"),sumTitle:$("sumTitle"),sumProfile:$("sumProfile"),sumFortune:$("sumFortune"),sumPoem:$("sumPoem"),
+previewImg:$("previewImg"),poster:$("poster"),download:$("download"),stage:$("stage"),
+layer1Card:$("layer1Card"),layer2Card:$("layer2Card"),layer3Card:$("layer3Card"),previewCard:$("previewCard"),
+nav1:$("nav1"),nav2:$("nav2"),nav3:$("nav3"),nav4:$("nav4"),toLayer2:$("toLayer2"),toLayer3:$("toLayer3"),toLayer4:$("toLayer4"),
+bgMusic:$("bgMusic"),musicToggle:$("musicToggle"),musicVolume:$("musicVolume"),bgCute:$("bgCute")};
 
 const safeJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const readJSON=k=>{try{return JSON.parse(localStorage.getItem(k)||"null")}catch{return null}};
@@ -188,6 +241,39 @@ const pick=(arr,key)=>arr[hash(key)%arr.length];
 const emo=(cat,id)=>{const f=OUT[cat].find(x=>x[0]===id);return f?f[2]:"";};
 const status=(node,msg,bad=false)=>{node.textContent=msg;node.style.color=bad?"#b14a23":"var(--ok)";};
 
+function updateStepUI(){
+  E.layer2Card.classList.toggle("locked",STATE.maxStep<2);
+  E.layer3Card.classList.toggle("locked",STATE.maxStep<3);
+  E.previewCard.classList.toggle("locked",STATE.maxStep<4);
+  [1,2,3,4].forEach(i=>{const btn=E[`nav${i}`];btn.disabled=i>STATE.maxStep;btn.classList.toggle("on",i===STATE.activeStep);});
+}
+function scrollToStep(step){const map={1:E.layer1Card,2:E.layer2Card,3:E.layer3Card,4:E.previewCard};if(map[step])map[step].scrollIntoView({behavior:"smooth",block:"start"});}
+function setActiveStep(step,scroll=true){if(step>STATE.maxStep)return;STATE.activeStep=step;updateStepUI();if(scroll)scrollToStep(step);}
+function unlockStep(step,scroll=true){STATE.maxStep=Math.max(STATE.maxStep,step);STATE.activeStep=step;updateStepUI();if(scroll)scrollToStep(step);}
+function syncDoneToStep(){let max=1;if(STATE.done.profile)max=2;if(STATE.done.fortune)max=3;if(STATE.done.poem)max=4;STATE.maxStep=Math.max(STATE.maxStep,max);updateStepUI();}
+
+function setMusicVolume(){E.bgMusic.volume=Math.max(0,Math.min(1,Number(E.musicVolume.value)/100));}
+async function toggleMusic(){
+  setMusicVolume();
+  if(E.bgMusic.paused){
+    try{await E.bgMusic.play();E.musicToggle.textContent="暂停舒缓音乐";}catch{status(E.profileStatus,"音乐播放被浏览器拦截，请再点一次“播放舒缓音乐”。",true);}return;
+  }
+  E.bgMusic.pause();E.musicToggle.textContent="播放舒缓音乐";
+}
+
+function spawnCuteChip(){
+  const el=document.createElement("span");
+  el.className="bg-chip";
+  const pool=["💗","💖","🐾","⭐","🧡","🌼"];
+  el.textContent=pool[Math.floor(Math.random()*pool.length)];
+  el.style.left=`${Math.random()*100}vw`;
+  el.style.bottom="-30px";
+  el.style.fontSize=`${16+Math.random()*24}px`;
+  el.style.animationDuration=`${8+Math.random()*7}s`;
+  E.bgCute.appendChild(el);
+  setTimeout(()=>el.remove(),16000);
+}
+
 function collectProfile(){
   const p={name:E.name.value.trim(),age:Number(E.age.value),city:E.city.value.trim(),hobby:E.hobby.value.trim(),wish:E.wish.value.trim()};
   if(!p.name){status(E.profileStatus,"请先输入名字。",true);return null;}
@@ -195,21 +281,28 @@ function collectProfile(){
   return p;
 }
 function applyProfile(p){E.name.value=p.name||"";E.age.value=p.age||"";E.city.value=p.city||"";E.hobby.value=p.hobby||"";E.wish.value=p.wish||"";}
-function saveProfile(){const p=collectProfile();if(!p)return;STATE.profile=p;safeJSON(KEY.profile,p);status(E.profileStatus,`已保存：${p.name}（${p.age} 岁）。`);updateSummary();}
+function saveProfile(){
+  const p=collectProfile();if(!p)return false;
+  STATE.profile=p;STATE.done.profile=true;safeJSON(KEY.profile,p);
+  status(E.profileStatus,`已保存：${p.name}（${p.age} 岁）。点击“完成第一层，进入第二层”。`);
+  updateSummary();syncDoneToStep();return true;
+}
 function loadProfile(showEmpty=true){
   const p=readJSON(KEY.profile);if(!p){if(showEmpty)status(E.profileStatus,"当前浏览器还没有保存过信息。",true);return false;}
-  STATE.profile=p;applyProfile(p);status(E.profileStatus,`已读取：${p.name}（${p.age} 岁）。`);return true;
+  STATE.profile=p;STATE.done.profile=true;applyProfile(p);status(E.profileStatus,`已读取：${p.name}（${p.age} 岁）。`);return true;
 }
 
 function renderFortune(f){E.fortuneTitle.textContent=f.title;E.fortuneText.textContent=f.text;E.fortuneDetail.textContent=`${f.item} | ${f.time}`;E.fortuneBox.classList.remove("hide");}
 function drawFortune(salt=0){
-  if(!STATE.profile){const p=collectProfile();if(!p){status(E.fortuneStatus,"先在第一层保存个人信息。",true);return;}STATE.profile=p;safeJSON(KEY.profile,p);}
-  const f=pick(FORT,`${STATE.profile.name}-${day()}-${salt}`);STATE.fortune=f;safeJSON(KEY.fortune,{date:day(),name:STATE.profile.name,id:f.id,salt});
-  renderFortune(f);status(E.fortuneStatus,`今日幸运签：${f.title}`);updateSummary();
+  if(!STATE.profile){if(!saveProfile()){status(E.fortuneStatus,"先在第一层保存个人信息。",true);return false;}}
+  const f=pick(FORT,`${STATE.profile.name}-${day()}-${salt}`);
+  STATE.fortune=f;STATE.done.fortune=true;safeJSON(KEY.fortune,{date:day(),name:STATE.profile.name,id:f.id,salt});
+  renderFortune(f);status(E.fortuneStatus,`今日幸运签：${f.title}。点击“完成第二层，进入第三层”。`);updateSummary();syncDoneToStep();return true;
 }
 function loadFortune(){
-  const d=readJSON(KEY.fortune);if(!d||!STATE.profile||d.date!==day()||d.name!==STATE.profile.name)return;
-  const f=FORT.find(x=>x.id===d.id);if(!f)return;STATE.fortune=f;renderFortune(f);status(E.fortuneStatus,`已读取今日签：${f.title}`);updateSummary();
+  const d=readJSON(KEY.fortune);if(!d||!STATE.profile||d.date!==day()||d.name!==STATE.profile.name)return false;
+  const f=FORT.find(x=>x.id===d.id);if(!f)return false;
+  STATE.fortune=f;STATE.done.fortune=true;renderFortune(f);status(E.fortuneStatus,`已读取今日签：${f.title}`);updateSummary();return true;
 }
 
 function makePoemText(name,title,salt=0){
@@ -218,19 +311,19 @@ function makePoemText(name,title,salt=0){
   return [mood,`${c1}字写在风里，像一颗软糖慢慢发光，`,`${c2}字落在心上，和「${title}」并肩同行，`,`愿${name}今天被温柔拥抱，${end}`].join("\n");
 }
 function makePoem(salt=0){
-  if(!STATE.profile){const p=collectProfile();if(!p){status(E.poemStatus,"先在第一层保存个人信息。",true);return;}STATE.profile=p;safeJSON(KEY.profile,p);}
-  if(!STATE.fortune)drawFortune();
-  const poem=makePoemText(STATE.profile.name,STATE.fortune.title,salt);STATE.poem=poem;safeJSON(KEY.poem,{date:day(),name:STATE.profile.name,poem,salt});
-  E.poemBox.textContent=poem;E.poemBox.classList.remove("hide");status(E.poemStatus,"名字小诗已生成。");updateSummary();
+  if(!STATE.profile){if(!saveProfile()){status(E.poemStatus,"先在第一层保存个人信息。",true);return false;}}
+  if(!STATE.fortune){if(!drawFortune()){status(E.poemStatus,"先抽取幸运签。",true);return false;}}
+  const poem=makePoemText(STATE.profile.name,STATE.fortune.title,salt);
+  STATE.poem=poem;STATE.done.poem=true;safeJSON(KEY.poem,{date:day(),name:STATE.profile.name,poem,salt});
+  E.poemBox.textContent=poem;E.poemBox.classList.remove("hide");status(E.poemStatus,"名字小诗已生成。点击“完成第三层，进入纪念图”。");updateSummary();syncDoneToStep();return true;
 }
 function loadPoem(){
-  const d=readJSON(KEY.poem);if(!d||!STATE.profile||d.date!==day()||d.name!==STATE.profile.name)return;
-  STATE.poem=d.poem;E.poemBox.textContent=d.poem;E.poemBox.classList.remove("hide");status(E.poemStatus,"已读取今日小诗。");updateSummary();
+  const d=readJSON(KEY.poem);if(!d||!STATE.profile||d.date!==day()||d.name!==STATE.profile.name)return false;
+  STATE.poem=d.poem;STATE.done.poem=true;E.poemBox.textContent=d.poem;E.poemBox.classList.remove("hide");status(E.poemStatus,"已读取今日小诗。");updateSummary();return true;
 }
 
 function applyOutfit(){
-  E.slotHead.textContent=emo("head",STATE.outfit.head);E.slotFace.textContent=emo("face",STATE.outfit.face);
-  E.slotNeck.textContent=emo("neck",STATE.outfit.neck);E.slotHand.textContent=emo("hand",STATE.outfit.hand);E.slotAura.textContent=emo("aura",STATE.outfit.aura);
+  E.slotHead.textContent=emo("head",STATE.outfit.head);E.slotFace.textContent=emo("face",STATE.outfit.face);E.slotNeck.textContent=emo("neck",STATE.outfit.neck);E.slotHand.textContent=emo("hand",STATE.outfit.hand);E.slotAura.textContent=emo("aura",STATE.outfit.aura);
   document.querySelectorAll(".opt").forEach(b=>b.classList.toggle("on",STATE.outfit[b.dataset.cat]===b.dataset.id));
   safeJSON(KEY.outfit,STATE.outfit);
 }
@@ -265,57 +358,102 @@ function updateSummary(){
 }
 function rr(ctx,x,y,w,h,r){const k=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+k,y);ctx.lineTo(x+w-k,y);ctx.quadraticCurveTo(x+w,y,x+w,y+k);ctx.lineTo(x+w,y+h-k);ctx.quadraticCurveTo(x+w,y+h,x+w-k,y+h);ctx.lineTo(x+k,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-k);ctx.lineTo(x,y+k);ctx.quadraticCurveTo(x,y,x+k,y);ctx.closePath();}
 function wrap(ctx,t,m){const c=Array.from(t),o=[];let l="";c.forEach(ch=>{const n=l+ch;if(ctx.measureText(n).width>m&&l){o.push(l);l=ch;}else l=n;});if(l)o.push(l);return o;}
+
 function drawCat(ctx,x,y){
-  ctx.save();ctx.fillStyle="rgba(177,104,53,.18)";ctx.beginPath();ctx.ellipse(x,y+236,132,26,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="#ffe1bf";ctx.strokeStyle="#e5a46f";ctx.lineWidth=6;
-  const ear=(ox,flip)=>{ctx.save();ctx.translate(x+ox,y-44);if(flip)ctx.scale(-1,1);ctx.beginPath();ctx.moveTo(-24,28);ctx.quadraticCurveTo(-22,-26,22,18);ctx.quadraticCurveTo(8,34,-24,28);ctx.fill();ctx.stroke();ctx.fillStyle="#ffd3bd";ctx.beginPath();ctx.moveTo(-9,22);ctx.quadraticCurveTo(-7,-3,11,17);ctx.quadraticCurveTo(4,25,-9,22);ctx.fill();ctx.restore();ctx.fillStyle="#ffe1bf";};
+  ctx.save();
+  ctx.fillStyle="rgba(60,40,20,.12)";ctx.beginPath();ctx.ellipse(x,y+236,132,26,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#ffd9ae";ctx.strokeStyle="#6f4225";ctx.lineWidth=5;
+  const ear=(ox,flip)=>{ctx.save();ctx.translate(x+ox,y-44);if(flip)ctx.scale(-1,1);ctx.beginPath();ctx.moveTo(-24,28);ctx.quadraticCurveTo(-22,-26,22,18);ctx.quadraticCurveTo(8,34,-24,28);ctx.fill();ctx.stroke();ctx.fillStyle="#ffcfa8";ctx.beginPath();ctx.moveTo(-9,22);ctx.quadraticCurveTo(-7,-3,11,17);ctx.quadraticCurveTo(4,25,-9,22);ctx.fill();ctx.restore();ctx.fillStyle="#ffd9ae";};
   ear(-60,false);ear(60,true);
-  ctx.beginPath();ctx.ellipse(x,y+118,86,80,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.ellipse(x,y+34,98,82,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-  ctx.fillStyle="#ffd8b4";rr(ctx,x-56,y+183,42,30,16);ctx.fill();ctx.stroke();rr(ctx,x+14,y+183,42,30,16);ctx.fill();ctx.stroke();
-  ctx.strokeStyle="#e5a46f";ctx.lineWidth=7;ctx.beginPath();ctx.arc(x+96,y+126,48,-1.1,.15);ctx.stroke();
-  ctx.fillStyle="#5b3822";ctx.beginPath();ctx.ellipse(x-24,y+18,7,10,0,0,Math.PI*2);ctx.ellipse(x+24,y+18,7,10,0,0,Math.PI*2);ctx.fill();ctx.fillStyle="#d36d53";ctx.beginPath();ctx.ellipse(x,y+36,9,7,0,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle="#7a4028";ctx.font="28px 'Microsoft YaHei'";ctx.textAlign="center";ctx.fillText("ω",x,y+62);
+  ctx.beginPath();ctx.ellipse(x,y+118,86,80,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.ellipse(x,y+34,98,82,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle="#ffdfbe";rr(ctx,x-56,y+183,42,30,16);ctx.fill();ctx.stroke();rr(ctx,x+14,y+183,42,30,16);ctx.fill();ctx.stroke();
+  ctx.strokeStyle="#6f4225";ctx.lineWidth=6;ctx.beginPath();ctx.arc(x+96,y+126,48,-1.1,.15);ctx.stroke();
+
+  ctx.fillStyle="#2f1e14";ctx.beginPath();ctx.ellipse(x-24,y+18,7,10,0,0,Math.PI*2);ctx.ellipse(x+24,y+18,7,10,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#fff";ctx.beginPath();ctx.ellipse(x-22,y+15,2.3,3,0,0,Math.PI*2);ctx.ellipse(x+26,y+15,2.3,3,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="rgba(241,138,140,.55)";ctx.beginPath();ctx.ellipse(x-38,y+46,14,8,0,0,Math.PI*2);ctx.ellipse(x+38,y+46,14,8,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#8a4e2c";ctx.beginPath();ctx.ellipse(x,y+36,9,7,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="#8a5738";ctx.lineWidth=2.3;ctx.beginPath();ctx.moveTo(x-60,y+36);ctx.lineTo(x-34,y+39);ctx.moveTo(x-60,y+47);ctx.lineTo(x-34,y+45);ctx.moveTo(x+60,y+36);ctx.lineTo(x+34,y+39);ctx.moveTo(x+60,y+47);ctx.lineTo(x+34,y+45);ctx.stroke();
+  ctx.fillStyle="#6f4225";ctx.font="28px 'Microsoft YaHei'";ctx.textAlign="center";ctx.fillText("ω",x,y+62);
+  ctx.fillStyle="#e78692";ctx.font="bold 30px 'Microsoft YaHei'";ctx.fillText("♥",x,y+158);
+
   ctx.font="56px 'Segoe UI Emoji','Apple Color Emoji',sans-serif";
   const h=emo("head",STATE.outfit.head),f=emo("face",STATE.outfit.face),n=emo("neck",STATE.outfit.neck),d=emo("hand",STATE.outfit.hand),a=emo("aura",STATE.outfit.aura);
   if(h)ctx.fillText(h,x,y-22);if(f)ctx.fillText(f,x,y+48);if(n)ctx.fillText(n,x,y+140);if(d)ctx.fillText(d,x+90,y+172);if(a)ctx.fillText(a,x+120,y-28);
   ctx.restore();
 }
+
 function makePoster(){
   if(!STATE.profile||!STATE.fortune||!STATE.poem){alert("请先完成三层内容后再生成纪念图。");return;}
-  const c=E.poster,ctx=c.getContext("2d");const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,"#fff5e8");g.addColorStop(.55,"#ffdcb7");g.addColorStop(1,"#ffbf7f");ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
+  const c=E.poster,ctx=c.getContext("2d");
+  const g=ctx.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,"#fff5e8");g.addColorStop(.55,"#ffdcb7");g.addColorStop(1,"#ffbf7f");ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
   for(let i=0;i<18;i++){ctx.fillStyle=`rgba(255,255,255,${.07+Math.random()*.08})`;ctx.beginPath();ctx.arc(Math.random()*c.width,Math.random()*c.height,40+Math.random()*120,0,Math.PI*2);ctx.fill();}
-  rr(ctx,58,54,964,1330,42);ctx.fillStyle="rgba(255,248,239,.88)";ctx.fill();ctx.strokeStyle="rgba(214,132,62,.35)";ctx.lineWidth=3;ctx.stroke();
+
+  rr(ctx,58,54,964,1330,42);ctx.fillStyle="rgba(255,248,239,.9)";ctx.fill();ctx.strokeStyle="rgba(214,132,62,.35)";ctx.lineWidth=3;ctx.stroke();
   ctx.fillStyle="#af4f24";ctx.font="bold 62px 'KaiTi','Microsoft YaHei',sans-serif";ctx.textAlign="left";ctx.fillText("暖暖猫咪幸运纪念图",110,140);
   ctx.fillStyle="#945932";ctx.font="30px 'Microsoft YaHei'";ctx.fillText(`日期：${day()}`,110,190);
+
   rr(ctx,100,224,880,200,26);ctx.fillStyle="#fff4e4";ctx.fill();ctx.strokeStyle="#f0c08f";ctx.stroke();
   ctx.fillStyle="#934f2a";ctx.font="36px 'Microsoft YaHei'";ctx.fillText(`名字：${STATE.profile.name}`,130,282);ctx.fillText(`年龄：${STATE.profile.age} 岁`,130,336);
   const ex=[];if(STATE.profile.city)ex.push(`城市 ${STATE.profile.city}`);if(STATE.profile.hobby)ex.push(`喜欢 ${STATE.profile.hobby}`);if(STATE.profile.wish)ex.push(`愿望 ${STATE.profile.wish}`);
   if(ex.length){ctx.font="26px 'Microsoft YaHei'";let y=384;wrap(ctx,ex.join(" | "),820).slice(0,2).forEach(line=>{ctx.fillText(line,130,y);y+=34;});}
-  rr(ctx,100,450,540,270,26);ctx.fillStyle="#fff1de";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();ctx.fillStyle="#a64f22";ctx.font="bold 40px 'KaiTi','Microsoft YaHei'";ctx.fillText(`幸运签：${STATE.fortune.title}`,126,508);
-  ctx.font="28px 'Microsoft YaHei'";ctx.fillStyle="#844a29";let fy=556;wrap(ctx,STATE.fortune.text,490).slice(0,4).forEach(line=>{ctx.fillText(line,126,fy);fy+=38;});ctx.fillStyle="#975733";ctx.font="25px 'Microsoft YaHei'";ctx.fillText(STATE.fortune.item,126,676);ctx.fillText(STATE.fortune.time,126,710);
+
+  rr(ctx,100,450,540,270,26);ctx.fillStyle="#fff1de";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();
+  ctx.fillStyle="#a64f22";ctx.font="bold 40px 'KaiTi','Microsoft YaHei'";ctx.fillText(`幸运签：${STATE.fortune.title}`,126,508);
+  ctx.font="28px 'Microsoft YaHei'";ctx.fillStyle="#844a29";let fy=556;wrap(ctx,STATE.fortune.text,490).slice(0,4).forEach(line=>{ctx.fillText(line,126,fy);fy+=38;});
+  ctx.fillStyle="#975733";ctx.font="25px 'Microsoft YaHei'";ctx.fillText(STATE.fortune.item,126,676);ctx.fillText(STATE.fortune.time,126,710);
+
   rr(ctx,100,748,880,300,26);ctx.fillStyle="#fff6eb";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();ctx.fillStyle="#a64f22";ctx.font="bold 40px 'KaiTi','Microsoft YaHei'";ctx.fillText("名字小诗",126,810);
   ctx.fillStyle="#874a2a";ctx.font="30px 'KaiTi','Microsoft YaHei'";let py=862;STATE.poem.split("\n").forEach(line=>{wrap(ctx,line,828).forEach(v=>{ctx.fillText(v,126,py);py+=44;});});
-  rr(ctx,660,450,320,270,26);ctx.fillStyle="#fff2e2";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();drawCat(ctx,816,500);ctx.fillStyle="#9b5f39";ctx.font="24px 'Microsoft YaHei'";ctx.fillText(`爱心小游戏得分：${STATE.score}`,674,704);
+
+  rr(ctx,660,450,320,270,26);ctx.fillStyle="#fff2e2";ctx.fill();ctx.strokeStyle="#efbf90";ctx.stroke();drawCat(ctx,816,500);
+  ctx.fillStyle="#9b5f39";ctx.font="24px 'Microsoft YaHei'";ctx.fillText(`爱心小游戏得分：${STATE.score}`,674,704);
   ctx.fillStyle="#9f6a48";ctx.fillText("来自暖暖猫咪幸运站",110,1328);
+
   const url=c.toDataURL("image/png");E.previewImg.src=url;E.previewImg.style.display="block";E.download.href=url;E.download.classList.remove("hide");
 }
 
-$("saveProfile").onclick=saveProfile;
-$("loadProfile").onclick=()=>{loadProfile(true);loadFortune();loadPoem();updateSummary();};
-$("drawFortune").onclick=()=>drawFortune(0);
-$("refreshFortune").onclick=()=>drawFortune(Math.floor(Math.random()*10000)+1);
-$("makePoem").onclick=()=>makePoem(0);
-$("remakePoem").onclick=()=>makePoem(Math.floor(Math.random()*10000)+1);
-$("randomOutfit").onclick=randomOutfit;
-$("clearOutfit").onclick=clearOutfit;
-$("makePoster").onclick=makePoster;
-E.stage.addEventListener("click",popHeart);
+function bindEvents(){
+  $("saveProfile").onclick=saveProfile;
+  $("loadProfile").onclick=()=>{loadProfile(true);loadFortune();loadPoem();updateSummary();syncDoneToStep();};
+  $("drawFortune").onclick=()=>drawFortune(0);
+  $("refreshFortune").onclick=()=>drawFortune(Math.floor(Math.random()*10000)+1);
+  $("makePoem").onclick=()=>makePoem(0);
+  $("remakePoem").onclick=()=>makePoem(Math.floor(Math.random()*10000)+1);
+  $("randomOutfit").onclick=randomOutfit;
+  $("clearOutfit").onclick=clearOutfit;
+  $("makePoster").onclick=makePoster;
+  E.stage.addEventListener("click",popHeart);
 
-buildControls();
-loadProfile(false);
-loadFortune();
-loadPoem();
-updateSummary();
+  E.toLayer2.onclick=()=>{if(!STATE.done.profile&&!saveProfile())return;unlockStep(2);};
+  E.toLayer3.onclick=()=>{if(!STATE.done.fortune){status(E.fortuneStatus,"请先完成抽签，再进入第三层。",true);return;}unlockStep(3);};
+  E.toLayer4.onclick=()=>{if(!STATE.done.poem){status(E.poemStatus,"请先生成名字小诗，再进入纪念图层。",true);return;}unlockStep(4);};
+  E.nav1.onclick=()=>setActiveStep(1);
+  E.nav2.onclick=()=>setActiveStep(2);
+  E.nav3.onclick=()=>setActiveStep(3);
+  E.nav4.onclick=()=>setActiveStep(4);
+
+  E.musicToggle.onclick=toggleMusic;
+  E.musicVolume.oninput=setMusicVolume;
+}
+
+function init(){
+  buildControls();
+  loadProfile(false);
+  loadFortune();
+  loadPoem();
+  updateSummary();
+  syncDoneToStep();
+  STATE.activeStep=1;
+  updateStepUI();
+  setMusicVolume();
+  for(let i=0;i<14;i++)setTimeout(spawnCuteChip,i*320);
+  setInterval(spawnCuteChip,1200);
+}
+
+bindEvents();
+init();
 </script>
 </body>
 </html>

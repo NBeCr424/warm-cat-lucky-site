@@ -5,14 +5,371 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>暖暖猫咪幸运站 - 第一层</title>
 <link rel="stylesheet" href="style.css" />
+<style>
+.layer1-page{
+  background:
+    radial-gradient(circle at 18px 14px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 33px 14px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 25px 25px,rgba(139,115,85,.07) 0 6px,transparent 6px),
+    radial-gradient(circle at 18px 36px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 33px 36px,rgba(139,115,85,.06) 0 4px,transparent 4px),
+    radial-gradient(circle at 25px 46px,rgba(139,115,85,.07) 0 8px,transparent 8px),
+    radial-gradient(circle at 74% 24%,rgba(217,197,176,.06) 0 18px,transparent 18px),
+    radial-gradient(circle at 78% 28%,rgba(217,197,176,.05) 0 22px,transparent 22px),
+    linear-gradient(180deg,#FAF7F2 0%,#F9EED8 100%);
+  background-size:118px 118px,118px 118px,118px 118px,118px 118px,118px 118px,118px 118px,220px 220px,260px 260px,auto;
+  color:#8B7355;
+}
+
+.layer1-page h1{
+  font-family:"STKaiti","KaiTi","YouYuan","Comic Sans MS",cursive;
+  color:#8B6549;
+  letter-spacing:1px;
+  text-shadow:1px 1px 0 #EAD9C6;
+}
+
+.layer1-page .hero p{
+  font-size:1.08rem;
+  line-height:1.9;
+  color:#8B7355;
+}
+
+.layer1-page .steps{gap:10px;margin-top:16px}
+.layer1-page .step-btn{
+  min-height:44px;
+  padding:10px 18px;
+  border-radius:999px;
+  border-color:#D9C5B0;
+  background:#FFF9F1;
+  color:#8B7355;
+}
+.layer1-page .step-btn.on{
+  background:linear-gradient(180deg,#F4A868,#F2995E);
+  border-color:#F2995E;
+  color:#fff;
+  box-shadow:0 10px 16px rgba(242,153,94,.28);
+}
+.layer1-page .step-btn.locked,.layer1-page .step-btn:disabled{
+  background:rgba(255,250,242,.88);
+  border-color:#D9C5B0;
+  opacity:.6;
+}
+.layer1-page .step-track{
+  height:12px;
+  border-color:#D9C5B0;
+  background:#FFF9F1;
+}
+.layer1-page .step-fill{
+  background:
+    radial-gradient(circle at 8px 6px,rgba(255,255,255,.34) 0 2.5px,transparent 2.5px),
+    linear-gradient(90deg,#F4A868,#F2995E);
+  background-size:20px 12px,auto;
+}
+
+.layer1-page .music-wrap{gap:12px}
+.layer1-page #musicToggle{
+  position:relative;
+  border-radius:20px;
+  padding:10px 18px 10px 20px;
+  border:1px solid #D9C5B0;
+  background:linear-gradient(180deg,#FFF4E8,#FFE8D6);
+  color:#8B7355;
+}
+.layer1-page #musicToggle:before{
+  content:"🐾 ";
+}
+.layer1-page #musicToggle:after{
+  content:"";
+  position:absolute;
+  top:-5px;
+  left:12px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#FFE8D1;
+  box-shadow:12px 0 0 #FFE8D1,24px 0 0 #FFE8D1;
+}
+
+.layer1-page #musicVolume{
+  accent-color:#F4A868;
+}
+.layer1-page #musicVolume::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:1px solid #D9C5B0;
+  background:
+    radial-gradient(circle at 50% 46%,#F4A868 0 5px,transparent 5px),
+    radial-gradient(circle at 5px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 13px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 9px 3px,#F2995E 0 2px,transparent 2px),
+    #FFF8EE;
+}
+.layer1-page #musicVolume::-moz-range-thumb{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:1px solid #D9C5B0;
+  background:
+    radial-gradient(circle at 50% 46%,#F4A868 0 5px,transparent 5px),
+    radial-gradient(circle at 5px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 13px 6px,#F2995E 0 2px,transparent 2px),
+    radial-gradient(circle at 9px 3px,#F2995E 0 2px,transparent 2px),
+    #FFF8EE;
+}
+
+.layer1-page .card{
+  border-radius:20px;
+  border:1px solid rgba(217,197,176,.82);
+  box-shadow:0 10px 24px rgba(205,171,138,.22);
+  background:rgba(255,252,247,.94);
+  padding:20px;
+  overflow:hidden;
+  animation:formSlideUp .5s ease both;
+}
+
+.layer1-page .mini-cat-corner{
+  position:absolute;
+  left:16px;
+  top:14px;
+  z-index:1;
+  background:rgba(255,214,224,.45);
+  border:1px solid rgba(217,197,176,.9);
+  border-radius:999px;
+  padding:5px 8px;
+  line-height:1;
+  box-shadow:0 4px 10px rgba(210,174,140,.24);
+}
+
+.layer1-page .tag{margin-left:58px}
+.layer1-page h2{margin-top:10px}
+
+.layer1-page .form{
+  margin-top:14px;
+  gap:18px;
+}
+.layer1-page .item{
+  gap:6px;
+}
+.layer1-page .item label{
+  font-weight:700;
+  color:#8B7355;
+}
+.layer1-page .req-heart{
+  color:#FFD6E0;
+  text-shadow:0 1px 0 #fff;
+  margin-left:4px;
+}
+
+.layer1-page input,
+.layer1-page textarea{
+  min-height:44px;
+  border-radius:12px;
+  border-color:#D9C5B0;
+  background-color:#FFFBF5;
+  background-image:
+    radial-gradient(circle at 16px 12px,rgba(217,197,176,.17) 0 2px,transparent 2px),
+    radial-gradient(circle at 24px 12px,rgba(217,197,176,.17) 0 2px,transparent 2px),
+    radial-gradient(circle at 20px 20px,rgba(217,197,176,.18) 0 3px,transparent 3px),
+    radial-gradient(circle at 16px 27px,rgba(217,197,176,.17) 0 2px,transparent 2px),
+    radial-gradient(circle at 24px 27px,rgba(217,197,176,.17) 0 2px,transparent 2px);
+  background-repeat:no-repeat;
+  padding:12px 16px;
+  color:#8B7355;
+  line-height:1.5;
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.layer1-page input::placeholder,
+.layer1-page textarea::placeholder{color:#B49F8A}
+.layer1-page input:hover,
+.layer1-page textarea:hover,
+.layer1-page input:focus,
+.layer1-page textarea:focus{
+  border-color:#F4A868;
+  box-shadow:0 0 0 1px rgba(244,168,104,.65),0 0 10px rgba(244,168,104,.24);
+  transform:scale(1.01);
+}
+
+.layer1-page .field-tip{
+  color:#A6937C;
+  font-family:"STXingkai","KaiTi","Segoe Script",cursive;
+  font-size:.82rem;
+}
+.layer1-page .field-tip:not(:empty):before{
+  content:"🐱 ";
+}
+
+.layer1-page .row{
+  margin-top:16px;
+  gap:14px;
+}
+
+.layer1-page button,
+.layer1-page a.btn{
+  min-height:44px;
+  padding:11px 18px;
+}
+
+.layer1-page #saveProfile,
+.layer1-page #toLayer2{
+  position:relative;
+  border-radius:16px;
+  border:1px solid rgba(255,247,235,.9);
+  background:linear-gradient(180deg,#F4A868,#F2995E);
+  color:#fff;
+  text-shadow:0 1px 0 rgba(255,255,255,.35);
+  box-shadow:inset 0 1px 0 rgba(255,249,241,.92),0 10px 16px rgba(242,153,94,.25);
+  padding-left:36px;
+}
+.layer1-page #saveProfile:before,
+.layer1-page #toLayer2:before{
+  content:"🐾";
+  position:absolute;
+  left:13px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:.92rem;
+}
+
+.layer1-page #loadProfile,
+.layer1-page #clearProfile{
+  border-radius:16px;
+  border:1px solid #D9C5B0;
+  background:transparent;
+  color:#8B7355;
+}
+
+.layer1-page #loadProfile:hover,
+.layer1-page #clearProfile:hover{
+  background:#F9EED8;
+}
+
+.layer1-page button:hover{transform:scale(1.02)}
+.layer1-page button:active{transform:scale(.98)}
+.layer1-page button,
+.layer1-page .step-btn,
+.layer1-page input,
+.layer1-page textarea{
+  touch-action:manipulation;
+}
+
+.layer1-page .cat-trio-wrap{
+  margin-top:22px;
+  border-radius:16px;
+  border:1px solid #E8D1BC;
+  background:linear-gradient(160deg,rgba(255,251,244,.94),rgba(255,239,221,.93));
+  box-shadow:0 8px 20px rgba(209,171,137,.22);
+  padding:20px 16px 14px;
+  animation:catsFadeIn .3s ease both;
+}
+.layer1-page .cat-trio{gap:28px}
+.layer1-page .mini-cat{
+  width:148px;
+  height:132px;
+}
+.layer1-page .mini-cat:not(.cat-click):not(.pressing):not(.daily-greet){
+  animation:catBreath 3s ease-in-out infinite;
+}
+.layer1-page .mini-cat .head,
+.layer1-page .mini-cat .ear{
+  border-color:#6F4225;
+}
+.layer1-page .mini-cat.orange .head,
+.layer1-page .mini-cat.orange .ear{
+  background:linear-gradient(180deg,#FCD391,#F9C870);
+}
+.layer1-page .mini-cat.white .head,
+.layer1-page .mini-cat.white .ear{
+  background:linear-gradient(180deg,#F8F8F8,#F0F0F0);
+}
+.layer1-page .mini-cat.gray .head,
+.layer1-page .mini-cat.gray .ear{
+  background:linear-gradient(180deg,#D8D8D8,#C7C7C7);
+}
+.layer1-page .mini-cat.orange .head{
+  transform:translateX(-50%) rotate(-5deg);
+}
+.layer1-page .mini-cat.white .ear.l{
+  transform:rotate(-24deg) translateY(3px);
+}
+.layer1-page .mini-cat.white .ear.r{
+  transform:rotate(24deg) translateY(3px);
+}
+.layer1-page .mini-cat.white .ear{top:3px}
+.layer1-page .mini-cat.gray .eye{
+  height:7px;
+  top:48px;
+  border-radius:999px;
+}
+.layer1-page .mini-cat .head:before,
+.layer1-page .mini-cat .head:after{
+  content:"";
+  position:absolute;
+  top:35px;
+  width:16px;
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,214,224,.56);
+}
+.layer1-page .mini-cat .head:before{left:17px}
+.layer1-page .mini-cat .head:after{right:17px}
+.layer1-page .mini-cat:hover .head:before,
+.layer1-page .mini-cat:hover .head:after{
+  background:rgba(255,214,224,.76);
+}
+.layer1-page .mini-cat .eye{
+  background:#5F412E;
+  box-shadow:inset -1px -1px 0 rgba(255,255,255,.18);
+}
+.layer1-page .mini-cat .eye:after{
+  content:"";
+  position:absolute;
+  right:1px;
+  top:1px;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+}
+
+.layer1-page .cat-note{
+  margin-top:10px;
+  color:#F4A868;
+  font-family:"STXingkai","KaiTi","Segoe Script",cursive;
+  font-size:1.05rem;
+}
+.layer1-page .cat-note:before{content:"🐾 "}
+
+@keyframes formSlideUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes catsFadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes catBreath{
+  0%,100%{transform:scale(.98)}
+  50%{transform:scale(1.02)}
+}
+
+@media (max-width:760px){
+  .layer1-page .form{gap:14px}
+  .layer1-page .mini-cat{width:130px;height:118px}
+  .layer1-page .row{gap:10px}
+}
+</style>
 </head>
-<body class="paw-bg">
+<body class="paw-bg layer1-page">
 <div class="bg-cute" id="bgCute"></div>
 <div class="petal-cloud" id="petalCloud"></div>
 <main>
   <section class="hero">
     <h1>暖暖猫咪幸运站</h1>
-    <p id="greetingText">第一层保存资料。完成后进入第二层抽今日幸运签。</p>
+    <p id="greetingText">第一层保存资料。完成后进入第二层抽今日幸运签。🐱</p>
 
     <div class="steps" aria-label="流程步骤">
       <button id="step1" class="step-btn on" type="button" aria-label="当前在第一层">第 1 层 信息</button>
@@ -36,18 +393,19 @@
 
   <section class="grid">
     <article class="card">
+      <span class="mini-cat-corner" aria-hidden="true">🐱</span>
       <span class="tag">第一层</span>
       <h2>填写并保存信息</h2>
       <small>名字与年龄是必填项，先轻轻填好，我们再一起进入下一层。</small>
 
       <div class="form" id="profileForm">
         <div class="item">
-          <label for="name">名字 *</label>
+          <label for="name">名字 <span class="req-heart" aria-hidden="true">❤️</span></label>
           <input id="name" maxlength="20" placeholder="例如：小橘" aria-label="名字，必填" />
           <div id="nameTip" class="field-tip" aria-live="polite"></div>
         </div>
         <div class="item">
-          <label for="age">年龄 *</label>
+          <label for="age">年龄 <span class="req-heart" aria-hidden="true">❤️</span></label>
           <input id="age" type="text" inputmode="numeric" maxlength="3" placeholder="例如：18" aria-label="年龄，必填，正整数" />
           <div id="ageTip" class="field-tip" aria-live="polite"></div>
         </div>
@@ -889,7 +1247,7 @@ function initSteps(){
 }
 
 function bootstrap(){
-  E.greetingText.textContent=`第一层保存资料。${WarmCat.timeGreeting()}`;
+  E.greetingText.textContent=`第一层保存资料。${WarmCat.timeGreeting()} 🐱`;
 
   CAT_IDS.forEach((id)=>{
     catButtons[id]=document.getElementById(id);

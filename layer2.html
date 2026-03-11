@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>暖暖猫咪幸运站 - 第二层</title>
+<link rel="stylesheet" href="style.css" />
+<style>
+.fortune-poster{margin-top:12px;background:#fffaf0;border:12px solid #ae1d2e;border-radius:16px;padding:14px;position:relative;overflow:hidden}
+.fortune-poster:before,.fortune-poster:after{content:"";position:absolute;width:42px;height:42px;border:4px solid #d99f47;border-radius:10px;opacity:.9}
+.fortune-poster:before{left:10px;top:10px;border-right:0;border-bottom:0}
+.fortune-poster:after{right:10px;bottom:10px;border-left:0;border-top:0}
+.poster-top{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 8px}
+.poster-seal{background:#c62828;color:#ffe8af;border-radius:999px;padding:4px 10px;font-size:.82rem;font-weight:700}
+.poster-year{font-size:.86rem;color:#9c5a2c}
+.poster-layout{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+.poster-char{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-height:220px;background:#fff;border:1px dashed #efbe8f;border-radius:12px;padding:10px}
+.han-col{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:2.5rem;font-weight:900;line-height:1;color:#111;text-shadow:.5px 1px 0 #00000025}
+.han-col span{display:block}
+.poster-orn{background:linear-gradient(160deg,#fff8ea,#ffe8c9);border:1px solid #efc088;border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:space-between}
+.orn-row{display:flex;justify-content:space-between;gap:8px;font-size:1.2rem}
+.orn-msg{font-size:.95rem;color:#9a5a2c;line-height:1.7}
+.poster-bottom{margin-top:10px;border-top:1px dashed #efc088;padding-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.poster-note{background:#fff;border:1px solid #efc088;border-radius:10px;padding:8px;color:#8a4f29;font-size:.9rem}
+.modal-mask{position:fixed;inset:0;background:rgba(30,18,8,.46);display:none;align-items:center;justify-content:center;z-index:20;padding:18px}
+.modal-mask.show{display:flex}
+.modal-panel{width:min(92vw,720px);max-height:92vh;overflow:auto}
+.modal-close{margin-top:10px;width:100%}
+</style>
+</head>
+<body>
+<div class="bg-cute" id="bgCute"></div>
+<main>
+  <section class="hero">
+    <h1>暖暖猫咪幸运站</h1>
+    <p>第二层：抽取今日幸运签。风格参考国风海报卡面。</p>
+    <div class="steps">
+      <button class="step-btn" type="button" onclick="location.href='index.html'">第 1 层 信息</button>
+      <button class="step-btn on" type="button">第 2 层 幸运签</button>
+      <button class="step-btn" type="button" disabled>第 3 层 小诗+换装</button>
+    </div>
+    <div class="row" style="justify-content:center">
+      <button id="musicToggle" class="sec" type="button">播放舒缓音乐</button>
+      <input id="musicVolume" type="range" min="0" max="100" value="40" style="width:140px" aria-label="音乐音量" />
+    </div>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <span class="tag">当前用户</span>
+      <h2 id="profileName">--</h2>
+      <div class="banner">
+        <span class="profile-pill" id="profileText"></span>
+      </div>
+    </article>
+
+    <article class="card">
+      <span class="tag">第二层</span>
+      <h2>抽取当日幸运签</h2>
+      <small>同一天同名字默认稳定，点击“重新抽签”可换一个版本</small>
+      <div class="row">
+        <button id="drawFortune" class="pri" type="button">抽今日幸运签</button>
+        <button id="refreshFortune" class="sec" type="button">重新抽签</button>
+        <button id="toLayer3" class="next" type="button">完成第二层，进入第三层</button>
+      </div>
+      <div class="status" id="fortuneStatus"></div>
+
+      <div class="tip">点击“抽今日幸运签”后会直接弹出签卡。</div>
+    </article>
+  </section>
+</main>
+
+<div class="modal-mask" id="fortuneModal">
+  <div class="modal-panel">
+    <div class="fortune-poster" id="fortunePoster">
+      <div class="poster-top">
+        <span class="poster-seal" id="posterTitle">今日好运签</span>
+        <span class="poster-year" id="posterDate"></span>
+      </div>
+      <div class="poster-layout">
+        <div class="poster-char">
+          <p class="han-col" id="hanCol1"></p>
+          <p class="han-col" id="hanCol2"></p>
+        </div>
+        <div class="poster-orn">
+          <div class="orn-row"><span>🧧</span><span>✨</span><span>💮</span></div>
+          <div class="orn-msg" id="fortuneText"></div>
+          <div class="orn-row"><span>🌊</span><span>💰</span><span>🌸</span></div>
+        </div>
+      </div>
+      <div class="poster-bottom">
+        <div class="poster-note" id="fortuneItem"></div>
+        <div class="poster-note" id="fortuneTime"></div>
+      </div>
+    </div>
+    <button id="closeModal" class="sec modal-close" type="button">关闭签卡</button>
+  </div>
+</div>
+
+<audio id="bgMusic" preload="auto" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+</audio>
+
+<script src="common.js"></script>
+<script>
+const FORT=[
+{id:1,title:"招财招福",motto:"招财招福",text:"贵人相助，心愿易成，今天宜主动出击。",item:"幸运物：红色流苏",time:"幸运时段：09:00-11:00"},
+{id:2,title:"顺风顺水",motto:"顺风顺水",text:"沟通顺畅，计划推进快，今天宜处理要事。",item:"幸运物：金色书签",time:"幸运时段：13:00-15:00"},
+{id:3,title:"有花有酒",motto:"有花有酒",text:"情绪柔和，适合庆祝，今天宜见好友。",item:"幸运物：花朵贴纸",time:"幸运时段：18:00-20:00"},
+{id:4,title:"自得其乐",motto:"自行自乐",text:"创意旺盛，灵感涌现，今天宜做新尝试。",item:"幸运物：猫咪挂件",time:"幸运时段：11:00-13:00"},
+{id:5,title:"见山见海",motto:"见山见海",text:"心境开阔，状态平衡，今天宜学习沉淀。",item:"幸运物：蓝色便签",time:"幸运时段：15:00-17:00"},
+{id:6,title:"上签上签",motto:"上签上签",text:"整体运势偏强，行动越快收获越多。",item:"幸运物：福字红包",time:"幸运时段：07:30-09:30"}
+];
+
+const E={
+  bgCute:document.getElementById("bgCute"),
+  profileName:document.getElementById("profileName"),
+  profileText:document.getElementById("profileText"),
+  drawFortune:document.getElementById("drawFortune"),
+  refreshFortune:document.getElementById("refreshFortune"),
+  toLayer3:document.getElementById("toLayer3"),
+  fortuneStatus:document.getElementById("fortuneStatus"),
+  fortuneModal:document.getElementById("fortuneModal"),
+  closeModal:document.getElementById("closeModal"),
+  fortunePoster:document.getElementById("fortunePoster"),
+  posterTitle:document.getElementById("posterTitle"),
+  posterDate:document.getElementById("posterDate"),
+  hanCol1:document.getElementById("hanCol1"),
+  hanCol2:document.getElementById("hanCol2"),
+  fortuneText:document.getElementById("fortuneText"),
+  fortuneItem:document.getElementById("fortuneItem"),
+  fortuneTime:document.getElementById("fortuneTime"),
+  musicToggle:document.getElementById("musicToggle"),
+  musicVolume:document.getElementById("musicVolume"),
+  bgMusic:document.getElementById("bgMusic")
+};
+
+const profile=WarmCat.readJSON(WarmCat.KEYS.profile);
+if(!profile){
+  alert("请先完成第一层信息填写。");
+  location.href="index.html";
+  throw new Error("redirect:index");
+}
+E.profileName.textContent=`${profile.name} 的今日运势`;
+E.profileText.textContent=WarmCat.profileText(profile);
+
+function splitMotto(text){
+  const chars=Array.from(text||"");
+  const half=Math.ceil(chars.length/2);
+  return [chars.slice(0,half),chars.slice(half)];
+}
+
+function renderFortune(f,openModal=true){
+  const [col1,col2]=splitMotto(f.motto);
+  E.posterTitle.textContent=f.title;
+  E.posterDate.textContent=`${WarmCat.day()} · 今日签`;
+  E.hanCol1.innerHTML=col1.map(ch=>`<span>${ch}</span>`).join("");
+  E.hanCol2.innerHTML=col2.map(ch=>`<span>${ch}</span>`).join("");
+  E.fortuneText.textContent=f.text;
+  E.fortuneItem.textContent=f.item;
+  E.fortuneTime.textContent=f.time;
+  if(openModal)E.fortuneModal.classList.add("show");
+}
+
+function drawFortune(salt=0){
+  const idx=WarmCat.hash(`${profile.name}-${WarmCat.day()}-${salt}`)%FORT.length;
+  const f=FORT[idx];
+  WarmCat.writeJSON(WarmCat.KEYS.fortune,{date:WarmCat.day(),name:profile.name,id:f.id,salt});
+  renderFortune(f,true);
+  WarmCat.status(E.fortuneStatus,`已抽取：${f.title}`);
+}
+
+function loadFortune(){
+  const data=WarmCat.readJSON(WarmCat.KEYS.fortune);
+  if(!data||data.date!==WarmCat.day()||data.name!==profile.name)return false;
+  const f=FORT.find(x=>x.id===data.id);
+  if(!f)return false;
+  renderFortune(f,false);
+  WarmCat.status(E.fortuneStatus,`已读取今日签：${f.title}`);
+  return true;
+}
+
+E.drawFortune.onclick=()=>drawFortune(0);
+E.refreshFortune.onclick=()=>drawFortune(Math.floor(Math.random()*10000)+1);
+E.toLayer3.onclick=()=>{
+  const data=WarmCat.readJSON(WarmCat.KEYS.fortune);
+  if(!data||data.date!==WarmCat.day()||data.name!==profile.name){
+    WarmCat.status(E.fortuneStatus,"请先抽取幸运签后再进入第三层。",true);
+    return;
+  }
+  location.href="layer3.html";
+};
+E.closeModal.onclick=()=>E.fortuneModal.classList.remove("show");
+E.fortuneModal.addEventListener("click",(ev)=>{if(ev.target===E.fortuneModal)E.fortuneModal.classList.remove("show");});
+
+WarmCat.initCuteBg(E.bgCute);
+WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.fortuneStatus);
+loadFortune();
+</script>
+</body>
+</html>

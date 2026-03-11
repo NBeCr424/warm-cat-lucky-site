@@ -5,8 +5,13 @@
     poem:"warm_cat_poem_v1",
     outfit:"warm_cat_outfit_v1",
     score:"warm_cat_score_v1",
-    fortuneHistory:"warm_cat_fortune_history_v1"
+    fortuneHistory:"warm_cat_fortune_history_v1",
+    music:"warm_cat_music_v1",
+    catDaily:"warm_cat_daily_v1",
+    catPreference:"warm_cat_preference_v1",
+    catGreeting:"warm_cat_greeting_v1"
   };
+
   const SESSION_KEYS={
     l1ToL2:"warm_cat_transition_l1_l2_v1",
     l2ToL3:"warm_cat_transition_l2_l3_v1"
@@ -48,6 +53,12 @@
       h|=0;
     }
     return Math.abs(h);
+  }
+
+  function clamp(n,min,max,fallback){
+    const x=Number(n);
+    if(Number.isNaN(x))return fallback;
+    return Math.max(min,Math.min(max,x));
   }
 
   function timePeriod(){
@@ -103,38 +114,148 @@
   }
 
   function initCuteBg(container){
-    if(!container)return;
+    if(!container)return null;
     for(let i=0;i<12;i+=1){
       setTimeout(()=>spawnCuteChip(container),i*320);
     }
     return setInterval(()=>spawnCuteChip(container),1200);
   }
 
-  function initMusic(toggleBtn,rangeInput,audio,statusNode){
-    if(!toggleBtn||!rangeInput||!audio)return;
+  function musicControllerFallback(){
+    return {
+      getVolume:()=>0.4,
+      getVolumePercent:()=>40,
+      isPlaying:()=>false,
+      scaledSfx:(ratio=1)=>Math.max(0,Math.min(1,0.4*ratio)),
+      duck:()=>{},
+      play:async()=>false,
+      pause:()=>{},
+      onVolumeChange:()=>()=>{},
+      onPlayChange:()=>()=>{}
+    };
+  }
 
-    function setVolume(){
-      audio.volume=Math.max(0,Math.min(1,Number(rangeInput.value)/100));
+  function initMusic(toggleBtn,rangeInput,audio,statusNode){
+    if(!toggleBtn||!rangeInput||!audio)return musicControllerFallback();
+
+    const saved=readJSON(KEYS.music)||{};
+    const state={
+      volume:clamp(saved.volume,0,100,40),
+      playing:Boolean(saved.playing)
+    };
+
+    const volumeListeners=new Set();
+    const playListeners=new Set();
+
+    function persist(){
+      writeJSON(KEYS.music,{volume:state.volume,playing:state.playing});
+    }
+
+    function emitVolume(){
+      volumeListeners.forEach((fn)=>{
+        try{fn(state.volume/100,state.volume);}catch{}
+      });
+    }
+
+    function emitPlay(){
+      playListeners.forEach((fn)=>{
+        try{fn(state.playing);}catch{}
+      });
+    }
+
+    function renderBtn(){
+      toggleBtn.textContent=state.playing?"暂停舒缓音乐":"播放舒缓音乐";
+      toggleBtn.setAttribute("aria-pressed",String(state.playing));
+    }
+
+    function setVolume(percent,save=true){
+      state.volume=clamp(percent,0,100,40);
+      rangeInput.value=String(state.volume);
+      audio.volume=state.volume/100;
+      if(save)persist();
+      emitVolume();
+    }
+
+    function setPlaying(next,save=true){
+      state.playing=Boolean(next);
+      renderBtn();
+      if(save)persist();
+      emitPlay();
+    }
+
+    async function play(userTriggered=false){
+      setVolume(state.volume,false);
+      try{
+        await audio.play();
+        setPlaying(true,true);
+        if(userTriggered)status(statusNode,"正在播放舒缓音乐🎵");
+        return true;
+      }catch{
+        setPlaying(false,true);
+        if(userTriggered)status(statusNode,"当前设备保持安静模式，已自动静音。",false);
+        return false;
+      }
+    }
+
+    function pause(userTriggered=false){
+      audio.pause();
+      setPlaying(false,true);
+      if(userTriggered)status(statusNode,"舒缓音乐已暂停。");
     }
 
     async function toggle(){
-      setVolume();
-      if(audio.paused){
-        try{
-          await audio.play();
-          toggleBtn.textContent="暂停舒缓音乐";
-        }catch{
-          status(statusNode,"音乐播放被浏览器拦截，请再点一次“播放舒缓音乐”。",true);
-        }
+      if(state.playing){
+        pause(true);
         return;
       }
-      audio.pause();
-      toggleBtn.textContent="播放舒缓音乐";
+      await play(true);
+    }
+
+    function duck(factor=0.82,duration=260){
+      if(!state.playing||audio.paused)return;
+      const origin=state.volume/100;
+      audio.volume=Math.max(0,Math.min(1,origin*factor));
+      setTimeout(()=>{
+        audio.volume=state.volume/100;
+      },Math.max(80,Number(duration)||260));
+    }
+
+    function onVolumeChange(fn){
+      if(typeof fn!=="function")return ()=>{};
+      volumeListeners.add(fn);
+      fn(state.volume/100,state.volume);
+      return ()=>volumeListeners.delete(fn);
+    }
+
+    function onPlayChange(fn){
+      if(typeof fn!=="function")return ()=>{};
+      playListeners.add(fn);
+      fn(state.playing);
+      return ()=>playListeners.delete(fn);
     }
 
     toggleBtn.addEventListener("click",toggle);
-    rangeInput.addEventListener("input",setVolume);
-    setVolume();
+    rangeInput.addEventListener("input",()=>setVolume(Number(rangeInput.value),true));
+
+    audio.preload="auto";
+    renderBtn();
+    setVolume(state.volume,false);
+
+    if(state.playing){
+      play(false);
+    }
+
+    return {
+      getVolume:()=>state.volume/100,
+      getVolumePercent:()=>state.volume,
+      isPlaying:()=>state.playing,
+      scaledSfx:(ratio=1)=>Math.max(0,Math.min(1,(state.volume/100)*Math.max(0,Number(ratio)||0))),
+      duck,
+      play,
+      pause,
+      onVolumeChange,
+      onPlayChange
+    };
   }
 
   window.WarmCat={

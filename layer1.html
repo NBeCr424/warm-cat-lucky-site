@@ -13,59 +13,79 @@
   <section class="hero">
     <h1>暖暖猫咪幸运站</h1>
     <p id="greetingText">第一层保存资料。完成后进入第二层抽今日幸运签。</p>
+
     <div class="steps" aria-label="流程步骤">
-      <button class="step-btn on" type="button" aria-label="当前在第一层">第 1 层 信息</button>
-      <button class="step-btn" type="button" disabled aria-label="第二层未解锁">第 2 层 幸运签</button>
-      <button class="step-btn" type="button" disabled aria-label="第三层未解锁">第 3 层 小诗+换装</button>
+      <button id="step1" class="step-btn on" type="button" aria-label="当前在第一层">第 1 层 信息</button>
+      <button id="step2" class="step-btn locked" type="button" disabled aria-label="第二层未解锁">第 2 层 幸运签</button>
+      <button id="step3" class="step-btn locked" type="button" disabled aria-label="第三层未解锁">第 3 层 小诗+换装</button>
     </div>
-    <div class="step-track" aria-hidden="true"><span class="step-fill p1"></span></div>
-    <div class="row" style="justify-content:center">
-      <button id="musicToggle" class="sec" type="button" aria-label="播放或暂停舒缓音乐">播放舒缓音乐</button>
-      <input id="musicVolume" type="range" min="0" max="100" value="40" style="width:140px" aria-label="音乐音量" />
+    <div class="step-track" aria-hidden="true"><span id="stepFill" class="step-fill p1"></span></div>
+
+    <div class="row music-row">
+      <div class="music-wrap">
+        <button id="musicToggle" class="sec" type="button" aria-label="播放或暂停舒缓音乐">播放舒缓音乐</button>
+        <label class="volume-wrap" for="musicVolume">
+          音量
+          <input id="musicVolume" type="range" min="0" max="100" value="40" aria-label="音乐音量" />
+          <span id="musicVolumeText" class="volume-text">40%</span>
+        </label>
+      </div>
     </div>
+    <div id="musicMeta" class="music-meta" aria-live="polite">舒缓音乐已暂停</div>
   </section>
 
   <section class="grid">
     <article class="card">
       <span class="tag">第一层</span>
       <h2>填写并保存信息</h2>
-      <small>数据会保存在浏览器 localStorage。必填项请先完成再进入下一层。</small>
+      <small>名字与年龄是必填项，先轻轻填好，我们再一起进入下一层。</small>
 
-      <div class="form">
-        <div class="item"><label for="name">名字 *</label><input id="name" maxlength="20" placeholder="例如：小橘" aria-label="名字，必填" /></div>
-        <div class="item"><label for="age">年龄 *</label><input id="age" type="number" min="1" max="120" placeholder="例如：18" aria-label="年龄，必填" /></div>
+      <div class="form" id="profileForm">
+        <div class="item">
+          <label for="name">名字 *</label>
+          <input id="name" maxlength="20" placeholder="例如：小橘" aria-label="名字，必填" />
+          <div id="nameTip" class="field-tip" aria-live="polite"></div>
+        </div>
+        <div class="item">
+          <label for="age">年龄 *</label>
+          <input id="age" type="text" inputmode="numeric" maxlength="3" placeholder="例如：18" aria-label="年龄，必填，正整数" />
+          <div id="ageTip" class="field-tip" aria-live="polite"></div>
+        </div>
         <div class="item"><label for="city">城市</label><input id="city" maxlength="20" placeholder="例如：上海" aria-label="城市" /></div>
         <div class="item"><label for="hobby">喜欢的事</label><input id="hobby" maxlength="40" placeholder="例如：晒太阳、看电影" aria-label="喜欢的事情" /></div>
-        <div class="item full"><label for="wish">今日小愿望</label><textarea id="wish" rows="2" maxlength="80" placeholder="今日小愿望：比如暴富、变美、吃好吃的～" aria-label="今日小愿望"></textarea></div>
+        <div class="item full">
+          <label for="wish">今日小愿望 <span id="wishCount" class="char-count">0/80</span></label>
+          <textarea id="wish" rows="2" maxlength="80" placeholder="比如：暴富、变美、吃好吃的～" aria-label="今日小愿望"></textarea>
+        </div>
       </div>
 
       <div class="row">
         <button id="saveProfile" class="pri" type="button" aria-label="保存信息">保存信息</button>
         <button id="loadProfile" class="sec" type="button" aria-label="读取已保存信息">读取已保存信息</button>
         <button id="clearProfile" class="sec" type="button" aria-label="清空信息">清空信息</button>
-        <button id="toLayer2" class="next" type="button" aria-label="完成第一层进入第二层">完成第一层，进入第二层</button>
+        <button id="toLayer2" class="next" type="button" disabled aria-label="完成第一层进入第二层">完成第一层，进入第二层</button>
       </div>
       <div class="status" id="profileStatus" aria-live="polite"></div>
 
-      <div class="cat-trio-wrap">
+      <div id="catTrioWrap" class="cat-trio-wrap">
         <div class="cat-trio">
-          <button id="catA" class="mini-cat orange" type="button" aria-label="小橘猫">
+          <button id="catA" data-cat="catA" class="mini-cat orange" type="button" aria-label="小奶橘，元气活泼猫咪">
             <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
             <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
             <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
           </button>
-          <button id="catB" class="mini-cat white" type="button" aria-label="小白猫">
+          <button id="catB" data-cat="catB" class="mini-cat white" type="button" aria-label="小白猫，温柔治愈猫咪">
             <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
             <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
             <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
           </button>
-          <button id="catC" class="mini-cat gray" type="button" aria-label="小灰猫">
+          <button id="catC" data-cat="catC" class="mini-cat gray" type="button" aria-label="小灰猫，佛系沉稳猫咪">
             <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
             <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
             <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
           </button>
         </div>
-        <div class="cat-note">sweet cat ♡ <b>点击小猫会喵喵叫 + 送你一句治愈文案</b></div>
+        <div id="catNote" class="cat-note">轻触会喵喵叫，长按 0.8 秒会触发深度陪伴互动。</div>
       </div>
     </article>
   </section>
@@ -81,31 +101,150 @@ const E={
   bgCute:document.getElementById("bgCute"),
   petalCloud:document.getElementById("petalCloud"),
   greetingText:document.getElementById("greetingText"),
+  step1:document.getElementById("step1"),
+  step2:document.getElementById("step2"),
+  step3:document.getElementById("step3"),
+  stepFill:document.getElementById("stepFill"),
   name:document.getElementById("name"),
   age:document.getElementById("age"),
   city:document.getElementById("city"),
   hobby:document.getElementById("hobby"),
   wish:document.getElementById("wish"),
+  wishCount:document.getElementById("wishCount"),
+  nameTip:document.getElementById("nameTip"),
+  ageTip:document.getElementById("ageTip"),
   saveProfile:document.getElementById("saveProfile"),
   loadProfile:document.getElementById("loadProfile"),
   clearProfile:document.getElementById("clearProfile"),
   toLayer2:document.getElementById("toLayer2"),
   profileStatus:document.getElementById("profileStatus"),
+  catTrioWrap:document.getElementById("catTrioWrap"),
+  catNote:document.getElementById("catNote"),
   musicToggle:document.getElementById("musicToggle"),
   musicVolume:document.getElementById("musicVolume"),
+  musicVolumeText:document.getElementById("musicVolumeText"),
+  musicMeta:document.getElementById("musicMeta"),
   bgMusic:document.getElementById("bgMusic")
 };
 
-const HEALING_TEXT=[
-  "今天也要开心呀😺",
-  "你已经很棒啦，慢慢来也行。",
-  "好运正在路上，别着急。",
-  "记得喝水，也记得夸夸自己。",
-  "世界有点吵，但你可以很温柔。",
-  "小猫说：抱抱你，继续发光。"
-];
+const CAT_IDS=["catA","catB","catC"];
+const CAT_CFG={
+  catA:{
+    key:"catA",
+    hoverClass:"hover-orange",
+    clickVfx:["🐾","✨","⭐"],
+    holdVfx:["⭐","✨"],
+    sounds:{
+      hover:{name:"soft",ratio:.30,rate:1.18,cutMs:100},
+      click:{name:"short",ratio:.60,rate:1.15,cutMs:320},
+      hold:{name:"long",ratio:.40,rate:1.06,loop:true}
+    }
+  },
+  catB:{
+    key:"catB",
+    hoverClass:"hover-white",
+    clickVfx:["💗","💖","✨"],
+    holdVfx:["💗","💞"],
+    sounds:{
+      hover:{name:"soft",ratio:.30,rate:.95,cutMs:110},
+      click:{name:"long",ratio:.60,rate:1.0,cutMs:500},
+      hold:{name:"purr",ratio:.40,rate:1.0,loop:true}
+    }
+  },
+  catC:{
+    key:"catC",
+    hoverClass:"hover-gray",
+    clickVfx:["💤","✨","🌙"],
+    holdVfx:["💤","🌙"],
+    sounds:{
+      hover:{name:"purr",ratio:.30,rate:.84,cutMs:100},
+      click:{name:"long",ratio:.60,rate:.86,cutMs:400},
+      hold:{name:"purr",ratio:.40,rate:.78,loop:true}
+    }
+  }
+};
 
-let meowCtx=null;
+const SOUND_SRC={
+  short:"assets/audio/cat_meow_short.wav",
+  long:"assets/audio/cat_meow_long.wav",
+  soft:"assets/audio/cat_kitten_soft.wav",
+  purr:"assets/audio/cat_purr_loop.wav"
+};
+
+const TEXT_POOL={
+  catA:{
+    click:[
+      {id:"a1",text:(c)=>`${c.name}，先给自己一个大大的赞。`},
+      {id:"a2",text:(c)=>`你今天的节奏很好，继续冲呀。`},
+      {id:"a3",text:(c)=>`${c.name}，慢慢填也会很厉害。`},
+      {id:"a4",text:(c)=>`愿望「${c.wish}」已经在靠近你。`},
+      {id:"a5",text:()=>`小奶橘贴贴：今天会有小惊喜。`},
+      {id:"a6",text:(c)=>`${c.timeHint}，你会稳稳向前。`},
+      {id:"a7",text:(c)=>`${c.call}，现在的你已经很棒。`},
+      {id:"a8",text:()=>`不着急，快乐和好运一起到。`}
+    ],
+    hold:[
+      {id:"a9",text:(c)=>`${c.name}，我陪你把焦虑吹散。`},
+      {id:"a10",text:()=>`呼吸一下，心会慢慢软下来。`},
+      {id:"a11",text:(c)=>`愿你今天也被温柔好好抱住。`}
+    ],
+    egg:[
+      {id:"a12",text:(c)=>`贴贴彩蛋：${c.name}，连点五次太可爱啦，愿你今天元气满满。`}
+    ]
+  },
+  catB:{
+    click:[
+      {id:"b1",text:(c)=>`${c.name}，你可以慢慢来，不必着急。`},
+      {id:"b2",text:()=>`我在你身边，安静陪你填完。`},
+      {id:"b3",text:(c)=>`愿望「${c.wish}」值得被温柔实现。`},
+      {id:"b4",text:()=>`先放松肩膀，再继续下一步吧。`},
+      {id:"b5",text:(c)=>`${c.timeHint}，你会被温柔照亮。`},
+      {id:"b6",text:(c)=>`${c.call}，今天也请善待自己。`},
+      {id:"b7",text:()=>`没有催促，只有慢慢陪伴。`},
+      {id:"b8",text:(c)=>`${c.name}，每一步都算数。`}
+    ],
+    hold:[
+      {id:"b9",text:()=>`把心放松一点，我会一直在。`},
+      {id:"b10",text:(c)=>`给你一段安静时间，慢慢就好。`},
+      {id:"b11",text:(c)=>`${c.name}，愿你今晚睡得香甜。`}
+    ],
+    egg:[
+      {id:"b12",text:(c)=>`贴贴彩蛋：${c.name}，你的耐心好温柔，愿好事悄悄围着你转。`}
+    ]
+  },
+  catC:{
+    click:[
+      {id:"c1",text:()=>`先别内耗，喝口水再继续。`},
+      {id:"c2",text:(c)=>`${c.name}，今天允许你慢一点。`},
+      {id:"c3",text:()=>`佛系小灰说：不急，都会顺。`},
+      {id:"c4",text:(c)=>`愿望「${c.wish}」会在合适时机到。`},
+      {id:"c5",text:(c)=>`${c.timeHint}，该休息就休息。`},
+      {id:"c6",text:()=>`把眉头松开，心也会松开。`},
+      {id:"c7",text:(c)=>`${c.call}，你已经做得很好了。`},
+      {id:"c8",text:()=>`稳一点，生活就会温柔一点。`}
+    ],
+    hold:[
+      {id:"c9",text:()=>`长按一下，把疲惫放到我这里。`},
+      {id:"c10",text:(c)=>`${c.name}，先放空三秒钟。`},
+      {id:"c11",text:()=>`你不必完美，舒服就好。`}
+    ],
+    egg:[
+      {id:"c12",text:(c)=>`贴贴彩蛋：${c.name}，你触发了小灰的专属安抚，今晚请早点休息。`}
+    ]
+  }
+};
+
+let musicCtrl={
+  scaledSfx:()=>0,
+  duck:()=>{},
+  onVolumeChange:()=>{},
+  onPlayChange:()=>{}
+};
+const catRuntime={};
+const catButtons={};
+const sfxBank={};
+let dailyState=readDailyState();
+let prefState=readPreferenceState();
 
 function showHint(msg){
   const hint=document.createElement("div");
@@ -115,83 +254,193 @@ function showHint(msg){
   setTimeout(()=>hint.remove(),1700);
 }
 
-function markInvalid(el,msg){
-  el.classList.add("field-bad");
-  el.focus();
-  WarmCat.status(E.profileStatus,msg,true);
+function wait(ms){
+  return new Promise((resolve)=>setTimeout(resolve,ms));
 }
 
-function clearInvalid(){
-  [E.name,E.age,E.city,E.hobby,E.wish].forEach((el)=>el.classList.remove("field-bad"));
+function setBtnLoading(btn,isLoading){
+  if(!btn)return;
+  btn.classList.toggle("btn-loading",isLoading);
+  btn.disabled=Boolean(isLoading)||btn.disabled;
 }
 
-function collectProfile(){
-  clearInvalid();
-  const p={
+function getDraftProfile(){
+  return {
     name:E.name.value.trim(),
     age:Number(E.age.value),
     city:E.city.value.trim(),
     hobby:E.hobby.value.trim(),
     wish:E.wish.value.trim()
   };
-  if(!p.name){markInvalid(E.name,"请填写名字和年龄哦～");return null;}
-  if(!Number.isInteger(p.age)||p.age<1||p.age>120){markInvalid(E.age,"年龄需要是 1-120 的整数。");return null;}
-  return p;
 }
 
-function applyProfile(p){
-  E.name.value=p.name||"";
-  E.age.value=p.age||"";
-  E.city.value=p.city||"";
-  E.hobby.value=p.hobby||"";
-  E.wish.value=p.wish||"";
-  clearInvalid();
+function safeAgeInput(){
+  const cleaned=E.age.value.replace(/[^\d]/g,"").slice(0,3);
+  if(cleaned!==E.age.value)E.age.value=cleaned;
 }
 
-function saveProfile(showMsg=true){
-  const p=collectProfile();
-  if(!p)return false;
-  WarmCat.writeJSON(WarmCat.KEYS.profile,p);
-  if(showMsg){
-    WarmCat.status(E.profileStatus,`信息已保存✨ ${p.name}（${p.age} 岁）`);
+function checkProfile(profile){
+  if(!profile.name)return {ok:false,field:"name",msg:"先告诉我你的名字吧～"};
+  if(!Number.isInteger(profile.age)||profile.age<1||profile.age>120){
+    return {ok:false,field:"age",msg:"年龄填 1-120 的正整数就好啦。"};
   }
+  return {ok:true,field:"",msg:""};
+}
+
+function paintFieldState(){
+  const p=getDraftProfile();
+  const valid=checkProfile(p);
+
+  const nameOk=Boolean(p.name);
+  const ageOk=Number.isInteger(p.age)&&p.age>=1&&p.age<=120;
+
+  E.name.classList.toggle("field-bad",!nameOk&&E.name.dataset.touched==="1");
+  E.age.classList.toggle("field-bad",!ageOk&&E.age.dataset.touched==="1");
+
+  E.nameTip.textContent=!nameOk&&E.name.dataset.touched==="1"?"名字是必填项哦。":"";
+  E.ageTip.textContent=!ageOk&&E.age.dataset.touched==="1"?"请输入 1-120 的正整数年龄。":"";
+
+  updateStepState(valid.ok);
+  return valid;
+}
+
+function updateWishCount(){
+  const len=Array.from(E.wish.value).length;
+  E.wishCount.textContent=`${len}/80`;
+  E.wishCount.classList.toggle("warn",len>=64&&len<80);
+  E.wishCount.classList.toggle("max",len>=80);
+}
+
+function fillProfile(profile){
+  E.name.value=profile.name||"";
+  E.age.value=profile.age?String(profile.age):"";
+  E.city.value=profile.city||"";
+  E.hobby.value=profile.hobby||"";
+  E.wish.value=profile.wish||"";
+  updateWishCount();
+  paintFieldState();
+}
+
+function readStoredProfile(){
+  const profile=WarmCat.readJSON(WarmCat.KEYS.profile);
+  if(!profile)return null;
+  const checked=checkProfile({
+    name:(profile.name||"").trim(),
+    age:Number(profile.age),
+    city:(profile.city||"").trim(),
+    hobby:(profile.hobby||"").trim(),
+    wish:(profile.wish||"").trim()
+  });
+  return checked.ok?{
+    name:(profile.name||"").trim(),
+    age:Number(profile.age),
+    city:(profile.city||"").trim(),
+    hobby:(profile.hobby||"").trim(),
+    wish:(profile.wish||"").trim()
+  }:null;
+}
+
+async function saveProfile(showMsg=true){
+  safeAgeInput();
+  E.name.dataset.touched="1";
+  E.age.dataset.touched="1";
+
+  const profile=getDraftProfile();
+  const checked=checkProfile(profile);
+  paintFieldState();
+
+  if(!checked.ok){
+    WarmCat.status(E.profileStatus,checked.msg,true);
+    if(checked.field==="name")E.name.focus();
+    if(checked.field==="age")E.age.focus();
+    return false;
+  }
+
+  setBtnLoading(E.saveProfile,true);
+  await wait(260);
+  WarmCat.writeJSON(WarmCat.KEYS.profile,profile);
+  E.saveProfile.classList.remove("btn-loading");
+  E.saveProfile.disabled=false;
+
+  if(showMsg)WarmCat.status(E.profileStatus,`已保存：${profile.name} 的资料。`);
+  updateStepState(true);
   return true;
 }
 
 function loadProfile(showMsg=true){
-  const p=WarmCat.readJSON(WarmCat.KEYS.profile);
-  if(!p){
-    if(showMsg)WarmCat.status(E.profileStatus,"当前浏览器还没有保存过信息。",true);
+  const profile=readStoredProfile();
+  if(!profile){
+    if(showMsg)WarmCat.status(E.profileStatus,"还没有已保存信息，先填一点点吧。",false);
     return false;
   }
-  applyProfile(p);
-  if(showMsg)WarmCat.status(E.profileStatus,`已读取：${p.name}（${p.age} 岁）。`);
+  fillProfile(profile);
+  if(showMsg)WarmCat.status(E.profileStatus,`已读取：${profile.name}（${profile.age} 岁）。`);
   return true;
 }
 
 function clearProfile(){
-  [E.name,E.age,E.city,E.hobby,E.wish].forEach((el)=>el.value="");
-  clearInvalid();
+  [E.name,E.age,E.city,E.hobby,E.wish].forEach((el)=>{el.value="";el.dataset.touched="";el.classList.remove("field-bad");});
+  E.nameTip.textContent="";
+  E.ageTip.textContent="";
+  updateWishCount();
   localStorage.removeItem(WarmCat.KEYS.profile);
-  WarmCat.status(E.profileStatus,"已清空当前页面与本地保存的信息。",false);
+  WarmCat.status(E.profileStatus,"信息已清空，想重新写随时都可以。",false);
+  updateStepState(false);
+}
+
+function hasTodayFortune(name){
+  const fortune=WarmCat.readJSON(WarmCat.KEYS.fortune);
+  if(!fortune)return false;
+  return fortune.date===WarmCat.day()&&fortune.name===name;
+}
+
+function updateStepState(profileReady){
+  const profile=getDraftProfile();
+  const ready=Boolean(profileReady)&&checkProfile(profile).ok;
+
+  E.step2.disabled=!ready;
+  E.step2.classList.toggle("locked",!ready);
+  E.step2.classList.toggle("done",ready);
+  E.toLayer2.disabled=!ready;
+
+  const layer3Ready=ready&&hasTodayFortune(profile.name);
+  E.step3.disabled=!layer3Ready;
+  E.step3.classList.toggle("locked",!layer3Ready);
+  E.step3.classList.toggle("done",layer3Ready);
+
+  let progress=34;
+  if(ready)progress=68;
+  if(layer3Ready)progress=100;
+  E.stepFill.style.width=`${progress}%`;
+}
+
+function bindEnterJump(){
+  const order=[E.name,E.age,E.city,E.hobby,E.wish];
+  order.forEach((el,idx)=>{
+    el.addEventListener("keydown",(ev)=>{
+      if(ev.key!=="Enter")return;
+      if(el===E.wish&&ev.shiftKey)return;
+      ev.preventDefault();
+      const next=order[idx+1]||E.saveProfile;
+      next.focus();
+    });
+  });
 }
 
 function blossomToNext(profile){
   const icons=["💗","💮","🌸","✨","🐾","💖"];
-  for(let i=0;i<24;i+=1){
+  for(let i=0;i<22;i+=1){
     const p=document.createElement("span");
     p.className="petal";
     p.textContent=icons[Math.floor(Math.random()*icons.length)];
-    const x=`${-340+Math.random()*680}px`;
-    const y=`${-260+Math.random()*120}px`;
-    const r=`${-130+Math.random()*260}deg`;
-    p.style.setProperty("--x",x);
-    p.style.setProperty("--y",y);
-    p.style.setProperty("--r",r);
+    p.style.setProperty("--x",`${-340+Math.random()*680}px`);
+    p.style.setProperty("--y",`${-260+Math.random()*120}px`);
+    p.style.setProperty("--r",`${-130+Math.random()*260}deg`);
     p.style.animationDelay=`${(i*0.025).toFixed(3)}s`;
     E.petalCloud.appendChild(p);
     setTimeout(()=>p.remove(),1600);
   }
+
   WarmCat.writeSessionJSON(WarmCat.SESSION_KEYS.l1ToL2,{
     at:Date.now(),
     name:profile.name,
@@ -199,79 +448,487 @@ function blossomToNext(profile){
     wish:profile.wish,
     blessing:WarmCat.wishBlessing(profile.name,profile.wish)
   });
-  WarmCat.status(E.profileStatus,"正在为你定制专属幸运签～");
 }
 
-function playMeow(seed){
-  const AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC)return;
-  if(!meowCtx)meowCtx=new AC();
-  const ctx=meowCtx;
-  const start=ctx.currentTime;
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
-  osc.type="triangle";
-  const base=470+seed*45;
-  osc.frequency.setValueAtTime(base,start);
-  osc.frequency.exponentialRampToValueAtTime(base*0.6,start+0.16);
-  gain.gain.setValueAtTime(0.001,start);
-  gain.gain.exponentialRampToValueAtTime(0.19,start+0.03);
-  gain.gain.exponentialRampToValueAtTime(0.002,start+0.22);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start(start);
-  osc.stop(start+0.24);
+function initMusic(){
+  musicCtrl=WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.musicMeta);
+  musicCtrl.onVolumeChange((_,percent)=>{
+    E.musicVolumeText.textContent=`${percent}%`;
+  });
+  musicCtrl.onPlayChange((playing)=>{
+    E.musicMeta.textContent=playing?"正在播放舒缓音乐 🎵":"舒缓音乐已暂停";
+  });
 }
 
-function catTip(cat,text){
-  const tip=document.createElement("span");
-  tip.className="cat-tip";
-  tip.textContent=text;
-  cat.appendChild(tip);
-  setTimeout(()=>tip.remove(),920);
+function preloadSfx(){
+  Object.keys(SOUND_SRC).forEach((key)=>{
+    sfxBank[key]={index:0,pool:[]};
+    for(let i=0;i<3;i+=1){
+      const audio=new Audio(SOUND_SRC[key]);
+      audio.preload="auto";
+      audio.load();
+      sfxBank[key].pool.push(audio);
+    }
+  });
 }
 
-function meowAndPop(id,seed){
-  const cat=document.getElementById(id);
-  if(!cat)return;
-  playMeow(seed);
-  cat.classList.remove("meow-pop");
-  void cat.offsetWidth;
-  cat.classList.add("meow-pop");
-  const msg=HEALING_TEXT[Math.floor(Math.random()*HEALING_TEXT.length)];
-  catTip(cat,msg);
-  setTimeout(()=>cat.classList.remove("meow-pop"),260);
+function playSfx(name,opt={}){
+  if(!sfxBank[name])return null;
+  if(musicCtrl.scaledSfx(1)<=0.001)return null;
+
+  const entry=sfxBank[name];
+  const audio=entry.pool[entry.index%entry.pool.length];
+  entry.index+=1;
+
+  audio.pause();
+  audio.currentTime=0;
+  audio.loop=Boolean(opt.loop);
+  audio.playbackRate=Number(opt.rate)||1;
+  audio.volume=Math.min(1,musicCtrl.scaledSfx(opt.ratio||0.5));
+
+  if(audio.volume<=0.002)return null;
+  if(opt.duck!==false)musicCtrl.duck(0.82,opt.loop?360:260);
+
+  const playPromise=audio.play();
+  if(playPromise&&playPromise.catch)playPromise.catch(()=>{});
+
+  if(opt.cutMs&&!audio.loop){
+    setTimeout(()=>{
+      if(!audio.paused){
+        audio.pause();
+        audio.currentTime=0;
+      }
+    },opt.cutMs);
+  }
+  return audio;
 }
 
-E.saveProfile.onclick=()=>saveProfile(true);
-E.loadProfile.onclick=()=>loadProfile(true);
-E.clearProfile.onclick=clearProfile;
-E.toLayer2.onclick=()=>{
-  const p=collectProfile();
-  if(!p){
-    showHint("请先完成必填项再进入第二层");
+function stopSfx(inst){
+  if(!inst)return;
+  inst.pause();
+  inst.currentTime=0;
+  inst.loop=false;
+}
+
+function readDailyState(){
+  const raw=WarmCat.readJSON(WarmCat.KEYS.catDaily)||{};
+  if(raw.date!==WarmCat.day()){
+    return {date:WarmCat.day(),clicks:{catA:0,catB:0,catC:0},eggs:{catA:false,catB:false,catC:false},usedTextIds:[]};
+  }
+  return {
+    date:raw.date,
+    clicks:{catA:Number(raw.clicks?.catA||0),catB:Number(raw.clicks?.catB||0),catC:Number(raw.clicks?.catC||0)},
+    eggs:{catA:Boolean(raw.eggs?.catA),catB:Boolean(raw.eggs?.catB),catC:Boolean(raw.eggs?.catC)},
+    usedTextIds:Array.isArray(raw.usedTextIds)?raw.usedTextIds:[]
+  };
+}
+
+function saveDailyState(){
+  WarmCat.writeJSON(WarmCat.KEYS.catDaily,dailyState);
+}
+
+function readPreferenceState(){
+  const raw=WarmCat.readJSON(WarmCat.KEYS.catPreference)||{};
+  return {clicks:{catA:Number(raw.clicks?.catA||0),catB:Number(raw.clicks?.catB||0),catC:Number(raw.clicks?.catC||0)}};
+}
+
+function savePreferenceState(){
+  WarmCat.writeJSON(WarmCat.KEYS.catPreference,prefState);
+}
+
+function applyFavoriteCat(){
+  const entries=Object.entries(prefState.clicks).sort((a,b)=>b[1]-a[1]);
+  const fav=entries[0]&&entries[0][1]>0?entries[0][0]:"";
+  CAT_IDS.forEach((id)=>{
+    const node=catButtons[id];
+    if(!node)return;
+    node.classList.toggle("favorite",id===fav);
+  });
+  E.catTrioWrap.classList.toggle("has-fav",Boolean(fav));
+}
+
+function makeCtx(){
+  const draft=getDraftProfile();
+  const saved=WarmCat.readJSON(WarmCat.KEYS.profile)||{};
+  const name=(draft.name||saved.name||"你").trim()||"你";
+  const wish=(draft.wish||saved.wish||"今天的小愿望").trim()||"今天的小愿望";
+  const age=Number(draft.age||saved.age||0);
+  let call=name;
+  if(Number.isInteger(age)&&age>0&&age<=14)call=`${name}小朋友`;
+  if(Number.isInteger(age)&&age>=35)call=`${name}`;
+
+  const period=WarmCat.timePeriod();
+  const hintMap={
+    morning:"早晨慢慢出发",
+    afternoon:"午后稳稳前进",
+    evening:"傍晚放轻脚步",
+    night:"夜里先把自己照顾好"
+  };
+  return {name,wish,age,call,timeHint:hintMap[period]||"慢慢向前"};
+}
+
+function uniqueFallback(catId){
+  const c=makeCtx();
+  const list=[
+    `${c.name}，先把呼吸放慢一点。`,
+    `愿${c.wish}在温柔里实现。`,
+    `${c.timeHint}，慢慢来就很好。`,
+    `${c.call}，今天也在稳稳发光。`
+  ];
+  const serial=dailyState.usedTextIds.length+1;
+  return `${list[(Date.now()+catId.length+serial)%list.length]}（贴贴${serial}）`;
+}
+
+function pickText(catId,type){
+  const pool=TEXT_POOL[catId]?.[type]||[];
+  if(!pool.length)return uniqueFallback(catId);
+
+  const used=new Set(dailyState.usedTextIds);
+  const available=pool.filter((item)=>!used.has(item.id));
+  if(!available.length)return uniqueFallback(catId);
+
+  const item=available[Math.floor(Math.random()*available.length)];
+  dailyState.usedTextIds.push(item.id);
+  saveDailyState();
+  return item.text(makeCtx());
+}
+
+function showCatBubble(catNode,text,duration=3000){
+  const existed=catNode.querySelector(".cat-talk");
+  if(existed)existed.remove();
+
+  const bubble=document.createElement("div");
+  bubble.className="cat-talk";
+  bubble.textContent=text;
+  catNode.appendChild(bubble);
+
+  setTimeout(()=>bubble.classList.add("fade"),Math.max(1600,duration-420));
+  setTimeout(()=>bubble.remove(),duration);
+}
+
+function spawnVfx(catNode,icon){
+  const v=document.createElement("span");
+  v.className="cat-vfx";
+  v.textContent=icon;
+  v.style.left=`${42+Math.random()*26}%`;
+  v.style.top=`${24+Math.random()*36}%`;
+  v.style.fontSize=`${17+Math.random()*8}px`;
+  catNode.appendChild(v);
+  setTimeout(()=>v.remove(),760);
+}
+
+function markInteraction(catId){
+  dailyState.clicks[catId]+=1;
+  prefState.clicks[catId]+=1;
+  saveDailyState();
+  savePreferenceState();
+  applyFavoriteCat();
+}
+
+function triggerEgg(catId){
+  if(dailyState.eggs[catId])return;
+  dailyState.eggs[catId]=true;
+  saveDailyState();
+
+  const node=catButtons[catId];
+  if(!node)return;
+
+  showCatBubble(node,pickText(catId,"egg"),3600);
+  for(let i=0;i<22;i+=1){
+    const icon=["💗","✨","🌸","🐾","⭐"][Math.floor(Math.random()*5)];
+    setTimeout(()=>spawnVfx(node,icon),i*45);
+  }
+
+  let count=0;
+  const t=setInterval(()=>{
+    const s=CAT_CFG[catId].sounds.click;
+    playSfx(s.name,{ratio:0.58,rate:s.rate,cutMs:240});
+    count+=1;
+    if(count>=3)clearInterval(t);
+  },220);
+}
+
+function randomBlink(catId){
+  const node=catButtons[catId];
+  if(!node)return;
+  const waitMs=3000+Math.random()*2000;
+  setTimeout(()=>{
+    node.classList.add("blink-now");
+    setTimeout(()=>node.classList.remove("blink-now"),140);
+    randomBlink(catId);
+  },waitMs);
+}
+
+function lockCat(catId,ms){
+  catRuntime[catId].lockUntil=Date.now()+ms;
+}
+
+function isCatLocked(catId){
+  return Date.now()<catRuntime[catId].lockUntil;
+}
+
+function hoverCat(catId){
+  if(isCatLocked(catId))return;
+  const cfg=CAT_CFG[catId];
+  const run=catRuntime[catId];
+  const now=Date.now();
+  if(now<run.hoverCooldownUntil)return;
+
+  run.hoverCooldownUntil=now+420;
+  const node=catButtons[catId];
+  node.classList.add(cfg.hoverClass);
+  clearTimeout(run.hoverResetTimer);
+  run.hoverResetTimer=setTimeout(()=>node.classList.remove(cfg.hoverClass),320);
+
+  const s=cfg.sounds.hover;
+  playSfx(s.name,s);
+}
+
+function clickCat(catId){
+  if(isCatLocked(catId))return;
+
+  const cfg=CAT_CFG[catId];
+  const node=catButtons[catId];
+  lockCat(catId,560);
+
+  node.classList.remove("cat-click");
+  void node.offsetWidth;
+  node.classList.add("cat-click");
+  setTimeout(()=>node.classList.remove("cat-click"),340);
+
+  const s=cfg.sounds.click;
+  playSfx(s.name,s);
+
+  spawnVfx(node,cfg.clickVfx[Math.floor(Math.random()*cfg.clickVfx.length)]);
+  spawnVfx(node,cfg.clickVfx[Math.floor(Math.random()*cfg.clickVfx.length)]);
+
+  showCatBubble(node,pickText(catId,"click"),3000);
+  markInteraction(catId);
+
+  if(dailyState.clicks[catId]===5&&!dailyState.eggs[catId])triggerEgg(catId);
+}
+
+function startLongPress(catId){
+  if(isCatLocked(catId))return;
+
+  const cfg=CAT_CFG[catId];
+  const run=catRuntime[catId];
+  const node=catButtons[catId];
+
+  run.longActive=true;
+  lockCat(catId,120000);
+  node.classList.add("pressing");
+
+  const s=cfg.sounds.hold;
+  run.longAudio=playSfx(s.name,s);
+  run.holdVfxTimer=setInterval(()=>{
+    spawnVfx(node,cfg.holdVfx[Math.floor(Math.random()*cfg.holdVfx.length)]);
+  },260);
+
+  showCatBubble(node,pickText(catId,"hold"),3000);
+}
+
+function stopLongPress(catId){
+  const run=catRuntime[catId];
+  if(!run.longActive)return;
+
+  run.longActive=false;
+  const node=catButtons[catId];
+  node.classList.remove("pressing");
+
+  stopSfx(run.longAudio);
+  run.longAudio=null;
+
+  clearInterval(run.holdVfxTimer);
+  run.holdVfxTimer=null;
+
+  lockCat(catId,520);
+}
+
+function bindCat(catId){
+  const node=catButtons[catId];
+  const run=catRuntime[catId];
+  const cfg=CAT_CFG[catId];
+
+  node.addEventListener("pointerenter",(ev)=>{
+    if(ev.pointerType==="mouse")hoverCat(catId);
+  });
+
+  node.addEventListener("pointerleave",()=>{
+    node.classList.remove(cfg.hoverClass);
+    clearTimeout(run.longPressTimer);
+    if(run.longActive){
+      run.skipClick=true;
+      stopLongPress(catId);
+    }
+  });
+
+  node.addEventListener("pointerdown",(ev)=>{
+    if(ev.pointerType==="mouse"&&ev.button!==0)return;
+    if(isCatLocked(catId))return;
+
+    run.skipClick=false;
+    run.pointerDown=true;
+
+    if(ev.pointerType!=="mouse")hoverCat(catId);
+
+    clearTimeout(run.longPressTimer);
+    run.longPressTimer=setTimeout(()=>{
+      startLongPress(catId);
+      run.skipClick=true;
+    },800);
+  });
+
+  node.addEventListener("pointerup",()=>{
+    run.pointerDown=false;
+    clearTimeout(run.longPressTimer);
+    if(run.longActive){
+      run.skipClick=true;
+      stopLongPress(catId);
+    }
+  });
+
+  node.addEventListener("pointercancel",()=>{
+    run.pointerDown=false;
+    clearTimeout(run.longPressTimer);
+    if(run.longActive){
+      run.skipClick=true;
+      stopLongPress(catId);
+    }
+  });
+
+  node.addEventListener("click",(ev)=>{
+    ev.preventDefault();
+    if(run.skipClick){
+      run.skipClick=false;
+      return;
+    }
+    clickCat(catId);
+  });
+
+  node.addEventListener("keydown",(ev)=>{
+    if(ev.key!=="Enter"&&ev.key!==" ")return;
+    ev.preventDefault();
+    clickCat(catId);
+  });
+}
+
+function runDailyGreeting(){
+  const greeted=WarmCat.readJSON(WarmCat.KEYS.catGreeting)||{};
+  if(greeted.date===WarmCat.day())return;
+
+  const period=WarmCat.timePeriod();
+  const msgMap={
+    morning:"早安呀，三只小猫在这里等你慢慢开始。",
+    afternoon:"午后好，慢慢来也能走很远。",
+    evening:"晚上好，先把今天的愿望轻轻写下。",
+    night:"夜深了，填完信息就早点休息吧。"
+  };
+
+  CAT_IDS.forEach((id,idx)=>{
+    const node=catButtons[id];
+    setTimeout(()=>node.classList.add("daily-greet"),idx*100);
+    setTimeout(()=>node.classList.remove("daily-greet"),1200+idx*100);
+  });
+
+  showHint(msgMap[period]||msgMap.afternoon);
+  WarmCat.writeJSON(WarmCat.KEYS.catGreeting,{date:WarmCat.day()});
+}
+
+function initFormEvents(){
+  [E.name,E.age].forEach((input)=>{
+    input.addEventListener("blur",()=>{
+      input.dataset.touched="1";
+      paintFieldState();
+    });
+    input.addEventListener("input",()=>{
+      if(input===E.age)safeAgeInput();
+      paintFieldState();
+    });
+  });
+
+  [E.city,E.hobby].forEach((input)=>{
+    input.addEventListener("input",paintFieldState);
+  });
+
+  E.wish.addEventListener("input",()=>{
+    updateWishCount();
+    paintFieldState();
+  });
+
+  bindEnterJump();
+}
+
+async function goLayer2(){
+  const ok=await saveProfile(false);
+  if(!ok){
+    showHint("先把名字和年龄填好，我们再出发哦～");
     return;
   }
-  WarmCat.writeJSON(WarmCat.KEYS.profile,p);
-  blossomToNext(p);
-  setTimeout(()=>{location.href="layer2.html";},920);
-};
 
-[E.name,E.age].forEach((el)=>{
-  el.addEventListener("blur",()=>{
-    if(!el.value.trim())el.classList.add("field-bad");
+  const profile=getDraftProfile();
+  setBtnLoading(E.toLayer2,true);
+  blossomToNext(profile);
+  WarmCat.status(E.profileStatus,"资料已就绪，正在带你去第二层抽幸运签。",false);
+  setTimeout(()=>{location.href="layer2.html";},860);
+}
+
+function initSteps(){
+  E.step2.addEventListener("click",()=>{
+    if(E.step2.disabled){
+      showHint("先完成必填信息，再解锁第二层。");
+      return;
+    }
+    goLayer2();
   });
-  el.addEventListener("input",()=>el.classList.remove("field-bad"));
-});
 
-document.getElementById("catA").addEventListener("click",()=>meowAndPop("catA",1));
-document.getElementById("catB").addEventListener("click",()=>meowAndPop("catB",2));
-document.getElementById("catC").addEventListener("click",()=>meowAndPop("catC",3));
+  E.step3.addEventListener("click",()=>{
+    if(E.step3.disabled)return;
+    location.href="layer3.html";
+  });
+}
 
-E.greetingText.textContent=`第一层保存资料。${WarmCat.timeGreeting()}`;
-WarmCat.initCuteBg(E.bgCute);
-WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.profileStatus);
-loadProfile(false);
+function bootstrap(){
+  E.greetingText.textContent=`第一层保存资料。${WarmCat.timeGreeting()}`;
+
+  CAT_IDS.forEach((id)=>{
+    catButtons[id]=document.getElementById(id);
+    catRuntime[id]={
+      lockUntil:0,
+      hoverCooldownUntil:0,
+      longPressTimer:0,
+      longActive:false,
+      longAudio:null,
+      holdVfxTimer:0,
+      hoverResetTimer:0,
+      pointerDown:false,
+      skipClick:false
+    };
+    bindCat(id);
+    randomBlink(id);
+  });
+
+  preloadSfx();
+  initMusic();
+  initFormEvents();
+  initSteps();
+  updateWishCount();
+
+  const loaded=loadProfile(false);
+  if(!loaded)paintFieldState();
+
+  applyFavoriteCat();
+  runDailyGreeting();
+
+  E.saveProfile.addEventListener("click",()=>saveProfile(true));
+  E.loadProfile.addEventListener("click",()=>loadProfile(true));
+  E.clearProfile.addEventListener("click",clearProfile);
+  E.toLayer2.addEventListener("click",goLayer2);
+
+  WarmCat.initCuteBg(E.bgCute);
+}
+
+bootstrap();
 </script>
 </body>
 </html>

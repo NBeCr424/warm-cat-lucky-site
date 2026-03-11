@@ -43,7 +43,7 @@
     <h1>暖暖猫咪幸运站</h1>
     <p id="heroSub">第二层：抽取今日幸运签。风格参考国风海报卡面。</p>
     <div class="steps">
-      <button class="step-btn done" type="button" onclick="location.href='index.html'" aria-label="返回第一层">第 1 层 信息</button>
+      <button class="step-btn done" type="button" onclick="location.href='layer1.html'" aria-label="返回第一层">第 1 层 信息</button>
       <button class="step-btn on" type="button" aria-label="当前在第二层">第 2 层 幸运签</button>
       <button class="step-btn" type="button" disabled aria-label="第三层未解锁">第 3 层 小诗+换装</button>
     </div>
@@ -162,8 +162,8 @@ const E={
 const profile=WarmCat.readJSON(WarmCat.KEYS.profile);
 if(!profile){
   alert("请先完成第一层信息填写。");
-  location.href="index.html";
-  throw new Error("redirect:index");
+  location.href="layer1.html";
+  throw new Error("redirect:layer1");
 }
 
 let currentFortune=null;

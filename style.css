@@ -184,6 +184,36 @@ button:disabled:hover,a.btn.disabled:hover{transform:none}
   opacity:0;
   animation:hintDrop 1.7s ease forwards;
 }
+.welcome-hero{max-width:940px;margin:0 auto}
+.welcome-hero h1{font-size:clamp(2.1rem,5.2vw,3.6rem)}
+.welcome-sub{margin-top:10px;font-size:1.06rem;color:#8f5632}
+.emoji-wall{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.emoji-chip{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:54px;height:54px;border-radius:16px;
+  border:1px solid #efc39e;background:rgba(255,249,241,.9);
+  box-shadow:0 8px 14px rgba(165,95,48,.16);
+  font-size:1.45rem;animation:emojiBob 3s ease-in-out infinite
+}
+.emoji-chip:nth-child(2n){animation-delay:-1.1s}
+.emoji-chip:nth-child(3n){animation-delay:-2.1s}
+.bless-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.bless-card{
+  padding:12px 12px;border-radius:14px;border:1px solid #efc7a2;
+  box-shadow:0 8px 15px rgba(170,102,54,.14);
+  color:#8a4f2d;line-height:1.7;font-size:.95rem;text-align:left
+}
+.bless-card.c1{background:linear-gradient(145deg,#fff6ea,#ffe4c4)}
+.bless-card.c2{background:linear-gradient(145deg,#fff2f0,#ffe1d5)}
+.bless-card.c3{background:linear-gradient(145deg,#fff7e7,#ffecc8)}
+.welcome-panel{
+  margin:16px auto 0;max-width:700px;
+  background:rgba(255,247,236,.92);border:1px solid #efc59f;border-radius:20px;
+  box-shadow:0 12px 22px rgba(164,93,45,.18);padding:16px
+}
+.welcome-panel h2{font-size:1.5rem}
+.welcome-actions{justify-content:center}
+.welcome-status{min-height:24px;text-align:center;color:#9a5a31;margin-top:8px}
 
 .dress{display:grid;grid-template-columns:270px 1fr;gap:12px;margin-top:12px}
 .stage{position:relative;height:325px;border:1px solid #efc79e;border-radius:16px;overflow:hidden;cursor:pointer;
@@ -244,6 +274,7 @@ button:disabled:hover,a.btn.disabled:hover{transform:none}
 @keyframes miniEarWiggle{0%,100%{transform:rotate(-12deg)}10%{transform:rotate(-7deg)}20%{transform:rotate(-14deg)}}
 @keyframes miniBlink{0%,45%,47%,100%{transform:scaleY(1)}46%{transform:scaleY(.08)}}
 @keyframes miniPop{0%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.08)}100%{transform:translateX(-50%) scale(1)}}
+@keyframes emojiBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @keyframes petalFly{
   0%{opacity:0;transform:translate(-50%,-20%) rotate(0deg) scale(.8)}
   25%{opacity:1}
@@ -268,4 +299,4 @@ button:disabled:hover,a.btn.disabled:hover{transform:none}
 }
 
 @media (max-width:1020px){.layer3,.preview{grid-column:span 12}.dress{grid-template-columns:1fr}}
-@media (max-width:680px){.form{grid-template-columns:1fr}.card{padding:13px;border-radius:16px}}
+@media (max-width:680px){.form{grid-template-columns:1fr}.card{padding:13px;border-radius:16px}.bless-grid{grid-template-columns:1fr}}

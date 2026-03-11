@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>暖暖猫咪幸运站 - 第一层</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="paw-bg">
+<div class="bg-cute" id="bgCute"></div>
+<div class="petal-cloud" id="petalCloud"></div>
+<main>
+  <section class="hero">
+    <h1>暖暖猫咪幸运站</h1>
+    <p id="greetingText">第一层保存资料。完成后进入第二层抽今日幸运签。</p>
+    <div class="steps" aria-label="流程步骤">
+      <button class="step-btn on" type="button" aria-label="当前在第一层">第 1 层 信息</button>
+      <button class="step-btn" type="button" disabled aria-label="第二层未解锁">第 2 层 幸运签</button>
+      <button class="step-btn" type="button" disabled aria-label="第三层未解锁">第 3 层 小诗+换装</button>
+    </div>
+    <div class="step-track" aria-hidden="true"><span class="step-fill p1"></span></div>
+    <div class="row" style="justify-content:center">
+      <button id="musicToggle" class="sec" type="button" aria-label="播放或暂停舒缓音乐">播放舒缓音乐</button>
+      <input id="musicVolume" type="range" min="0" max="100" value="40" style="width:140px" aria-label="音乐音量" />
+    </div>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <span class="tag">第一层</span>
+      <h2>填写并保存信息</h2>
+      <small>数据会保存在浏览器 localStorage。必填项请先完成再进入下一层。</small>
+
+      <div class="form">
+        <div class="item"><label for="name">名字 *</label><input id="name" maxlength="20" placeholder="例如：小橘" aria-label="名字，必填" /></div>
+        <div class="item"><label for="age">年龄 *</label><input id="age" type="number" min="1" max="120" placeholder="例如：18" aria-label="年龄，必填" /></div>
+        <div class="item"><label for="city">城市</label><input id="city" maxlength="20" placeholder="例如：上海" aria-label="城市" /></div>
+        <div class="item"><label for="hobby">喜欢的事</label><input id="hobby" maxlength="40" placeholder="例如：晒太阳、看电影" aria-label="喜欢的事情" /></div>
+        <div class="item full"><label for="wish">今日小愿望</label><textarea id="wish" rows="2" maxlength="80" placeholder="今日小愿望：比如暴富、变美、吃好吃的～" aria-label="今日小愿望"></textarea></div>
+      </div>
+
+      <div class="row">
+        <button id="saveProfile" class="pri" type="button" aria-label="保存信息">保存信息</button>
+        <button id="loadProfile" class="sec" type="button" aria-label="读取已保存信息">读取已保存信息</button>
+        <button id="clearProfile" class="sec" type="button" aria-label="清空信息">清空信息</button>
+        <button id="toLayer2" class="next" type="button" aria-label="完成第一层进入第二层">完成第一层，进入第二层</button>
+      </div>
+      <div class="status" id="profileStatus" aria-live="polite"></div>
+
+      <div class="cat-trio-wrap">
+        <div class="cat-trio">
+          <button id="catA" class="mini-cat orange" type="button" aria-label="小橘猫">
+            <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
+            <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
+            <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
+          </button>
+          <button id="catB" class="mini-cat white" type="button" aria-label="小白猫">
+            <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
+            <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
+            <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
+          </button>
+          <button id="catC" class="mini-cat gray" type="button" aria-label="小灰猫">
+            <span class="ear l"></span><span class="ear r"></span><span class="head"></span>
+            <span class="eye l"></span><span class="eye r"></span><span class="nose"></span><span class="mouth">ω</span>
+            <span class="whisk l1"></span><span class="whisk l2"></span><span class="whisk r1"></span><span class="whisk r2"></span>
+          </button>
+        </div>
+        <div class="cat-note">sweet cat ♡ <b>点击小猫会喵喵叫 + 送你一句治愈文案</b></div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<audio id="bgMusic" preload="auto" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+</audio>
+
+<script src="common.js"></script>
+<script>
+const E={
+  bgCute:document.getElementById("bgCute"),
+  petalCloud:document.getElementById("petalCloud"),
+  greetingText:document.getElementById("greetingText"),
+  name:document.getElementById("name"),
+  age:document.getElementById("age"),
+  city:document.getElementById("city"),
+  hobby:document.getElementById("hobby"),
+  wish:document.getElementById("wish"),
+  saveProfile:document.getElementById("saveProfile"),
+  loadProfile:document.getElementById("loadProfile"),
+  clearProfile:document.getElementById("clearProfile"),
+  toLayer2:document.getElementById("toLayer2"),
+  profileStatus:document.getElementById("profileStatus"),
+  musicToggle:document.getElementById("musicToggle"),
+  musicVolume:document.getElementById("musicVolume"),
+  bgMusic:document.getElementById("bgMusic")
+};
+
+const HEALING_TEXT=[
+  "今天也要开心呀😺",
+  "你已经很棒啦，慢慢来也行。",
+  "好运正在路上，别着急。",
+  "记得喝水，也记得夸夸自己。",
+  "世界有点吵，但你可以很温柔。",
+  "小猫说：抱抱你，继续发光。"
+];
+
+let meowCtx=null;
+
+function showHint(msg){
+  const hint=document.createElement("div");
+  hint.className="hint-pop";
+  hint.textContent=msg;
+  document.body.appendChild(hint);
+  setTimeout(()=>hint.remove(),1700);
+}
+
+function markInvalid(el,msg){
+  el.classList.add("field-bad");
+  el.focus();
+  WarmCat.status(E.profileStatus,msg,true);
+}
+
+function clearInvalid(){
+  [E.name,E.age,E.city,E.hobby,E.wish].forEach((el)=>el.classList.remove("field-bad"));
+}
+
+function collectProfile(){
+  clearInvalid();
+  const p={
+    name:E.name.value.trim(),
+    age:Number(E.age.value),
+    city:E.city.value.trim(),
+    hobby:E.hobby.value.trim(),
+    wish:E.wish.value.trim()
+  };
+  if(!p.name){markInvalid(E.name,"请填写名字和年龄哦～");return null;}
+  if(!Number.isInteger(p.age)||p.age<1||p.age>120){markInvalid(E.age,"年龄需要是 1-120 的整数。");return null;}
+  return p;
+}
+
+function applyProfile(p){
+  E.name.value=p.name||"";
+  E.age.value=p.age||"";
+  E.city.value=p.city||"";
+  E.hobby.value=p.hobby||"";
+  E.wish.value=p.wish||"";
+  clearInvalid();
+}
+
+function saveProfile(showMsg=true){
+  const p=collectProfile();
+  if(!p)return false;
+  WarmCat.writeJSON(WarmCat.KEYS.profile,p);
+  if(showMsg){
+    WarmCat.status(E.profileStatus,`信息已保存✨ ${p.name}（${p.age} 岁）`);
+  }
+  return true;
+}
+
+function loadProfile(showMsg=true){
+  const p=WarmCat.readJSON(WarmCat.KEYS.profile);
+  if(!p){
+    if(showMsg)WarmCat.status(E.profileStatus,"当前浏览器还没有保存过信息。",true);
+    return false;
+  }
+  applyProfile(p);
+  if(showMsg)WarmCat.status(E.profileStatus,`已读取：${p.name}（${p.age} 岁）。`);
+  return true;
+}
+
+function clearProfile(){
+  [E.name,E.age,E.city,E.hobby,E.wish].forEach((el)=>el.value="");
+  clearInvalid();
+  localStorage.removeItem(WarmCat.KEYS.profile);
+  WarmCat.status(E.profileStatus,"已清空当前页面与本地保存的信息。",false);
+}
+
+function blossomToNext(profile){
+  const icons=["💗","💮","🌸","✨","🐾","💖"];
+  for(let i=0;i<24;i+=1){
+    const p=document.createElement("span");
+    p.className="petal";
+    p.textContent=icons[Math.floor(Math.random()*icons.length)];
+    const x=`${-340+Math.random()*680}px`;
+    const y=`${-260+Math.random()*120}px`;
+    const r=`${-130+Math.random()*260}deg`;
+    p.style.setProperty("--x",x);
+    p.style.setProperty("--y",y);
+    p.style.setProperty("--r",r);
+    p.style.animationDelay=`${(i*0.025).toFixed(3)}s`;
+    E.petalCloud.appendChild(p);
+    setTimeout(()=>p.remove(),1600);
+  }
+  WarmCat.writeSessionJSON(WarmCat.SESSION_KEYS.l1ToL2,{
+    at:Date.now(),
+    name:profile.name,
+    hobby:profile.hobby,
+    wish:profile.wish,
+    blessing:WarmCat.wishBlessing(profile.name,profile.wish)
+  });
+  WarmCat.status(E.profileStatus,"正在为你定制专属幸运签～");
+}
+
+function playMeow(seed){
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC)return;
+  if(!meowCtx)meowCtx=new AC();
+  const ctx=meowCtx;
+  const start=ctx.currentTime;
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.type="triangle";
+  const base=470+seed*45;
+  osc.frequency.setValueAtTime(base,start);
+  osc.frequency.exponentialRampToValueAtTime(base*0.6,start+0.16);
+  gain.gain.setValueAtTime(0.001,start);
+  gain.gain.exponentialRampToValueAtTime(0.19,start+0.03);
+  gain.gain.exponentialRampToValueAtTime(0.002,start+0.22);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(start);
+  osc.stop(start+0.24);
+}
+
+function catTip(cat,text){
+  const tip=document.createElement("span");
+  tip.className="cat-tip";
+  tip.textContent=text;
+  cat.appendChild(tip);
+  setTimeout(()=>tip.remove(),920);
+}
+
+function meowAndPop(id,seed){
+  const cat=document.getElementById(id);
+  if(!cat)return;
+  playMeow(seed);
+  cat.classList.remove("meow-pop");
+  void cat.offsetWidth;
+  cat.classList.add("meow-pop");
+  const msg=HEALING_TEXT[Math.floor(Math.random()*HEALING_TEXT.length)];
+  catTip(cat,msg);
+  setTimeout(()=>cat.classList.remove("meow-pop"),260);
+}
+
+E.saveProfile.onclick=()=>saveProfile(true);
+E.loadProfile.onclick=()=>loadProfile(true);
+E.clearProfile.onclick=clearProfile;
+E.toLayer2.onclick=()=>{
+  const p=collectProfile();
+  if(!p){
+    showHint("请先完成必填项再进入第二层");
+    return;
+  }
+  WarmCat.writeJSON(WarmCat.KEYS.profile,p);
+  blossomToNext(p);
+  setTimeout(()=>{location.href="layer2.html";},920);
+};
+
+[E.name,E.age].forEach((el)=>{
+  el.addEventListener("blur",()=>{
+    if(!el.value.trim())el.classList.add("field-bad");
+  });
+  el.addEventListener("input",()=>el.classList.remove("field-bad"));
+});
+
+document.getElementById("catA").addEventListener("click",()=>meowAndPop("catA",1));
+document.getElementById("catB").addEventListener("click",()=>meowAndPop("catB",2));
+document.getElementById("catC").addEventListener("click",()=>meowAndPop("catC",3));
+
+E.greetingText.textContent=`第一层保存资料。${WarmCat.timeGreeting()}`;
+WarmCat.initCuteBg(E.bgCute);
+WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.profileStatus);
+loadProfile(false);
+</script>
+</body>
+</html>

@@ -28,7 +28,7 @@
     <h1>暖暖猫咪幸运站</h1>
     <p id="heroSub">第三层：生成名字小诗，给猫咪换装，导出暖色海报。</p>
     <div class="steps">
-      <button class="step-btn done" type="button" onclick="location.href='index.html'" aria-label="返回第一层">第 1 层 信息</button>
+      <button class="step-btn done" type="button" onclick="location.href='layer1.html'" aria-label="返回第一层">第 1 层 信息</button>
       <button class="step-btn done" type="button" onclick="location.href='layer2.html'" aria-label="返回第二层">第 2 层 幸运签</button>
       <button class="step-btn on" type="button" aria-label="当前在第三层">第 3 层 小诗+换装</button>
     </div>
@@ -216,7 +216,7 @@ const E={
 };
 
 const profile=WarmCat.readJSON(WarmCat.KEYS.profile);
-if(!profile){alert("请先完成第一层。\n将跳转到第一页。");location.href="index.html";throw new Error("redirect:index");}
+if(!profile){alert("请先完成第一层。\n将跳转到第一页。");location.href="layer1.html";throw new Error("redirect:layer1");}
 const fortuneSaved=WarmCat.readJSON(WarmCat.KEYS.fortune);
 if(!fortuneSaved||fortuneSaved.date!==WarmCat.day()||fortuneSaved.name!==profile.name){
   alert("请先完成第二层抽签。\n将跳转到第二层。");

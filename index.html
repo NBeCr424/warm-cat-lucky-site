@@ -157,9 +157,19 @@ function playMeow(seed){
   osc.stop(start+0.22);
 }
 
-document.getElementById("catA").addEventListener("click",()=>playMeow(1));
-document.getElementById("catB").addEventListener("click",()=>playMeow(2));
-document.getElementById("catC").addEventListener("click",()=>playMeow(3));
+function meowAndPop(id,seed){
+  const cat=document.getElementById(id);
+  if(!cat)return;
+  playMeow(seed);
+  cat.classList.remove("meow-pop");
+  void cat.offsetWidth;
+  cat.classList.add("meow-pop");
+  setTimeout(()=>cat.classList.remove("meow-pop"),260);
+}
+
+document.getElementById("catA").addEventListener("click",()=>meowAndPop("catA",1));
+document.getElementById("catB").addEventListener("click",()=>meowAndPop("catB",2));
+document.getElementById("catC").addEventListener("click",()=>meowAndPop("catC",3));
 
 WarmCat.initCuteBg(E.bgCute);
 WarmCat.initMusic(E.musicToggle,E.musicVolume,E.bgMusic,E.profileStatus);

@@ -55,10 +55,10 @@
         <span class="flow-line">🎀 <b>换装小诗馆</b>：生成专属治愈时刻</span>
       </small>
 
-      <div class="row welcome-actions">
-        <button id="startGame" class="pri" type="button" aria-label="继续游戏">继续游戏</button>
-        <button id="laterBtn" class="sec" type="button" aria-label="稍后开始">先收下祝福</button>
-      </div>
+    <div class="row welcome-actions">
+      <button id="startGame" class="pri" type="button" aria-label="开启治愈小旅程">🐾 开启治愈小旅程</button>
+      <button id="laterBtn" class="sec" type="button" aria-label="稍后开始">先收下祝福</button>
+    </div>
       <div class="status welcome-status" id="welcomeStatus" aria-live="polite"></div>
       <div class="today-tip" id="todayTip" aria-live="polite"></div>
 
@@ -189,10 +189,10 @@ function setGreeting(profile){
   E.userName.textContent=name;
   E.welcomeGreeting.innerHTML=`欢迎回来，<b class="welcome-name">${name}</b>`;
   if(profile&&profile.name){
-    E.startGame.textContent="继续游戏";
+    E.startGame.textContent="🐾 继续治愈小旅程";
     E.welcomeStatus.textContent=`欢迎回来，${name}。可以继续你的猫咪幸运之旅。`;
   }else{
-    E.startGame.textContent="开始游戏";
+    E.startGame.textContent="🐾 开启治愈小旅程";
     E.welcomeStatus.textContent=WarmCat.timeGreeting();
   }
   setTip(profile);
@@ -266,6 +266,19 @@ if(musicCtrl&&musicCtrl.onPlayChange){
     }
   });
 }
+
+WarmCat.showGuideModal({
+  pageId:"entry",
+  title:"🐱 欢迎来到暖暖猫咪幸运站～",
+  body:[
+    "这里是你的专属治愈小宇宙✨",
+    "先收下祝福，然后点击「🐾 开启治愈小旅程」，",
+    "一步步完成：填写小档案 → 抽幸运签 → 给猫咪换装写小诗，最后生成专属纪念海报哦～"
+  ],
+  primaryText:"🐾 我准备好啦",
+  secondaryText:"💭 稍后再看",
+  delay:300
+});
 </script>
 </body>
 </html>

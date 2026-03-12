@@ -118,9 +118,11 @@ button{font-weight:700;cursor:pointer;transition:transform var(--e),background v
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" type="audio/mpeg" />
   <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
 </audio>
+<script src="common.js"></script>
 <canvas id="exportCanvas" width="2160" height="3840" hidden></canvas>
 <div class="mask" id="shareMask" aria-hidden="true"><div class="share" role="dialog" aria-modal="true" aria-label="分享面板"><h3 style="margin:0">分享这份治愈美好</h3><p class="line" style="margin:8px 0">把今天的温柔继续传递给更多人吧～</p><div class="grid"><button class="item" data-share="moments" type="button">🌼<span>朋友圈</span></button><button class="item" data-share="friend" type="button">💌<span>好友</span></button><button class="item" data-share="save" type="button">🖼️<span>保存图片</span></button></div><div class="ft"><button class="sec" id="copyText" type="button">复制文案</button><button class="sec" id="closeShare" type="button">关闭</button></div></div></div>
 <div class="toast" id="toast"></div>
+<script src="common.js"></script>
 <script>
 (()=>{
 const K={profile:"warm_cat_profile_v1",fortune:"warm_cat_fortune_v1",poem:"warm_cat_poem_v1",outfit:"warm_cat_outfit_v1",score:"warm_cat_score_v1",history:"warm_cat_fortune_history_v1",music:"warm_cat_music_v1",daily:"warm_cat_daily_v1",pref:"warm_cat_preference_v1",greet:"warm_cat_greeting_v1"};
@@ -160,7 +162,31 @@ async function start(u){try{await E.bgMusic.play();ui(true);save(true);if(u)tip(
 function stop(u){E.bgMusic.pause();ui(false);save(false);if(u)tip("🐱 音乐暂停啦，随时可以再听～");}
 E.musicToggle.addEventListener("click",()=>E.bgMusic.paused?start(true):stop(true));E.musicVolume.addEventListener("input",()=>{const v=Number(E.musicVolume.value);E.bgMusic.volume=v/100;E.musicInfo.textContent=`音量 ${v}%`;w(K.music,{playing:!E.bgMusic.paused,volume:v});});ui(play);if(play)start(false);else document.body.classList.add("pause");}
 function bind(){E.savePoster.addEventListener("click",()=>void savePoster());E.restartJourney.addEventListener("click",restart);E.openShare.addEventListener("click",openMask);E.closeShare.addEventListener("click",closeMask);E.copyText.addEventListener("click",()=>void copy());E.shareMask.addEventListener("click",(ev)=>{if(ev.target===E.shareMask)closeMask()});Array.from(document.querySelectorAll("[data-share]")).forEach((b)=>b.addEventListener("click",async()=>{const t=b.getAttribute("data-share");if(t==="save"){await savePoster();closeMask();return;}tip(t==="moments"?"已准备朋友圈分享文案，可直接粘贴。":"已准备好友分享文案，可直接粘贴。");await copy();}));E.modeToggle.addEventListener("click",()=>{S.mode=S.mode==="portrait"?"landscape":"portrait";E.modeToggle.textContent=`🖼️ 当前导出比例：${S.mode==="portrait"?"9:16":"16:9"}`;S.url="";drawPoster();tip(`已切换${S.mode==="portrait"?"竖版":"横版"}导出。`)});}
-function init(){if(!initData())return;apply();bind();bindCat();music();drawPoster();tip(`欢迎来到收尾页，${S.profile.name}～`);}init();
+function init(){
+  if(!initData())return;
+  apply();
+  bind();
+  bindCat();
+  music();
+  drawPoster();
+  tip(`欢迎来到收尾页，${S.profile.name}～`);
+
+  // 结束页软萌引导弹窗
+  if(window.WarmCat&&WarmCat.showGuideModal){
+    WarmCat.showGuideModal({
+      pageId:"ending",
+      title:"🎉 恭喜你完成治愈小旅程～",
+      body:[
+        "你已经走完了暖暖的猫咪幸运之旅✨",
+        "这里可以保存你的专属纪念海报，",
+        "也可以重新开启一段新的治愈旅程哦🐱"
+      ],
+      primaryText:"🐾 看看我的纪念",
+      secondaryText:"💭 稍后再看"
+    });
+  }
+}
+init();
 })();
 </script>
 </body>

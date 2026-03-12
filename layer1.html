@@ -562,7 +562,7 @@
       </div>
 
       <div class="row">
-        <button id="saveProfile" class="pri" type="button" aria-label="保存信息">保存信息</button>
+        <button id="saveProfile" class="pri" type="button" aria-label="信息收好啦">信息收好啦</button>
         <button id="loadProfile" class="sec" type="button" aria-label="读取已保存信息">读取已保存信息</button>
         <button id="clearProfile" class="sec" type="button" aria-label="清空信息">清空信息</button>
         <button id="toLayer2" class="next" type="button" disabled aria-label="完成第一层进入第二层">完成第一层，进入第二层</button>
@@ -1510,6 +1510,19 @@ function bootstrap(){
 }
 
 bootstrap();
+
+WarmCat.showGuideModal({
+  pageId:"layer1",
+  title:"📝 第一步：填写你的猫咪小档案",
+  body:[
+    "在这里填写你的名字、年龄、城市和小愿望～",
+    "名字和年龄是必填的专属标记哦🐾",
+    "填好后点击「🐾 信息收好啦」，就能去抽幸运签啦～"
+  ],
+  primaryText:"🐾 开始填写",
+  secondaryText:"💭 稍后再看",
+  delay:300
+});
 </script>
 </body>
 </html>

@@ -615,7 +615,7 @@
       <div class="bless-box" id="blessBox">愿你今天被温柔与好运包围。</div>
       <div class="poster-actions">
         <button id="previewPoster" class="pri" type="button" aria-label="预览海报">预览海报</button>
-        <button id="savePoster" class="sec" type="button" aria-label="保存为图片">保存为图片</button>
+        <button id="savePoster" class="sec" type="button" aria-label="生成纪念海报">🐾 生成纪念海报</button>
         <button id="sharePoster" class="sec" type="button" aria-label="复制海报文案">复制文案</button>
         <button id="regenPoster" class="next" type="button" aria-label="重新生成海报">重新生成</button>
         <button id="goEnding" class="next" type="button" aria-label="完成旅程进入结束页">完成旅程</button>
@@ -1890,6 +1890,19 @@ setPosterMode("portrait",false);
 scheduleBlink();
 dailyGreeting();
 updateSummary();
+
+WarmCat.showGuideModal({
+  pageId:"layer3",
+  title:"🎀 第三步：给猫咪换装+写专属小诗",
+  body:[
+    "先给你的小猫咪换上可爱的装饰吧～",
+    "然后生成专属名字小诗，最后点击「🐾 生成纪念海报」，",
+    "就能保存你的治愈小旅程啦🖼️"
+  ],
+  primaryText:"🐾 开始装扮",
+  secondaryText:"💭 稍后再看",
+  delay:300
+});
 </script>
 </body>
 </html>
